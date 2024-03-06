@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "93156038537",
+    "project_id": "farmervet-4e6b9",
+    "storage_bucket": "farmervet-4e6b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93156038537:android:41abc09be2579a04daf358",
+        "android_client_info": {
+          "package_name": "com.fyp.farmervet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHvlkF7yBllOUs5XnEyKFYe8f5BdIV98I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
