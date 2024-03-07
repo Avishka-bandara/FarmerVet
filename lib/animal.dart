@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:farmervet/register.dart';
 
 void main() {
   runApp(Home());
@@ -58,7 +57,7 @@ class _AnimalState extends State<Animal> {
                 child: Text(
                   'Add Milk Data',
                   style: TextStyle(
-                    fontSize: 15.0,
+                    fontSize: 14.0,
                     color: Colors.white,
                   ),
                 ),
@@ -74,9 +73,9 @@ class _AnimalState extends State<Animal> {
                   fixedSize: const Size(160, 45),
                 ),
                 child: Text(
-                  'Add Milk Data',
+                  'Farm Milk Output',
                   style: TextStyle(
-                    fontSize: 15.0,
+                    fontSize: 14.0,
                     color: Colors.white,
                   ),
                 ),
@@ -86,6 +85,8 @@ class _AnimalState extends State<Animal> {
             Divider(thickness: 1),
             SizedBox(height: 10),
             CustomSearchBar(),
+            SizedBox(height: 10),
+            CustomCardWidget(),
           ]),
         ),
       ),
@@ -209,70 +210,53 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   }
 }
 
-class ShowAnimal extends StatefulWidget {
-  @override
-  _ShowAnimalState createState() => _ShowAnimalState();
-}
-
-class _ShowAnimalState extends State<ShowAnimal> {
+//
+// custom card widget
+//
+class CustomCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String imagePath;
-    String animalName;
-    String type;
-    String health;
-    String age;
-
-    final image = Container(
-      // image conatiner
-      child: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(16.0)),
-          ),
-          child: Column(
-            children: <Widget>[
-              AspectRatio(
-                aspectRatio: 2,
-                // load the image from the imagePath
-                /*child: Image.asset(
-                         imagePath,
-                        fit: BoxFit.cover,
-                      ),*/
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-    final detail = Column(
-      children: [
-        // Get the AnimalName from the database
-        //Text(animalName, style: TextStyle(fontSize:18 , fontWeight: FontWeight.bold)),
-        Divider(thickness: 1),
-        Row(children: [
-          // Get the Type from the database
-          //Text(type, style: TextStyle(fontSize:18 , fontWeight: FontWeight.bold)),
-        ])
-      ],
-    );
     return Card(
+      elevation: 3.0,
+      margin: EdgeInsets.only(top: 10.0),
       child: Padding(
-        padding: const EdgeInsets.all(.0),
+        padding: EdgeInsets.all(10.0),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            image,
-            // add the image container here
-            Column(
-              children: [
-                // Name of the animal
-                //Divider(thickness: 1),
-                // type
-                // health
-                // age
-              ],
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: AssetImage(
+                      'assets/cow.jpg'), // Load the image from the database
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
+            SizedBox(width: 10),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                'Cow 1', // Replace with the actual name from the database
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              Row(children: [
+                Text(
+                  'Bull',
+                  style: TextStyle(fontSize: 15.0),
+                ),
+                Text(
+                  '6 Months', // Replace with the actual age from the database
+                  style: TextStyle(fontSize: 15.0),
+                ),
+              ]),
+              Text(
+                'Health Issue', // Replace with the actual health issue from the database
+                style: TextStyle(fontSize: 15.0),
+              ),
+            ])
           ],
         ),
       ),
