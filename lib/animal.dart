@@ -36,7 +36,7 @@ class _AnimalState extends State<Animal> {
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: SafeArea(
-          child: Column(children: [
+          child: ListView(children: [
             ListTile(
               title: Text('Add Milk Data',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -242,37 +242,40 @@ class CustomCardWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(
-                    'Cow 1', // Replace with the actual name from the database
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                  ),
-                  Divider(
-                    thickness: 1.0,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Bull',
-                          style: TextStyle(fontSize: 15.0),
-                        ),
-                        SizedBox(width: 140),
-                        Text(
-                          '6 Months', // Replace with the actual age from the database
-                          style: TextStyle(
-                            fontSize: 15.0,
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ]),
-                  SizedBox(height: 5),
-                  Text(
-                    'Health Issue', // Replace with the actual health issue from the database
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                ])
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      Text(
+                        'Cow 1', // Replace with the actual name from the database
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                      Divider(
+                        thickness: 1.0,
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Bull',
+                              style: TextStyle(fontSize: 15.0),
+                            ),
+                            SizedBox(width: 140),
+                            Text(
+                              '6 Months', // Replace with the actual age from the database
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                          ]),
+                      SizedBox(height: 5),
+                      Text(
+                        'Health Issue', // Replace with the actual health issue from the database
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ])),
               ],
             ),
           ),
