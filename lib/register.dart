@@ -18,12 +18,12 @@ class RegisterScreen extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Image.asset(
-                  'assets/cow.jpg', // Replace this with your image path
+                  'assets/cow.jpg', // hello
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(height: 45),
+            SizedBox(height: 45),//hello
             Text(
               'Hi, Welcome to FarmerVet!',
               style: TextStyle(
