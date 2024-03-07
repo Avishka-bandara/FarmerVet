@@ -23,7 +23,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 45),
+            SizedBox(height: 45),//hello
             Text(
               'Hi, Welcome to FarmerVet!',
               style: TextStyle(
