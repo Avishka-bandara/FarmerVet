@@ -18,7 +18,7 @@ class RegisterScreen extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Image.asset(
-                  'assets/cow.jpg', // Replace this with your image path
+                  'assets/cow.jpg', // hello
                   fit: BoxFit.cover,
                 ),
               ),
