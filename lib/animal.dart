@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:farmervet/animalDetail.dart';
 
 void main() {
   runApp(Home());
@@ -50,7 +51,7 @@ class _AnimalState extends State<Animal> {
                   //Get.to(AddMilkData());
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 0, 0, 0),
+                  primary: Colors.black,
                   // Change the color as needed
                   fixedSize: const Size(160, 45),
                 ),
@@ -68,7 +69,8 @@ class _AnimalState extends State<Animal> {
                   //Get.to(AddMilkData());
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 0, 0, 0),
+                  primary: Colors.black,
+
                   // Change the color as needed
                   fixedSize: const Size(160, 45),
                 ),
@@ -161,6 +163,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       },
       decoration: InputDecoration(
         hintText: "Search for an animal",
+        prefixIcon: Icon(Icons.search_outlined),
         suffixIcon: PopupMenuButton(
           icon: Icon(Icons.tune),
           itemBuilder: (BuildContext context) {
@@ -217,49 +220,62 @@ class CustomCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3.0,
-      margin: EdgeInsets.only(top: 10.0),
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                image: DecorationImage(
-                  image: AssetImage(
-                      'assets/cow.jpg'), // Load the image from the database
-                  fit: BoxFit.cover,
+        elevation: 3.0,
+        margin: EdgeInsets.only(top: 10.0),
+        child: InkWell(
+          onTap: () => Get.to(AnimalDetail()),
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Row(
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    image: DecorationImage(
+                      image: AssetImage(
+                          'assets/cow.jpg'), // Load the image from the database
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(width: 10),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                    'Cow 1', // Replace with the actual name from the database
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
+                  Divider(
+                    thickness: 1.0,
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Bull',
+                          style: TextStyle(fontSize: 15.0),
+                        ),
+                        SizedBox(width: 140),
+                        Text(
+                          '6 Months', // Replace with the actual age from the database
+                          style: TextStyle(
+                            fontSize: 15.0,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ]),
+                  SizedBox(height: 5),
+                  Text(
+                    'Health Issue', // Replace with the actual health issue from the database
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                ])
+              ],
             ),
-            SizedBox(width: 10),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                'Cow 1', // Replace with the actual name from the database
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              Row(children: [
-                Text(
-                  'Bull',
-                  style: TextStyle(fontSize: 15.0),
-                ),
-                Text(
-                  '6 Months', // Replace with the actual age from the database
-                  style: TextStyle(fontSize: 15.0),
-                ),
-              ]),
-              Text(
-                'Health Issue', // Replace with the actual health issue from the database
-                style: TextStyle(fontSize: 15.0),
-              ),
-            ])
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
