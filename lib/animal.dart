@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/animalDetail.dart';
+//import 'package:farmervet/register.dart';
+
 
 void main() {
   runApp(Home());
@@ -33,6 +35,7 @@ class _AnimalState extends State<Animal> {
         title: Text('Animal'),
         centerTitle: true,
       ),
+
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: SafeArea(
@@ -79,9 +82,63 @@ class _AnimalState extends State<Animal> {
                   style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.white,
+
+      body: Wrap(children: [
+        Container(
+          padding: EdgeInsets.all(10.0),
+          child: SafeArea(
+            child: Column(children: [
+              ListTile(
+                title: Text('Add Milk Data',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                subtitle: Text('Add the milk data of your farm here'),
+              ),
+              Row(children: [
+                SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    //Get.to(AddMilkData());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                    // Change the color as needed
+                    fixedSize: const Size(160, 45),
+                  ),
+                  child: Text(
+                    'Add Milk Data',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    //Get.to(AddMilkData());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                    // Change the color as needed
+                    fixedSize: const Size(160, 45),
+                  ),
+                  child: Text(
+                    'Add Milk Data',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.white,
+                    ),
+
+                  ),
+                ),
+              ]),
+              SizedBox(height: 10),
+              Divider(thickness: 1),
+              SizedBox(height: 10),
+              CustomSearchBar(),
             ]),
             SizedBox(height: 10),
             Divider(thickness: 1),
@@ -90,8 +147,10 @@ class _AnimalState extends State<Animal> {
             SizedBox(height: 10),
             CustomCardWidget(),
           ]),
+          ),
+
         ),
-      ),
+      ]),
       drawer: Drawer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
