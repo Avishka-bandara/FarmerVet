@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class dailyMilkEntry extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _idController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
-  late String _selectedDivision='';
+  late String _selectedDivision = '';
   late DateTime? _selectedDate;
 
   @override
@@ -24,8 +25,9 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        centerTitle:false,
-        title: Text('Daily Milk Entry'),
+        centerTitle: false,
+        title: Text('Daily Milk Entry',
+            style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -61,7 +63,8 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                               firstDate: DateTime(1900),
                               lastDate: DateTime.now(),
                             );
-                            if (pickedDate != null && pickedDate != _selectedDate) {
+                            if (pickedDate != null &&
+                                pickedDate != _selectedDate) {
                               setState(() {
                                 _selectedDate = pickedDate;
                               });
@@ -71,8 +74,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                           controller: TextEditingController(
                               text: _selectedDate == null
                                   ? ''
-                                  : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
-                          ),
+                                  : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'),
                           decoration: InputDecoration(
                             labelText: 'Date',
                             border: OutlineInputBorder(),
@@ -83,7 +85,6 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                     ],
                   ),
                 ),
-
                 SizedBox(height: 20),
                 Padding(
                   padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
@@ -97,7 +98,9 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 8), // Add some space between the text and the TextField
+                      SizedBox(
+                          height:
+                              8), // Add some space between the text and the TextField
                       SizedBox(
                         height: 45,
                         width: 350,
@@ -106,14 +109,12 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                           decoration: InputDecoration(
                             labelText: 'in Liters',
                             border: OutlineInputBorder(),
-
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-
                 SizedBox(height: 20),
                 Padding(
                   padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
@@ -127,7 +128,9 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 8), // Add some space between the text and the TextField
+                      SizedBox(
+                          height:
+                              8), // Add some space between the text and the TextField
                       SizedBox(
                         height: 45,
                         width: 350,
@@ -136,47 +139,46 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                           decoration: InputDecoration(
                             labelText: 'Cows milked',
                             border: OutlineInputBorder(),
-
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-
                 SizedBox(height: 80),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:Color.fromRGBO(28, 42, 58, 1),
+                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                     fixedSize:
-                    const Size(300, 50), // Change the color as needed
+                        const Size(300, 50), // Change the color as needed
                   ),
                   onPressed: () {
+                    // save the information to the database
                   },
                   child: Text(
-                      'Submit',
-                    style: TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1)
-                    ),),
+                    'Submit',
+                    style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+                  ),
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:Colors.white,
-                    fixedSize:
-                    const Size(300, 50),
+                    backgroundColor: Colors.white,
+                    fixedSize: const Size(300, 50),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30), // Change the border radius as needed
-                      side: BorderSide(color: Colors.black), // Add border side with red color
-                    ),// Change the color as needed
+                      borderRadius: BorderRadius.circular(
+                          30), // Change the border radius as needed
+                      side: BorderSide(
+                          color:
+                              Colors.black), // Add border side with red color
+                    ), // Change the color as needed
                   ),
                   onPressed: () {
+                    Get.back();
                   },
                   child: Text(
-                      'Cancel',
-                       style: TextStyle(
-                        color: Color.fromRGBO(28, 42, 58, 1)
-                       ),
+                    'Cancel',
+                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
                   ),
                 ),
               ],
@@ -188,10 +190,9 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
   }
 }
 
-
-
-void main() {
+/*void main() {
   runApp(MaterialApp(
     home: dailyMilkEntry(),
   ));
 }
+*/
