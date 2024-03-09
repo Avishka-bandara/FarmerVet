@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class dailyMilkEntry extends StatefulWidget {
+class totalMilkOutput extends StatefulWidget {
   @override
-  _dailyMilkEntryState createState() => _dailyMilkEntryState();
+  _totalMilkOutputState createState() => _totalMilkOutputState();
 }
 
-class _dailyMilkEntryState extends State<dailyMilkEntry> {
+class _totalMilkOutputState extends State<totalMilkOutput> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _idController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
-  late String _selectedDivision='';
-
+  late String _selectedDivision = '';
 
   @override
   void initState() {
     super.initState();
     // Initialize _selectedDate with a default value
-
   }
 
   @override
@@ -24,8 +23,9 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        centerTitle:false,
-        title: Text('Farm Milk Output'),
+        centerTitle: false,
+        title: Text('Farm Milk Output',
+            style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -38,10 +38,12 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                 SizedBox(height: 20),
                 Padding(
                   padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
-                  child: Row( // Use Row instead of Column
+                  child: Row(
+                    // Use Row instead of Column
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded( // Use Expanded to make the dropdown take remaining space
+                      Expanded(
+                        // Use Expanded to make the dropdown take remaining space
                         child: SizedBox(
                           height: 45,
                           child: DropdownButtonFormField<String>(
@@ -49,7 +51,13 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                               labelText: 'Year',
                               border: OutlineInputBorder(),
                             ),
-                            items: <String>['2022', '2023', '2024', '2025','2026'] // Add your list of years here
+                            items: <String>[
+                              '2022',
+                              '2023',
+                              '2024',
+                              '2025',
+                              '2026'
+                            ] // Add your list of years here
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -62,8 +70,11 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 12), // Add space between dropdown and text field
-                      Expanded( // Use Expanded to make the text field take remaining space
+                      SizedBox(
+                          width:
+                              12), // Add space between dropdown and text field
+                      Expanded(
+                        // Use Expanded to make the text field take remaining space
                         child: SizedBox(
                           height: 45,
                           child: DropdownButtonFormField<String>(
@@ -71,7 +82,20 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                               labelText: 'Month',
                               border: OutlineInputBorder(),
                             ),
-                            items: <String>['Jnauary', 'February', 'March', 'April','May','June','July','August','September','October','November','December'] // Add your list of years here
+                            items: <String>[
+                              'Jnauary',
+                              'February',
+                              'March',
+                              'April',
+                              'May',
+                              'June',
+                              'July',
+                              'August',
+                              'September',
+                              'October',
+                              'November',
+                              'December'
+                            ] // Add your list of years here
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -89,8 +113,6 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                 ),
               ],
             ),
-
-
           ),
         ),
       ),
@@ -98,10 +120,8 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
   }
 }
 
-
-
-void main() {
+/*void main() {
   runApp(MaterialApp(
-    home: dailyMilkEntry(),
+    home: totalMilkOutput(),
   ));
-}
+}*/
