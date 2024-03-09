@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:farmervet/farmer_animal.dart';
+import 'package:get/get.dart';
+
 
 class ReportAnimal extends StatefulWidget {
   @override
@@ -7,36 +12,95 @@ class ReportAnimal extends StatefulWidget {
 
 class _ReportAnimalState extends State<ReportAnimal> {
   String? selectedIssue;
+  String? _imagePath;
+
+  Future<void> _pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _imagePath = pickedImage.path;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Report Animal Issue',
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Select the animal issue here',
-                textAlign: TextAlign.left,
+    return GetMaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Report Animal Issue',
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          centerTitle: true,
+        ),
+        body: SafeArea(
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Select the animal issue here',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                IssueButtons(onIssueSelected: (issue) {
+                  setState(() {
+                    selectedIssue = issue;
+                  });
+                }),
+                SizedBox(height: 10),
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    helperText: 'Ex: Cow is lazy, not eating , dull eyes ',
+                    labelText: 'Optional',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ImagePickerWidget(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            height: 50,
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Get.to(Animal());
+                // the ata should be sent to the database and appear on the  vet new health problem screen
+              },
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(28, 42, 58, 1)),
+              child: Text(
+                'Submit ',
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 20.0,
                 ),
               ),
-              SizedBox(height: 20),
-              IssueButtons(onIssueSelected: (issue) {
-                setState(() {
-                  selectedIssue = issue;
-                });
-              }),
-            ],
+            ),
           ),
         ),
       ),
@@ -44,6 +108,9 @@ class _ReportAnimalState extends State<ReportAnimal> {
   }
 }
 
+//
+// the issues button set up
+//
 class IssueButtons extends StatefulWidget {
   final Function(String) onIssueSelected;
 
@@ -138,6 +205,74 @@ class _IssueButtonsState extends State<IssueButtons> {
           ],
         )
       ],
+    );
+  }
+}
+
+class ImagePickerWidget extends StatefulWidget {
+  @override
+  _ImagePickerWidgetState createState() => _ImagePickerWidgetState();
+}
+
+class _ImagePickerWidgetState extends State<ImagePickerWidget> {
+  String? _imagePath;
+
+  Future<void> _pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _imagePath = pickedImage.path;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 150, // Adjust height as needed
+      width: double.infinity, // Take full width
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (_imagePath != null)
+                Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    Image.file(
+                      File(_imagePath!),
+                      height: 100,
+                      width: 100,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.cancel_outlined),
+                      onPressed: () {
+                        setState(() {
+                          _imagePath = null;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              if (_imagePath == null)
+                ElevatedButton(
+                  onPressed: _pickImageFromGallery,
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    fixedSize: const Size(200, 45),
+                  ),
+                  child: Text(
+                    'Add Image or Video',
+                    style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
