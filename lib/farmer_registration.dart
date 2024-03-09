@@ -40,7 +40,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       decoration: InputDecoration(
                         labelText: 'Name',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        //   prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -56,7 +56,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       decoration: InputDecoration(
                         labelText: 'ID',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        //  prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -72,7 +72,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       decoration: InputDecoration(
                         labelText: 'Address',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        //  prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -88,7 +88,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       decoration: InputDecoration(
                         labelText: 'Divisional Secteriest',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        // prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -103,7 +103,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       decoration: InputDecoration(
                         labelText: 'Grama Niladari Area',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        //prefixIcon: Icon(Icons.lock_outline),
                       ),
                       items: [
                         DropdownMenuItem(
@@ -137,7 +137,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       decoration: InputDecoration(
                         labelText: 'Phone Number',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        // prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -153,7 +153,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        //prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -173,7 +173,17 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                     print('Address: $address');
                     //print('Division: $division');
                   },
-                  child: Text('Next'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    fixedSize: const Size(300, 40),
+                  ),
+                  child: Text(
+                    'Next',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
+                  ),
                 ),
               ],
             ),
