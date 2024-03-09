@@ -277,8 +277,8 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   }
 }
 
-void main() {
+/*void main() {
   runApp(MaterialApp(
     home: ReportAnimal(),
   ));
-}
+}*/
