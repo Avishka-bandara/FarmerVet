@@ -61,7 +61,7 @@ class AnimalDetail extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: ElevatedButton(
             onPressed: () {
-              Get.to(Home());
+              Get.to(ReportAnimal());
               // Navigate to the Add Issue screen
             },
             style: ElevatedButton.styleFrom(
