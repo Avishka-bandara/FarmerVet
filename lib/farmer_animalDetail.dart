@@ -1,3 +1,4 @@
+import 'package:farmervet/farmer_animal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_reportAnimal.dart';
@@ -60,7 +61,8 @@ class AnimalDetail extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: ElevatedButton(
             onPressed: () {
-              Get.to(ReportAnimal()); // Navigate to the Add Issue screen
+              Get.to(Home());
+              // Navigate to the Add Issue screen
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.black,
