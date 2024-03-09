@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:farmervet/farmer_animal.dart';
+import 'package:farmervet/add_animal.dart';
 
 class addAnimalForm extends StatefulWidget {
   @override
@@ -9,7 +12,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _idController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
-  late String _selectedDivision='';
+  late String _selectedDivision = '';
   late DateTime? _selectedDate;
 
   @override
@@ -24,8 +27,9 @@ class _addAnimalFormState extends State<addAnimalForm> {
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        centerTitle:true,
-        title: Text('Add Animal'),
+        centerTitle: true,
+        title:
+            Text('Add Animal', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -45,7 +49,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                       decoration: InputDecoration(
                         labelText: 'Animal Type',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        // prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -61,7 +65,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                       decoration: InputDecoration(
                         labelText: 'Animal Name',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        //prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -77,13 +81,12 @@ class _addAnimalFormState extends State<addAnimalForm> {
                       decoration: InputDecoration(
                         labelText: 'Animal Tag Number',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        // prefixIcon: Icon(Icons.tag_outlined),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height:20),
-
+                SizedBox(height: 20),
                 Padding(
                   padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
                   child: SizedBox(
@@ -94,7 +97,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                       decoration: InputDecoration(
                         labelText: 'Breed',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        //prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
@@ -123,18 +126,16 @@ class _addAnimalFormState extends State<addAnimalForm> {
                       controller: TextEditingController(
                           text: _selectedDate == null
                               ? ''
-                              : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
-                      ),
+                              : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'),
                       decoration: InputDecoration(
                         labelText: 'Date of Birth',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.calendar_today),
+                        prefixIcon: Icon(Icons.calendar_today_outlined),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
-
                 Padding(
                   padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
                   child: SizedBox(
@@ -145,22 +146,28 @@ class _addAnimalFormState extends State<addAnimalForm> {
                       decoration: InputDecoration(
                         labelText: 'Age',
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.lock_outline),
+                        //prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:Color.fromRGBO(28, 42, 58, 1),
+                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                     fixedSize:
-                    const Size(300, 50), // Change the color as needed
+                        const Size(300, 50), // Change the color as needed
                   ),
                   onPressed: () {
                     _showRegistrationSuccessfulDialog(context);
                   },
-                  child: Text('Register'),
-                ),
+                  child: Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
               ],
             ),
           ),
