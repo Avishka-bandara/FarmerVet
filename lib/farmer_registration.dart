@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:farmervet/add_animal.dart';
 import 'package:get/get.dart';
 
-
-
 class UserRegistrationForm extends StatefulWidget {
   @override
   _UserRegistrationFormState createState() => _UserRegistrationFormState();
@@ -13,17 +11,16 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _idController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
-   late String _selectedDivision='';
-
+  late String _selectedDivision = '';
 
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        centerTitle:true,
-        title: Text('User Registration'),
-
+        centerTitle: true,
+        title: Text('User Registration',
+            style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -129,7 +126,6 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 20),
                 Padding(
                   padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
@@ -147,7 +143,6 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                   ),
                 ),
                 SizedBox(height: 20),
-
                 Padding(
                   padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
                   child: SizedBox(
@@ -164,8 +159,6 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                   ),
                 ),
                 SizedBox(height: 20),
-          
-
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
