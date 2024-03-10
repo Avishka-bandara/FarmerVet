@@ -1,67 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:farmervet/farmer_animal.dart';
-import 'package:get/get.dart';
 
+import 'farmer_animal.dart';
 
-class ReportAnimal extends StatefulWidget {
-  @override
-  _ReportAnimalState createState() => _ReportAnimalState();
-}
-
-class _ReportAnimalState extends State<ReportAnimal> {
-  String? selectedIssue;
-  String? _imagePath;
-
-  Future<void> _pickImageFromGallery() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      setState(() {
-        _imagePath = pickedImage.path;
-      });
-    }
-  }
-
+class ReportAnimal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Report Animal Issue',
-              style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(
+            'Report Animal Issue',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           centerTitle: true,
         ),
         body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.all(16.0),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Select the animal issue here',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                Text(
+                  'Select the animal issue here',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
-                IssueButtons(onIssueSelected: (issue) {
-                  setState(() {
-                    selectedIssue = issue;
-                  });
-                }),
+                IssueButtons(),
                 SizedBox(height: 10),
                 TextField(
-                  obscureText: true,
                   decoration: InputDecoration(
-                    helperText: 'Ex: Cow is lazy, not eating , dull eyes ',
+                    helperText: 'Ex: Cow is lazy, not eating, dull eyes',
                     labelText: 'Optional',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
@@ -69,15 +40,7 @@ class _ReportAnimalState extends State<ReportAnimal> {
                   ),
                 ),
                 SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ImagePickerWidget(),
-                    ],
-                  ),
-                ),
+                ImagePickerWidget(),
               ],
             ),
           ),
@@ -89,10 +52,11 @@ class _ReportAnimalState extends State<ReportAnimal> {
             child: ElevatedButton(
               onPressed: () {
                 Get.to(Animal());
-                // the ata should be sent to the database and appear on the  vet new health problem screen
+                // the data should be sent to the database and appear on the  vet new health problem screen
               },
               style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(28, 42, 58, 1)),
+                primary: Color.fromRGBO(28, 42, 58, 1),
+              ),
               child: Text(
                 'Submit ',
                 style: TextStyle(
@@ -108,20 +72,7 @@ class _ReportAnimalState extends State<ReportAnimal> {
   }
 }
 
-//
-// the issues button set up
-//
-class IssueButtons extends StatefulWidget {
-  final Function(String) onIssueSelected;
-
-  const IssueButtons({Key? key, required this.onIssueSelected})
-      : super(key: key);
-
-  @override
-  State<IssueButtons> createState() => _IssueButtonsState();
-}
-
-class _IssueButtonsState extends State<IssueButtons> {
+class IssueButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -131,37 +82,16 @@ class _IssueButtonsState extends State<IssueButtons> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             OutlinedButton(
-              onPressed: () => widget.onIssueSelected('Limping'),
-              style: ElevatedButton.styleFrom(),
-              child: Text(
-                'Limping',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Color.fromRGBO(28, 42, 58, 1),
-                ),
-              ),
+              onPressed: () => print('Limping'),
+              child: Text('Limping'),
             ),
             OutlinedButton(
-              onPressed: () => widget.onIssueSelected('Diarrhea'),
-              style: ElevatedButton.styleFrom(),
-              child: Text(
-                'Diarrhea',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Color.fromRGBO(28, 42, 58, 1),
-                ),
-              ),
+              onPressed: () => print('Diarrhea'),
+              child: Text('Diarrhea'),
             ),
             OutlinedButton(
-              onPressed: () => widget.onIssueSelected('Fever'),
-              style: ElevatedButton.styleFrom(),
-              child: Text(
-                'Fever',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Color.fromRGBO(28, 42, 58, 1),
-                ),
-              ),
+              onPressed: () => print('Fever'),
+              child: Text('Fever'),
             ),
           ],
         ),
@@ -169,39 +99,11 @@ class _IssueButtonsState extends State<IssueButtons> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            OutlinedButton(
-              onPressed: () => widget.onIssueSelected('Symptoms1'),
-              style: ElevatedButton.styleFrom(),
-              child: Text(
-                'Symptoms',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Color.fromRGBO(28, 42, 58, 1),
-                ),
+            for (int i = 1; i <= 3; i++)
+              OutlinedButton(
+                onPressed: () => print('Symptoms $i'),
+                child: Text('Symptoms'),
               ),
-            ),
-            OutlinedButton(
-              onPressed: () => widget.onIssueSelected('Symptoms2'),
-              style: ElevatedButton.styleFrom(),
-              child: Text(
-                'Symptoms',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Color.fromRGBO(28, 42, 58, 1),
-                ),
-              ),
-            ),
-            OutlinedButton(
-              onPressed: () => widget.onIssueSelected('Symptoms3'),
-              style: ElevatedButton.styleFrom(),
-              child: Text(
-                'Symptoms',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Color.fromRGBO(28, 42, 58, 1),
-                ),
-              ),
-            ),
           ],
         )
       ],
@@ -235,50 +137,45 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       width: double.infinity, // Take full width
       child: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (_imagePath != null)
-                Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    Image.file(
-                      File(_imagePath!),
-                      height: 100,
-                      width: 100,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.cancel_outlined),
-                      onPressed: () {
-                        setState(() {
-                          _imagePath = null;
-                        });
-                      },
-                    ),
-                  ],
+          if (_imagePath != null)
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Image.file(
+                  File(_imagePath!),
+                  height: 100,
+                  width: 100,
                 ),
-              if (_imagePath == null)
-                ElevatedButton(
-                  onPressed: _pickImageFromGallery,
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(28, 42, 58, 1),
-                    fixedSize: const Size(200, 45),
-                  ),
-                  child: Text(
-                    'Add Image or Video',
-                    style: TextStyle(fontSize: 16.0, color: Colors.white),
-                  ),
+                IconButton(
+                  icon: Icon(Icons.cancel_outlined),
+                  onPressed: () {
+                    setState(() {
+                      _imagePath = null;
+                    });
+                  },
                 ),
-            ],
-          ),
+              ],
+            ),
+          if (_imagePath == null)
+            ElevatedButton(
+              onPressed: _pickImageFromGallery,
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromRGBO(28, 42, 58, 1),
+                fixedSize: const Size(200, 45),
+              ),
+              child: Text(
+                'Add Image or Video',
+                style: TextStyle(fontSize: 16.0, color: Colors.white),
+              ),
+            ),
         ],
       ),
     );
   }
 }
 
-/*void main() {
+void main() {
   runApp(MaterialApp(
     home: ReportAnimal(),
   ));
-}*/
+}
