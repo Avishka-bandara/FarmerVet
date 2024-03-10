@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_reportAnimal.dart';
 
+void main() {
+  runApp(GetMaterialApp(
+    home: AnimalDetail(),
+  ));
+}
+
 class AnimalDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Animal Detail',
+        title: const Text('Animal Detail',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
@@ -17,12 +23,11 @@ class AnimalDetail extends StatelessWidget {
           children: [
             CustomCardWidget(),
             SizedBox(height: 10),
-
-            Text(
+            const Text(
               'Record the vaccination given to the animal',
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerLeft,
               child: ElevatedButton(
@@ -42,15 +47,16 @@ class AnimalDetail extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            Divider(thickness: 1.0),
-            SizedBox(height: 25),
-            Text('Ongoing Issues',
+            const SizedBox(height: 10),
+            const Divider(thickness: 1.0),
+            const SizedBox(height: 25),
+            const Text('Ongoing Issues',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            onIssue(),
-            SizedBox(height: 50), // Adjust the height as needed for spacing
-            Divider(thickness: 1.0),
+            const SizedBox(height: 10),
+            OnIssue(),
+            const SizedBox(
+                height: 50), // Adjust the height as needed for spacing
+            const Divider(thickness: 1.0),
           ],
         ),
       ),
@@ -150,12 +156,12 @@ class CustomCardWidget extends StatelessWidget {
   }
 }
 
-class onIssue extends StatefulWidget {
+class OnIssue extends StatefulWidget {
   @override
-  State<onIssue> createState() => _onIssueState();
+  State<OnIssue> createState() => _OnIssueState();
 }
 
-class _onIssueState extends State<onIssue> {
+class _OnIssueState extends State<OnIssue> {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -189,7 +195,7 @@ class _onIssueState extends State<onIssue> {
                             primary: Color.fromRGBO(254, 176, 82, 1),
                           ),
                           child: Text(
-                            'Minnor Issue',
+                            'Minor Issue',
                             style: TextStyle(
                               fontSize: 12.0,
                               color: Colors.white,
