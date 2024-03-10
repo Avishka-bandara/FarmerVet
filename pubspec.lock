@@ -58,7 +58,7 @@ packages:
     source: hosted
     version: "1.0.6"
   easy_search_bar:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: easy_search_bar
       sha256: b20343be8ab94ed9e1550cf8cbd5323c344bd9b58b9319fb6e62d75395c0bcaa
@@ -153,7 +153,7 @@ packages:
     source: sdk
     version: "0.0.0"
   get:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: get
       sha256: e4e7335ede17452b391ed3b2ede016545706c01a02292a6c97619705e7d2a85e
