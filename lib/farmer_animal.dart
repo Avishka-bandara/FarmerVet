@@ -4,9 +4,9 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
-void main() {
+/*void main() {
   runApp(Home());
-}
+}*/
 
 class Home extends StatefulWidget {
   @override
