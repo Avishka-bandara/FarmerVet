@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:93156038537:android:93c9059b01621461daf358",
+        "android_client_info": {
+          "package_name": "com.example.farmervet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHvlkF7yBllOUs5XnEyKFYe8f5BdIV98I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:93156038537:android:41abc09be2579a04daf358",
         "android_client_info": {
           "package_name": "com.fyp.farmervet"
