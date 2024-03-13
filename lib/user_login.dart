@@ -11,6 +11,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late Size screenSize;
+
   @override
   void initState() {
     super.initState();
@@ -20,104 +22,148 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget build(BuildContext context) {
+     screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Flexible(
-              flex: 3,
-              child: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-                child: Image.asset(
-                  'assets/cow.jpg', // Replace this with your image path
-                  fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Container(
+          width: screenSize.width,
+          height: screenSize.height,
+          
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),bottomRight: Radius.circular(12)),
+                child: SizedBox(
+                  width: screenSize.width,
+                  height: 341,
+                  child: Image.asset(
+                    'assets/cow.jpg', // Replace this with your image path
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 25),
-            Text(
-              'Hi, Welcome to FarmerVet!',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 30),
-            Flexible(
-                flex: 2,
-                child: Column(children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              SizedBox(height: 50),
+
+              Column(children: <Widget>[
+                Text(
+                  'Hi, Welcome to FarmerVet!',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(28, 42, 58, 1)
+                  ),
+                ),
+                SizedBox(height: 20),
+
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: SizedBox(
+                    width: 342,
+                    height: 45,
                     child: TextField(
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color.fromRGBO(209, 213, 219, 1),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
-                        labelText: 'Mobile Number',
-                        prefixIcon: Icon(Icons.phone),
+                        hintText: 'Registered Phone Number',
+                        prefixIcon: Icon(Icons.local_phone_outlined),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: SizedBox(
+                    width: 342,
+                    height: 45,
                     child: TextField(
                       obscureText: true,
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        filled: true,
+                        fillColor: Color.fromRGBO(209, 213, 219, 1),
+                        hintText: 'Password',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon: Icon(Icons.lock_outline),
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
-                  ElevatedButton(
+                ),
+                SizedBox(height: 70),
+                SizedBox(
+                  width: 342,
+                  height: 48,
+                  child: ElevatedButton(
                     onPressed: () {
                       Get.to(Home());
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(28, 42, 51, 1),
+                      primary: Color.fromRGBO(28, 42, 58, 1),
                       fixedSize:
                           const Size(300, 50), // Change the color as needed
                     ),
                     child: const Text(
                       'Login',
                       style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
-                  Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
+                ),
+                SizedBox(height: 70),
+                Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(28, 100, 242, 1),
                   ),
-                  SizedBox(height: 15),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(RegisterScreen());
-                    },
-                    child: Text(
-                      'Don\'t have an account? Sign Up',
+                ),
+
+                SizedBox(height: 15),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    Text(
+                      "Don't have an account?",
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Color.fromRGBO(107, 114, 128, 1),
                       ),
                     ),
-                  ),
-                ])),
-          ],
+
+                    SizedBox(
+                      width: 5,
+                    ),
+
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(
+                            RegisterScreen()
+                        );
+                      },
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(28, 100, 242, 1),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ]),
+            ],
+          ),
         ),
       ),
     );
