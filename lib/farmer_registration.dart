@@ -209,11 +209,25 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                         primary: Color.fromRGBO(28, 42, 58, 1),
                         fixedSize: const Size(300, 40),
                       ),
-                      child: Text(
-                        'Create an account',
+                      child: isLoading? const Row(mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Creating an account....  ',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                              height:30,
+                              width: 30,
+                              child: CircularProgressIndicator(color: Colors.white,)),
+                        ],
+                      ): const Text(
+                        'Create a account',
                         style: TextStyle(
-                          color: Colors.white,
                           fontSize: 16.0,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -247,7 +261,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           // Add more fields as needed
         });
         showToast("Account Created Successfully");
-        Navigator.push(context,MaterialPageRoute(builder: (context)=> Animal()));
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> Animal()));
       }
 
       else{

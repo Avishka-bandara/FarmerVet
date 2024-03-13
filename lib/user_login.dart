@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           width: screenSize.width,
           height: screenSize.height,
-          
+
           child: Column(
             children: [
               ClipRRect(
@@ -111,7 +111,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       fixedSize:
                           const Size(300, 50), // Change the color as needed
                     ),
-                    child: const Text(
+                    child: isLoading? const Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Login....  ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                            height:30,
+                            width: 30,
+                            child: CircularProgressIndicator(color: Colors.white,)),
+                      ],
+                    ): const Text(
                       'Login',
                       style: TextStyle(
                         fontSize: 16.0,
