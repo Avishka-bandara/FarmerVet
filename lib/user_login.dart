@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:farmervet/register.dart';
 import 'package:farmervet/farmer_animal.dart';
 
@@ -32,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           width: screenSize.width,
           height: screenSize.height,
-          
+
           child: Column(
             children: [
               ClipRRect(
@@ -112,7 +111,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       fixedSize:
                           const Size(300, 50), // Change the color as needed
                     ),
-                    child: const Text(
+                    child: isLoading? const Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Login....  ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                            height:30,
+                            width: 30,
+                            child: CircularProgressIndicator(color: Colors.white,)),
+                      ],
+                    ): const Text(
                       'Login',
                       style: TextStyle(
                         fontSize: 16.0,
@@ -152,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context,MaterialPageRoute(builder: (context)=> RegisterScreen()));
+                        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> RegisterScreen()));
                       },
                       child: Text(
                         'Sign Up',
@@ -207,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading=false;
       });
-      Navigator.push(context,MaterialPageRoute(builder: (context)=> Animal()));
+      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> Animal()));
     }
     else{
       setState(() {

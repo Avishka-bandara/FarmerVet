@@ -1,3 +1,5 @@
+import 'package:farmervet/user_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
@@ -122,7 +124,7 @@ class _AnimalState extends State<Animal> {
               title: Text('Logout'),
               leading: Icon(Icons.logout),
               onTap: () {
-                //Loging from the account;
+                signout(context);
               },
             ),
             SizedBox(height: 40)
@@ -204,6 +206,28 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
     // Perform database query with the selected keywords
     print('Searching database for: $keyword');
   }
+}
+
+void signout (BuildContext context)async{
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Signed Out'),
+        content: Text('Do you need to sign out.'),
+        actions: <Widget>[
+          ElevatedButton(
+            child: Text('OK'),
+            onPressed: () async{
+              await FirebaseAuth.instance.signOut();
+              Navigator.pop(context);
+              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginScreen())); // Close the dialog
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
 
 //
