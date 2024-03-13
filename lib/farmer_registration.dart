@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmervet/farmer_animal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:farmervet/add_animal.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'firebase_auth_services.dart';
 
 class UserRegistrationForm extends StatefulWidget {
@@ -21,7 +19,6 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   TextEditingController _gramaniladhariAreacontroller = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _password = TextEditingController();
-
   bool isLoading=false;
 
   @override
@@ -228,7 +225,6 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
     try{
       User? user=await _auth.signUpWithEmailAndPassword(email, password);
       if(user!=null){
-        showToast(user.uid);
         setState(() {
           isLoading=false;
         });
@@ -244,7 +240,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           // Add more fields as needed
         });
         showToast("Account Created Successfully");
-        Navigator.push(context,MaterialPageRoute(builder: (context)=> Home()));
+        Navigator.push(context,MaterialPageRoute(builder: (context)=> Animal()));
       }
 
       else{
@@ -280,7 +276,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         }
 
       }else{
-        showToast("All the field must be filled");
+        showToast("All the fields must be filled");
       }
   }
 

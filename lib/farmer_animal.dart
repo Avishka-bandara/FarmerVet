@@ -8,27 +8,20 @@ import 'package:farmervet/farm_milk_output.dart';
   runApp(Home());
 }*/
 
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: Animal(),
-    );
-  }
-}
-
 class Animal extends StatefulWidget {
   @override
   State<Animal> createState() => _AnimalState();
 }
 
 class _AnimalState extends State<Animal> {
+
+
   @override
+  void initState() {
+    super.initState();
+    // Initialize controller values for testing
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

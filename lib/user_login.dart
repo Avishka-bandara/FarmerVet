@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/register.dart';
 import 'package:farmervet/farmer_animal.dart';
+
+import 'firebase_auth_services.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,16 +13,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController mobileController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final FirebaseAuthService _auth=FirebaseAuthService();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _password = TextEditingController();
   late Size screenSize;
+  bool isLoading=false;
 
   @override
   void initState() {
     super.initState();
     // Initialize controller values for testing
-    mobileController.text = "077"; // Replace with your mobile number
-    passwordController.text = "p123"; // Replace with your password
   }
 
   Widget build(BuildContext context) {
@@ -61,14 +65,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 342,
                     height: 45,
                     child: TextField(
-                      keyboardType: TextInputType.phone,
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color.fromRGBO(209, 213, 219, 1),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        hintText: 'Registered Phone Number',
+                        hintText: 'Registered Email Address',
                         prefixIcon: Icon(Icons.local_phone_outlined),
                       ),
                     ),
@@ -80,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 342,
                     height: 45,
                     child: TextField(
+                      controller: _password,
                       obscureText: true,
                       decoration: InputDecoration(
                         filled: true,
@@ -99,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(Home());
+                      checksignin();
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(28, 42, 58, 1),
@@ -146,9 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     GestureDetector(
                       onTap: () {
-                        Get.to(
-                            RegisterScreen()
-                        );
+                        Navigator.push(context,MaterialPageRoute(builder: (context)=> RegisterScreen()));
                       },
                       child: Text(
                         'Sign Up',
@@ -166,6 +170,63 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void checksignin(){
+    String email=_emailController.text;
+    String password= _password.text;
+
+    try{
+      if(email!="" && password!=""){
+        setState(() {
+          isLoading=true;
+        });
+        try{
+          signin(email, password);
+        }catch(e){
+          showToast(e.toString());
+        }
+      }
+      else{
+        setState(() {
+          isLoading=false;
+        });
+        showToast("Please enter correct email & password");
+      }
+    }catch(e){
+      showToast(e.toString());
+    }
+
+  }
+
+  void signin (String email,String password)async{
+
+    User? user=await _auth.signInWithEmailAndPassword(email, password);
+    if(user!=null){
+      setState(() {
+        isLoading=false;
+      });
+      Navigator.push(context,MaterialPageRoute(builder: (context)=> Animal()));
+    }
+    else{
+      setState(() {
+        isLoading=false;
+      });
+
+      showToast("Login Failed!");
+    }
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 }
