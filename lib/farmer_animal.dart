@@ -1,3 +1,4 @@
+import 'package:farmervet/add_animal.dart';
 import 'package:farmervet/user_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,18 +7,12 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
-/*void main() {
-  runApp(Home());
-}*/
-
 class Animal extends StatefulWidget {
   @override
   State<Animal> createState() => _AnimalState();
 }
 
 class _AnimalState extends State<Animal> {
-
-
   @override
   void initState() {
     super.initState();
@@ -101,13 +96,21 @@ class _AnimalState extends State<Animal> {
                   ListTile(
                     title: Text('Add new animal '),
                     onTap: () {
-                      // navigate to the AddAnimalwidget
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => addAnimalForm()),
+                      );
                     },
                   ),
                   ListTile(
                     title: Text('Farm milk output'),
                     onTap: () {
-                      //navigate to the farmer
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => totalMilkOutput()),
+                      );
                     },
                   ),
                   ListTile(
@@ -208,7 +211,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   }
 }
 
-void signout (BuildContext context)async{
+void signout(BuildContext context) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -217,11 +220,14 @@ void signout (BuildContext context)async{
         content: Text('Do you need to sign out.'),
         actions: <Widget>[
           ElevatedButton(
-            child: Text('OK'),
-            onPressed: () async{
+            child: Text('YES'),
+            onPressed: () async {
               await FirebaseAuth.instance.signOut();
               Navigator.pop(context);
-              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginScreen())); // Close the dialog
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginScreen())); // Close the dialog
             },
           ),
         ],
@@ -240,11 +246,11 @@ class CustomCardWidget extends StatelessWidget {
         elevation: 3.0,
         margin: EdgeInsets.only(top: 10.0),
         child: InkWell(
-          onTap: () => Get.to(AnimalDetail()),
+          onTap: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AnimalDetail())),
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(
-              //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: 100,
