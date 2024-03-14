@@ -53,58 +53,6 @@ class _vet_animalState extends State<vet_animal> {
           ]),
         ),
       ),
-      drawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  SizedBox(
-                    height: 200,
-                  ),
-                  ListTile(
-                    title: Text('Add new animal '),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => addAnimalForm()),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text('Farm milk output'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => totalMilkOutput()),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text('Account'),
-                    onTap: () {
-                      Get.to(() => vet_animal());
-                    },
-                  ),
-                ],
-              ),
-            ),
-            // This ListTile is now at the bottom of the Drawer
-            ListTile(
-              title: Text('Logout'),
-              leading: Icon(Icons.logout),
-              onTap: () {
-                signout(context);
-              },
-            ),
-            SizedBox(height: 40)
-          ],
-        ),
-      ),
     );
   }
 }
@@ -214,97 +162,97 @@ class CustomCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 1.0,
-        margin: EdgeInsets.all(10.0),
-        child: InkWell(
-          onTap: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AnimalDetail())),
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text("22 MAY 2024 - 10:00 AM",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(31, 42, 55, 1))),
-                ),
-                Divider(thickness: 2),
-                SizedBox(height: 12),
-                Row(children: [
-                  Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      image: DecorationImage(
-                        image: AssetImage(
-                            'assets/cow.jpg'), // Load the image from the database
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Column(
-                    children: [
-                      Row(children: [
-                        Text(
-                          "Farm 1", // Name  of the farm
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
-                        ),
-                        SizedBox(width: 16),
-                        Text(
-                          "Cow 1", // from data the name of the cow
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
-                        ),
-                      ]),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Row(children: [
-                        Text(
-                          "Cow",
-                          style: TextStyle(
-                              fontSize: 14), // load type from database
-                        ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Text(
-                          "2 years",
-                          style: TextStyle(
-                              fontSize: 14), // load from the data base
-                        )
-                      ]),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.location_on_outlined),
-                          Text("Divisinal Area") // divisional area
-                        ],
-                      ),
-                    ],
-                  )
-                ]),
-                SizedBox(width: 10),
-                ElevatedButton(onPressed: (
-                  
-                ) {}, child: Text("View Info"))
-              ],
+      elevation: 1.0,
+      margin: EdgeInsets.all(10.0),
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text("22 MAY 2024 - 10:00 AM",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(31, 42, 55, 1))),
             ),
-          ),
-        ));
+            Divider(thickness: 2),
+            SizedBox(height: 12),
+            Row(children: [
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                    image: AssetImage(
+                        'assets/cow.jpg'), // Load the image from the database
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(width: 16),
+              Column(
+                children: [
+                  Row(children: [
+                    Text(
+                      "Farm 1", // Name  of the farm
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                    SizedBox(width: 16),
+                    Text(
+                      "Cow 1", // from data the name of the cow
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ]),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Row(children: [
+                    Text(
+                      "Cow",
+                      style: TextStyle(fontSize: 14), // load type from database
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Text(
+                      "2 years",
+                      style: TextStyle(fontSize: 14), // load from the data base
+                    )
+                  ]),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.location_on_outlined),
+                      Text("Divisinal Area") // divisional area
+                    ],
+                  ),
+                ],
+              )
+            ]),
+            SizedBox(height: 10),
+            ElevatedButton(
+                onPressed: () {
+                  /*Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => vet_animalIssue()));*/
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    fixedSize: const Size(300, 50)),
+                child: Text(
+                  "View Info",
+                  style: TextStyle(color: Colors.white),
+                ))
+          ],
+        ),
+      ),
+    );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: vet_animal(),
-  ));
 }
