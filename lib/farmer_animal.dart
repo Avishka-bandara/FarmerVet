@@ -43,7 +43,7 @@ class _AnimalState extends State<Animal> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => dailyMilkEntry()));
@@ -64,7 +64,7 @@ class _AnimalState extends State<Animal> {
               SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => totalMilkOutput()));
@@ -111,7 +111,7 @@ class _AnimalState extends State<Animal> {
                   ListTile(
                     title: Text('Farm milk output'),
                     onTap: () {
-                      //navigate to the farmer
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=> totalMilkOutput()));
                     },
                   ),
                   ListTile(
