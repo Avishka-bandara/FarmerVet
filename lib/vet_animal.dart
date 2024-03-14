@@ -222,13 +222,15 @@ class CustomCardWidget extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("22 MAY 2024 - 10:00 AM",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(31, 42, 55, 1))),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text("22 MAY 2024 - 10:00 AM",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(31, 42, 55, 1))),
+                ),
                 Divider(thickness: 2),
                 SizedBox(height: 12),
                 Row(children: [
@@ -245,19 +247,55 @@ class CustomCardWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 16),
-                  Text(
-                    "Farm 1",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
-                  SizedBox(width: 16),
-                  Text(
-                    "Cow 1",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
+                  Column(
+                    children: [
+                      Row(children: [
+                        Text(
+                          "Farm 1", // Name  of the farm
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                        SizedBox(width: 16),
+                        Text(
+                          "Cow 1", // from data the name of the cow
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                      ]),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(children: [
+                        Text(
+                          "Cow",
+                          style: TextStyle(
+                              fontSize: 14), // load type from database
+                        ),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        Text(
+                          "2 years",
+                          style: TextStyle(
+                              fontSize: 14), // load from the data base
+                        )
+                      ]),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on_outlined),
+                          Text("Divisinal Area") // divisional area
+                        ],
+                      ),
+                    ],
+                  )
                 ]),
                 SizedBox(width: 10),
-                /* Expanded(
-                    ),*/
+                ElevatedButton(onPressed: (
+                  
+                ) {}, child: Text("View Info"))
               ],
             ),
           ),
