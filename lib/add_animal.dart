@@ -65,17 +65,27 @@ class _addAnimalFormState extends State<addAnimalForm> {
                       child: SizedBox(
                         height: 45,
                         width: 342,
-                        child: TextField(
-                          controller: animalType,
+                        child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
-                            hintText: 'Animal Type',
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8))),
-                            // prefixIcon: Icon(Icons.lock_outline),
+                            labelText: 'Animal Type',
+                            border: OutlineInputBorder(),
                           ),
+                          items: <String>[
+                            'Bull',
+                            'Heifer',
+                            'Calf-Male',
+                            'Calf-Female',
+                          ].map<DropdownMenuItem<String>>((String items) {
+                            return DropdownMenuItem<String>(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            // Handle dropdown value change
+                          },
                         ),
                       ),
                     ),
