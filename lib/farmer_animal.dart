@@ -325,6 +325,7 @@ class CustomCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late Size screenSize=MediaQuery.of(context).size;
     return Card(
         elevation: 3.0,
         margin: EdgeInsets.only(top: 10.0),
@@ -332,56 +333,82 @@ class CustomCardWidget extends StatelessWidget {
           onTap: () => Get.to(AnimalDetail()),
           child: Padding(
             padding: EdgeInsets.all(10.0),
-            child: Row(
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      image: AssetImage(
-                          'assets/cow.jpg'), // Load the image from the database
-                      fit: BoxFit.cover,
+            
+            child: Container(
+              width: screenSize.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        image: DecorationImage(
+                          image: AssetImage(
+                              getImageAsset(cows[index].type)), // Load the image from the database
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      Text(
-                        cows[index].name, // Replace with the actual name from the database
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                      Divider(
-                        thickness: 1.0,
-                      ),
-                      Row(
+
+                  SizedBox(width: 10),
+
+                  Expanded(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        Text(
+                          cows[index].name, // Replace with the actual name from the database
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold),
+                        ),
+
+                        Divider(
+                          thickness: 1.0,
+                        ),
+
+                        Container(
+                          child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               cows[index].type,
                               style: TextStyle(fontSize: 15.0),
                             ),
-                            SizedBox(width: 140),
+                            SizedBox(width: 100),
                             Text(
-                              cows[index].age, // Replace with the actual age from the database
+                              cows[index].age+" Months", // Replace with the actual age from the database
                               style: TextStyle(
                                 fontSize: 15.0,
                               ),
                               textAlign: TextAlign.right,
                             ),
                           ]),
-                      SizedBox(height: 5),
-                    ])),
-              ],
+                        ),
+                        SizedBox(height: 5),
+                      ]
+                      ),
+                  ),
+                ],
+
+              ),
             ),
           ),
         ));
+  }
+
+  String getImageAsset(String name) {
+    switch (name) {
+      case "Bull":
+        return 'assets/cowm.jpg';
+      case "heifer":
+        return 'assets/cat.jpg';
+      case "calf-male":
+        return 'assets/cowm.jpg';
+      default:
+        return 'assets/cat.jpg';
+    }
   }
 
   void showToast(String message) {
