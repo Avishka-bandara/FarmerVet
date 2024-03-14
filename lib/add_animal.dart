@@ -51,22 +51,30 @@ class _addAnimalFormState extends State<addAnimalForm> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Animal Type"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
                         height: 45,
                         width: 342,
-                        child: TextField(
+                        child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color.fromRGBO(209, 213, 219, 1),
-                            hintText: 'Animal Type',
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8))),
-                            // prefixIcon: Icon(Icons.lock_outline),
+                            labelText: 'Animal Type',
+                            border: OutlineInputBorder(),
                           ),
+                          items: <String>[
+                            'Bull',
+                            'Heifer',
+                            'Calf-Male',
+                            'Calf-Female',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            // Handle dropdown value change
+                          },
                         ),
                       ),
                     ),
