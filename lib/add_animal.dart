@@ -15,14 +15,14 @@ class addAnimalForm extends StatefulWidget {
 
 class _addAnimalFormState extends State<addAnimalForm> {
   User? user = FirebaseAuth.instance.currentUser;
-  final FirebaseAuthService _auth=FirebaseAuthService();
+  final FirebaseAuthService _auth = FirebaseAuthService();
   TextEditingController animalType = TextEditingController();
   TextEditingController animalName = TextEditingController();
   TextEditingController animalTag = TextEditingController();
   TextEditingController animalBreed = TextEditingController();
   TextEditingController age = TextEditingController();
   late DateTime? _selectedDate;
-  bool isLoading=false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -37,12 +37,13 @@ class _addAnimalFormState extends State<addAnimalForm> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:
-            Text('Add Animal', style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(28, 42, 58, 1)
-            ),),
+        title: Text(
+          'Add Animal',
+          style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(28, 42, 58, 1)),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -56,11 +57,9 @@ class _addAnimalFormState extends State<addAnimalForm> {
                 SizedBox(
                   height: 20,
                 ),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Animal Type"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
@@ -72,13 +71,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Animal Type',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             // prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Animal Name"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -91,13 +91,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Animal Name',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Animal Tag Number (Tag No)"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -110,13 +111,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Animal Tag Number',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             // prefixIcon: Icon(Icons.tag_outlined),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Breed"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -129,13 +131,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Breed',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Date of Birth"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -150,14 +153,15 @@ class _addAnimalFormState extends State<addAnimalForm> {
                               firstDate: DateTime(1900),
                               lastDate: DateTime.now(),
                             );
-                            if (pickedDate != null && pickedDate != _selectedDate) {
+                            if (pickedDate != null &&
+                                pickedDate != _selectedDate) {
                               setState(() {
                                 _selectedDate = pickedDate;
                               });
                             }
                           },
                           readOnly: true,
-                          controller:TextEditingController(
+                          controller: TextEditingController(
                               text: _selectedDate == null
                                   ? ''
                                   : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'),
@@ -165,13 +169,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Date of Birth',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             prefixIcon: Icon(Icons.calendar_today_outlined),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Age"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -184,7 +189,9 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Age',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
@@ -192,9 +199,9 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     ),
                   ],
                 ),
-
-                SizedBox(height: 40,),
-
+                SizedBox(
+                  height: 40,
+                ),
                 SizedBox(
                   height: 48,
                   width: 342,
@@ -207,27 +214,32 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     onPressed: () {
                       register();
                     },
-                    child: isLoading? const Row(mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Registering....  ',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.white,
+                    child: isLoading
+                        ? const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Registering....  ',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )),
+                            ],
+                          )
+                        : const Text(
+                            'Register',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                            height:30,
-                            width: 30,
-                            child: CircularProgressIndicator(color: Colors.white,)),
-                      ],
-                    ): const Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ),
-                    ),
                   ),
                 )
               ],
@@ -240,48 +252,55 @@ class _addAnimalFormState extends State<addAnimalForm> {
 
   Future<void> register() async {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
 
     String animaltype = animalType.text;
     String animalname = animalName.text;
     String tag = animalTag.text;
     String breed = animalBreed.text;
-    String dateofBirth = (_selectedDate!.day).toString()+"/"+(_selectedDate!.month).toString()+"/"+(_selectedDate!.year).toString();
+    String dateofBirth = (_selectedDate!.day).toString() +
+        "/" +
+        (_selectedDate!.month).toString() +
+        "/" +
+        (_selectedDate!.year).toString();
     String animalAge = age.text;
 
-        await FirebaseFirestore.instance.collection('Farm details/'+user!.uid+'/animal details').doc().set({
-          'animaltype':animaltype,
-          'animalname':animalname,
-          'tag':tag,
-          'breed':breed,
-          'dateofBirth':dateofBirth,
-          'animalAge':animalAge
-          // Add more fields as needed
-        }).then((value){
-          setState(() {
-            isLoading=false;
-          });
-          showToast("Registered Successfully");
-          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> Animal()));
-        }).catchError((error) {
-          setState(() {
-            isLoading=false;
-          });
-          print("Failed to store data: $error");
-        });
+    await FirebaseFirestore.instance
+        .collection('Farm details/' + user!.uid + '/animal details')
+        .doc()
+        .set({
+      'animaltype': animaltype,
+      'animalname': animalname,
+      'tag': tag,
+      'breed': breed,
+      'dateofBirth': dateofBirth,
+      'animalAge': animalAge
+      // Add more fields as needed
+    }).then((value) {
+      setState(() {
+        isLoading = false;
+      });
+      showToast("Registered Successfully");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Animal()));
+    }).catchError((error) {
+      setState(() {
+        isLoading = false;
+      });
+      print("Failed to store data: $error");
+    });
   }
 
-void showToast(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    timeInSecForIosWeb: 1,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
-    fontSize: 16.0,
-  );
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 }
-}
-
