@@ -40,7 +40,10 @@ class _AnimalState extends State<Animal> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(dailyMilkEntry());
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => dailyMilkEntry()));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black,
@@ -58,7 +61,10 @@ class _AnimalState extends State<Animal> {
               SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(totalMilkOutput());
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => totalMilkOutput()));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black,
