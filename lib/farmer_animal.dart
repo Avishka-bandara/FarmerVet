@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmervet/user_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
+import 'CowList.dart';
 import 'add_animal.dart';
 
 class Animal extends StatefulWidget {
@@ -14,8 +17,8 @@ class Animal extends StatefulWidget {
 }
 
 class _AnimalState extends State<Animal> {
-
-
+  User? user = FirebaseAuth.instance.currentUser;
+  late Size screenSize;
   @override
   void initState() {
     super.initState();
@@ -23,6 +26,7 @@ class _AnimalState extends State<Animal> {
   }
 
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Animal', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -30,65 +34,141 @@ class _AnimalState extends State<Animal> {
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
-        child: SafeArea(
-          child: ListView(children: [
-            ListTile(
-              title: Text('Add Milk Data',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              subtitle: Text('Add the milk data of your farm here'),
+        height: screenSize.height,
+        width: screenSize.width,
+        child: Wrap(
+          children: [
+            Column(
+              children: [
+                ListTile(
+                  title: Text('Add Milk Data',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  subtitle: Text('Add the milk data of your farm here'),
+                ),
+                Row(children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => dailyMilkEntry()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      fixedSize: const Size(160, 45),
+                    ),
+                    child: Text(
+                      'Add Milk Data',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => totalMilkOutput()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      fixedSize: const Size(160, 45),
+                    ),
+                    child: Text(
+                      'Farm Milk Output',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ]),
+                SizedBox(height: 10),
+                Divider(thickness: 1),
+                SizedBox(height: 10),
+                CustomSearchBar(),
+                SizedBox(height: 10),
+
+      FutureBuilder<QuerySnapshot>(
+        future: FirebaseFirestore.instance.collection('Farm details/${user!.uid}/animal details').get(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Wrap(
+              children: [
+                    Container(
+                    height: 450,
+                    width: screenSize.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CircularProgressIndicator(color: Colors.black),
+                        SizedBox(height: 20,),
+                        Text("Loading data"),
+                      ],
+                    )),
+                  ],
+            );
+          }
+          else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+          else {
+            List<Cow> cows = [];
+            snapshot.data!.docs.forEach((doc) {
+              cows.add(Cow.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+            });
+            if (cows.isEmpty) {
+              return Wrap(
+                children: [
+                      Container(
+                                        width: screenSize.width,
+                      height: 450,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('No details found'),
+                        ],
+                      )),
+                    ],
+              );
+            } else {
+              return Container(
+                width: screenSize.width,
+                height: screenSize.height,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: cows.length,
+                            itemBuilder: (context, index) {
+                              return CustomCardWidget(cows,index);
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
+          }
+        },
+      ),
+              ],
             ),
-            Row(children: [
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => dailyMilkEntry()));
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
-                  // Change the color as needed
-                  fixedSize: const Size(160, 45),
-                ),
-                child: Text(
-                  'Add Milk Data',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(width: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => totalMilkOutput()));
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
-                  fixedSize: const Size(160, 45),
-                ),
-                child: Text(
-                  'Farm Milk Output',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ]),
-            SizedBox(height: 10),
-            Divider(thickness: 1),
-            SizedBox(height: 10),
-            CustomSearchBar(),
-            SizedBox(height: 10),
-            CustomCardWidget(),
-          ]),
+          ],
         ),
       ),
       drawer: Drawer(
@@ -238,6 +318,11 @@ void signout (BuildContext context)async{
 // custom card widget
 //
 class CustomCardWidget extends StatelessWidget {
+  final List<Cow> cows;
+  final int index;
+
+  CustomCardWidget(this.cows,this.index);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -268,7 +353,7 @@ class CustomCardWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                       Text(
-                        'Cow 1', // Replace with the actual name from the database
+                        cows[index].name, // Replace with the actual name from the database
                         style: TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.bold),
                       ),
@@ -279,12 +364,12 @@ class CustomCardWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Bull',
+                              cows[index].type,
                               style: TextStyle(fontSize: 15.0),
                             ),
                             SizedBox(width: 140),
                             Text(
-                              '6 Months', // Replace with the actual age from the database
+                              cows[index].age, // Replace with the actual age from the database
                               style: TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -292,14 +377,22 @@ class CustomCardWidget extends StatelessWidget {
                             ),
                           ]),
                       SizedBox(height: 5),
-                      Text(
-                        'Health Issue', // Replace with the actual health issue from the database
-                        style: TextStyle(fontSize: 15.0),
-                      ),
                     ])),
               ],
             ),
           ),
         ));
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 }
