@@ -121,9 +121,3 @@ class AnotherInterface extends StatelessWidget {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(
-    home: AnotherInterface(),
-  ));
-}
