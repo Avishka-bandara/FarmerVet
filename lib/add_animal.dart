@@ -58,6 +58,8 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         width: 342,
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color.fromRGBO(209, 213, 219, 1),
                             labelText: 'Animal Type',
                             border: OutlineInputBorder(),
                           ),
