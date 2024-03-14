@@ -77,6 +77,10 @@ flutter:
     - assets/breed.png
     - assets/image.png
     - assets/milk.png
+    - assets/bull.jpg
+    - assets/heifer.jpg
+    - assets/fcalf.jpg
+    - assets/mcalf.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
