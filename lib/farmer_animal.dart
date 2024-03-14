@@ -6,9 +6,7 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
-/*void main() {
-  runApp(Home());
-}*/
+import 'add_animal.dart';
 
 class Animal extends StatefulWidget {
   @override
@@ -101,7 +99,7 @@ class _AnimalState extends State<Animal> {
                   ListTile(
                     title: Text('Add new animal '),
                     onTap: () {
-                      // navigate to the AddAnimalwidget
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=> addAnimalForm()));
                     },
                   ),
                   ListTile(
@@ -113,7 +111,7 @@ class _AnimalState extends State<Animal> {
                   ListTile(
                     title: Text('Account'),
                     onTap: () {
-                      Get.to(() => Animal());
+                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> Animal()));
                     },
                   ),
                 ],
