@@ -68,10 +68,10 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             'Heifer',
                             'Calf-Male',
                             'Calf-Female',
-                          ].map<DropdownMenuItem<String>>((String value) {
+                          ].map<DropdownMenuItem<String>>((String items) {
                             return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
+                              value: items,
+                              child: Text(items),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
