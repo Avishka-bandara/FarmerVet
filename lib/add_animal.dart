@@ -28,12 +28,13 @@ class _addAnimalFormState extends State<addAnimalForm> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:
-            Text('Add Animal', style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(28, 42, 58, 1)
-            ),),
+        title: Text(
+          'Add Animal',
+          style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(28, 42, 58, 1)),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -47,7 +48,6 @@ class _addAnimalFormState extends State<addAnimalForm> {
                 SizedBox(
                   height: 20,
                 ),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -62,13 +62,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Animal Type',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             // prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Animal Name"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -80,13 +81,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Animal Name',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Animal Tag Number (Tag No)"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -98,13 +100,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Animal Tag Number',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             // prefixIcon: Icon(Icons.tag_outlined),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Breed"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -116,13 +119,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Breed',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Date of Birth"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -137,7 +141,8 @@ class _addAnimalFormState extends State<addAnimalForm> {
                               firstDate: DateTime(1900),
                               lastDate: DateTime.now(),
                             );
-                            if (pickedDate != null && pickedDate != _selectedDate) {
+                            if (pickedDate != null &&
+                                pickedDate != _selectedDate) {
                               setState(() {
                                 _selectedDate = pickedDate;
                               });
@@ -152,13 +157,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Date of Birth',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             prefixIcon: Icon(Icons.calendar_today_outlined),
                           ),
                         ),
                       ),
                     ),
-
                     Text("Age"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -170,7 +176,9 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
                             hintText: 'Age',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
                             //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
@@ -178,9 +186,9 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     ),
                   ],
                 ),
-
-                SizedBox(height: 40,),
-
+                SizedBox(
+                  height: 40,
+                ),
                 SizedBox(
                   height: 48,
                   width: 342,
