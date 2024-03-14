@@ -220,7 +220,6 @@ void signout (BuildContext context)async{
             child: Text('OK'),
             onPressed: () async{
               await FirebaseAuth.instance.signOut();
-              Navigator.pop(context);
               Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginScreen())); // Close the dialog
             },
           ),
