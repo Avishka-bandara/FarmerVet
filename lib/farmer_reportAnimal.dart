@@ -55,7 +55,7 @@ class ReportAnimal extends StatelessWidget {
                 // the data should be sent to the database and appear on the  vet new health problem screen
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(28, 42, 58, 1),
+                backgroundColor: Color.fromRGBO(28, 42, 58, 1),
               ),
               child: Text(
                 'Submit ',
@@ -160,7 +160,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             ElevatedButton(
               onPressed: _pickImageFromGallery,
               style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(28, 42, 58, 1),
+                backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                 fixedSize: const Size(200, 45),
               ),
               child: Text(

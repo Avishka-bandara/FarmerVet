@@ -35,7 +35,7 @@ class AnimalDetail extends StatelessWidget {
                   // Logic for adding vaccination details
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(28, 42, 58, 1),
+                  backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                   fixedSize: const Size(200, 36),
                 ),
                 child: const Text(
@@ -70,7 +70,7 @@ class AnimalDetail extends StatelessWidget {
               // Navigate to the Add Issue screen
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.black,
+              backgroundColor: Colors.black,
             ),
             child: Text(
               'Add New Issue',
@@ -122,7 +122,7 @@ class CustomCardWidget extends StatelessWidget {
                           // Remove the animal from the database
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromRGBO(234, 67, 53, 1),
+                          backgroundColor: Color.fromRGBO(234, 67, 53, 1),
                         ),
                         child: const Text(
                           'Remove Animal',
@@ -192,7 +192,7 @@ class _OnIssueState extends State<OnIssue> {
                             // Logic for the button
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromRGBO(254, 176, 82, 1),
+                            backgroundColor: Color.fromRGBO(254, 176, 82, 1),
                           ),
                           child: Text(
                             'Minor Issue',
@@ -217,8 +217,7 @@ class _OnIssueState extends State<OnIssue> {
                     // Logic for the first button
                   },
                   style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(180, 20),
-                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    fixedSize: const Size(180, 20), backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                   ),
                   child: Text('Now Healthy',
                       style: TextStyle(color: Colors.white)),

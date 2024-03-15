@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Get.to(Home());
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(28, 42, 51, 1),
+                      backgroundColor: Color.fromRGBO(28, 42, 51, 1),
                       fixedSize:
                           const Size(300, 50), // Change the color as needed
                     ),

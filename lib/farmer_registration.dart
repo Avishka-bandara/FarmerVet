@@ -174,7 +174,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                     //print('Division: $division');
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                     fixedSize: const Size(300, 40),
                   ),
                   child: Text(

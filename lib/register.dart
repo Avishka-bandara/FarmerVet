@@ -53,7 +53,7 @@ class RegisterScreen extends StatelessWidget {
                         Get.to(RegistrationConfirmationScreen());
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
+                        backgroundColor: Colors.green,
                         fixedSize:
                             const Size(300, 50), // Change the color as needed
                       ),
@@ -75,7 +75,7 @@ class RegisterScreen extends StatelessWidget {
                         Get.to(RegistrationConfirmationScreen());
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
+                        backgroundColor: Colors.green,
                         fixedSize:
                             const Size(300, 50), // Change the color as needed
                       ),

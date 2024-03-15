@@ -4,9 +4,9 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
-/*void main() {
+void main() {
   runApp(Home());
-}*/
+}
 
 class Home extends StatefulWidget {
   @override
@@ -53,7 +53,7 @@ class _AnimalState extends State<Animal> {
                   Get.to(dailyMilkEntry());
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
+                  backgroundColor: Colors.black,
                   // Change the color as needed
                   fixedSize: const Size(160, 45),
                 ),
@@ -71,7 +71,7 @@ class _AnimalState extends State<Animal> {
                   Get.to(totalMilkOutput());
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
+                  backgroundColor: Colors.black,
                   fixedSize: const Size(160, 45),
                 ),
                 child: Text(
