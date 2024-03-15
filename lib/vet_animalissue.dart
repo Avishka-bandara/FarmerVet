@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AnotherInterface extends StatelessWidget {
+class vetAnimalIssue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +124,7 @@ class AnotherInterface extends StatelessWidget {
 
 void main() {
   runApp(MaterialApp(
-    home: AnotherInterface(),
+    home: vetAnimalIssue(),
   ));
 }
 
