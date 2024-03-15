@@ -3,7 +3,6 @@ import 'package:farmervet/user_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
@@ -49,6 +48,27 @@ class _AnimalState extends State<Animal> {
                   SizedBox(
                     width: 10,
                   ),
+
+                ),
+              ),
+              SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => totalMilkOutput()));
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.black,
+                  fixedSize: const Size(160, 45),
+                ),
+                child: Text(
+                  'Farm Milk Output',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.white,
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -8,7 +8,7 @@ import 'farmer_animal.dart';
 class ReportAnimal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -33,7 +33,7 @@ class ReportAnimal extends StatelessWidget {
                 TextField(
                   decoration: InputDecoration(
                     helperText: 'Ex: Cow is lazy, not eating, dull eyes',
-                    labelText: 'Optional',
+                    hintText: "optional",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -51,8 +51,10 @@ class ReportAnimal extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                Get.to(Animal());
-                // the data should be sent to the database and appear on the  vet new health problem screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Animal()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(28, 42, 58, 1),
@@ -164,7 +166,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                 fixedSize: const Size(200, 45),
               ),
               child: Text(
-                'Add Image or Video',
+                'Add Image',
                 style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
             ),
@@ -172,10 +174,4 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ReportAnimal(),
-  ));
 }

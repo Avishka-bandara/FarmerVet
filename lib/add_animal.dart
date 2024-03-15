@@ -60,28 +60,29 @@ class _addAnimalFormState extends State<addAnimalForm> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const Text("Animal Type"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Color.fromRGBO(209, 213, 219, 1),
-                            labelText: 'Animal Type',
-                            border: OutlineInputBorder(),
+                            fillColor: const Color.fromRGBO(209, 213, 219, 1),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
                           items: <String>[
                             'Bull',
                             'Heifer',
-                            'Calf-Male',
-                            'Calf-Female',
-                          ].map<DropdownMenuItem<String>>((String items) {
+                            'Calf Male',
+                            'Calf Female',
+                           ].map<DropdownMenuItem<String>>((String items) {
                             return DropdownMenuItem<String>(
                               value: items,
-                              child: Text(items),
-                            );
+                              child: Text(items),                            );
                           }).toList(),
                           onChanged: (String? newValue) {
                             // Handle dropdown value change
@@ -89,11 +90,12 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         ),
                       ),
                     ),
+
                     Text("Animal Name"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextField(
                           controller: animalName,
@@ -113,7 +115,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextField(
                           controller: animalTag,
@@ -133,7 +135,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextField(
                           controller: animalBreed,
@@ -153,7 +155,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextFormField(
                           onTap: () async {
@@ -191,7 +193,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextField(
                           controller: age,
