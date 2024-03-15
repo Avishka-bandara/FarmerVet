@@ -1,4 +1,5 @@
 import 'package:farmervet/user_login.dart';
+import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +80,13 @@ class FarmViewScreen extends StatelessWidget {
                   ),
                   ListTile(
                     title: Text('Reported Health Issue'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => vetAnimalIssue()),
+                      );
+                    },
                   ),
                   ListTile(
                     title: Text('Requard Farm Visit'),
@@ -126,8 +133,8 @@ class FarmCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: InkWell(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FarmDetailView())),
-
+        onTap: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => FarmDetailView())),
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Center(
@@ -173,10 +180,4 @@ class FarmCard extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: FarmViewScreen(),
-  ));
 }

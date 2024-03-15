@@ -35,7 +35,7 @@ class _RegisterVetFormState extends State<RegisterVetForm> {
                         Text("Enter Your Username"),
                         TextField(
                           decoration: InputDecoration(
-                            labelText: 'Username',
+                            hintText: 'Username',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -45,7 +45,7 @@ class _RegisterVetFormState extends State<RegisterVetForm> {
                         Text("Enter Email Address"),
                         TextField(
                           decoration: InputDecoration(
-                            labelText: 'Example@gmail.com',
+                            hintText: 'Example@gmail.com',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -56,7 +56,7 @@ class _RegisterVetFormState extends State<RegisterVetForm> {
                         TextField(
                           obscureText: true,
                           decoration: InputDecoration(
-                            labelText: 'Password',
+                            hintText: 'Password',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -72,7 +72,7 @@ class _RegisterVetFormState extends State<RegisterVetForm> {
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => FarmViewScreen()));

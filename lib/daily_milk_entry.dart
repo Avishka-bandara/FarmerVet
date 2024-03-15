@@ -1,5 +1,5 @@
+import 'package:farmervet/farmer_animal.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class dailyMilkEntry extends StatefulWidget {
   @override
@@ -53,7 +53,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                       ),
                       SizedBox(height: 8),
                       SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 350,
                         child: TextFormField(
                           onTap: () async {
@@ -76,7 +76,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                                   ? ''
                                   : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'),
                           decoration: InputDecoration(
-                            labelText: 'Date',
+                            hintText: 'Date',
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.calendar_today),
                           ),
@@ -102,7 +102,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                           height:
                               8), // Add some space between the text and the TextField
                       SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 350,
                         child: TextField(
                           obscureText: true,
@@ -132,7 +132,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                           height:
                               8), // Add some space between the text and the TextField
                       SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 350,
                         child: TextField(
                           obscureText: true,
@@ -149,18 +149,17 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(28, 42, 58, 1),
-                    fixedSize:
-                        const Size(300, 50), // Change the color as needed
+                    fixedSize: const Size(300, 50),
                   ),
                   onPressed: () {
-                    // save the information to the database
+                    // save the information to the database and navigate to the home screen
                   },
                   child: Text(
                     'Submit',
                     style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -174,7 +173,8 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                     ), // Change the color as needed
                   ),
                   onPressed: () {
-                    Get.back();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Animal()));
                   },
                   child: Text(
                     'Cancel',

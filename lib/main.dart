@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:farmervet/user_login.dart';
-
 import 'farmer_animal.dart';
 
 Future main() async {
@@ -27,7 +25,7 @@ class FarmerVetApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: user != null ? Animal() : LoginScreen(),
     );
