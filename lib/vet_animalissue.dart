@@ -107,7 +107,7 @@ class AnotherInterface extends StatelessWidget {
                 SizedBox(height: 12.0),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'Other symtomns',
+                    hintText: 'Comments',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
@@ -121,3 +121,10 @@ class AnotherInterface extends StatelessWidget {
     );
   }
 }
+
+void main() {
+  runApp(MaterialApp(
+    home: AnotherInterface(),
+  ));
+}
+
