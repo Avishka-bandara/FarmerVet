@@ -329,7 +329,9 @@ class CustomCardWidget extends StatelessWidget {
         elevation: 3.0,
         margin: EdgeInsets.only(top: 10.0),
         child: InkWell(
-          onTap: () => Get.to(AnimalDetail()),
+          onTap: (){
+            Navigator.push(context,MaterialPageRoute(builder: (context)=> AnimalDetail(cows,index)));
+          },
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(
@@ -342,7 +344,7 @@ class CustomCardWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
                       image: AssetImage(
-                          'assets/cow.jpg'), // Load the image from the database
+                          getImageAsset(cows[index].type)), // Load the image from the database
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -369,7 +371,7 @@ class CustomCardWidget extends StatelessWidget {
                             ),
                             SizedBox(width: 140),
                             Text(
-                              cows[index].age, // Replace with the actual age from the database
+                              cows[index].age+" Months", // Replace with the actual age from the database
                               style: TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -382,6 +384,20 @@ class CustomCardWidget extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+
+  String getImageAsset(String name) {
+    switch (name) {
+      case "Bull":
+        return 'assets/bull.jpg';
+      case "Heifer":
+        return 'assets/heifer.jpg';
+      case "Calf-Male":
+        return 'assets/mcalf.jpg';
+      default:
+        return 'assets/fcalf.jpg';
+    }
   }
 
   void showToast(String message) {

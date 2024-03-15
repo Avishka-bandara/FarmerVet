@@ -1,8 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/farmer_animal.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:farmervet/farmer_reportAnimal.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'CowList.dart';
 
 class AnimalDetail extends StatelessWidget {
+  final List<Cow> cows;
+  final int index;
+
+  AnimalDetail(this.cows,this.index);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +25,7 @@ class AnimalDetail extends StatelessWidget {
         padding: EdgeInsets.all(8.0), // Add padding to the whole screen
         child: ListView(
           children: [
-            CustomCardWidget(),
+            CustomCardWidget(cows,index),
             SizedBox(height: 10),
             const Text(
               'Record the vaccination given to the animal',
@@ -61,12 +71,7 @@ class AnimalDetail extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ReportAnimal()),
-              );
-
-              
+              Navigator.push(context,MaterialPageRoute(builder: (context)=> ReportAnimal()));
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.black,
@@ -80,9 +85,27 @@ class AnimalDetail extends StatelessWidget {
       ),
     );
   }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 }
 
 class CustomCardWidget extends StatelessWidget {
+
+  final List<Cow> cows;
+  final int index;
+
+  CustomCardWidget(this.cows,this.index);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -98,7 +121,7 @@ class CustomCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/cow.jpg'), // Load the image from the database
+                      getImageAsset(cows[index].type)), // Load the image from the database
                   fit: BoxFit.cover,
                 ),
               ),
@@ -112,13 +135,13 @@ class CustomCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Cow 1',
+                        cows[index].name,
                         style: TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.bold),
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          // Remove the animal from the database
+                          removeAnimal(context);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromRGBO(234, 67, 53, 1),
@@ -134,9 +157,9 @@ class CustomCardWidget extends StatelessWidget {
                     ],
                   ),
                   Divider(thickness: 1.0),
-                  Text('Tag No : ', style: TextStyle(fontSize: 15.0)),
+                  Text(cows[index].tag, style: TextStyle(fontSize: 15.0)),
                   Text(
-                    '6 Months',
+                    cows[index].age+" Months",
                     style: TextStyle(fontSize: 15.0),
                     textAlign: TextAlign.right,
                   ),
@@ -152,6 +175,59 @@ class CustomCardWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+  String getImageAsset(String name) {
+    switch (name) {
+      case "Bull":
+        return 'assets/bull.jpg';
+      case "Heifer":
+        return 'assets/heifer.jpg';
+      case "Calf-Male":
+        return 'assets/mcalf.jpg';
+      default:
+        return 'assets/fcalf.jpg';
+    }
+  }
+
+  void removeAnimal (BuildContext context)async{
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Remove Animal'),
+          content: Text('Do you want to remove '+cows[index].name),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('OK'),
+              onPressed: () {
+                deleteDocument(cows[index].id,onDeleted: (){
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => Animal())
+                  );
+                }); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> deleteDocument(String documentId,{VoidCallback? onDeleted}) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    try {
+      await FirebaseFirestore.instance
+          .collection('Farm details/' + user!.uid + '/animal details')
+          .doc(documentId)
+          .delete();
+      print('Document deleted successfully.');
+      if (onDeleted != null) {
+        onDeleted!();
+      }
+    } catch (e) {
+      print('Error deleting document: $e');
+    }
   }
 }
 
@@ -242,3 +318,5 @@ class _OnIssueState extends State<OnIssue> {
     );
   }
 }
+
+

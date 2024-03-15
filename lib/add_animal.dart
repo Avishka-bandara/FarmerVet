@@ -14,9 +14,9 @@ class addAnimalForm extends StatefulWidget {
 }
 
 class _addAnimalFormState extends State<addAnimalForm> {
+  String? _selectedItem;
   User? user = FirebaseAuth.instance.currentUser;
   final FirebaseAuthService _auth = FirebaseAuthService();
-  TextEditingController animalType = TextEditingController();
   TextEditingController animalName = TextEditingController();
   TextEditingController animalTag = TextEditingController();
   TextEditingController animalBreed = TextEditingController();
@@ -63,13 +63,13 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
-                            labelText: 'Animal Type',
+                            hintText: 'Animal Type',
                             border: OutlineInputBorder(),
                           ),
                           items: <String>[
@@ -84,7 +84,9 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
-                            // Handle dropdown value change
+                            setState(() {
+                              _selectedItem = newValue;
+                            });
                           },
                         ),
                       ),
@@ -93,7 +95,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextField(
                           controller: animalName,
@@ -113,7 +115,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextField(
                           controller: animalTag,
@@ -133,7 +135,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextField(
                           controller: animalBreed,
@@ -153,7 +155,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextFormField(
                           onTap: () async {
@@ -191,7 +193,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
-                        height: 45,
+                        height: 60,
                         width: 342,
                         child: TextField(
                           controller: age,
@@ -265,7 +267,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
       isLoading = true;
     });
 
-    String animaltype = animalType.text;
+    String? animaltype = _selectedItem;
     String animalname = animalName.text;
     String tag = animalTag.text;
     String breed = animalBreed.text;

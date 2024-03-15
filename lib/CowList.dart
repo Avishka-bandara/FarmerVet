@@ -3,12 +3,14 @@ class Cow {
   final String name;
   final String type;
   final String age;
+  final String tag;
 
   Cow({
     required this.id,
     required this.name,
     required this.type,
     required this.age,
+    required this.tag,
 
   });
 
@@ -18,6 +20,7 @@ class Cow {
         name: map['animalname'],
         type: map['animaltype'],
         age:map['animalAge'],
+      tag:map['tag'],
     );
   }
 }
