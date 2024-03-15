@@ -3,9 +3,11 @@ import 'package:farmervet/user_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
+
 import 'CowList.dart';
 import 'add_animal.dart';
 
@@ -40,33 +42,13 @@ class _AnimalState extends State<Animal> {
               children: [
                 ListTile(
                   title: Text('Add Milk Data',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   subtitle: Text('Add the milk data of your farm here'),
                 ),
                 Row(children: [
                   SizedBox(
                     width: 10,
                   ),
-                  SizedBox(width: 20),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => totalMilkOutput()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
-                        fixedSize: const Size(160, 45),
-                      ),
-                      child: Text(
-                        'Farm Milk Output',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.white,
-                        ),
-                      )),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -112,81 +94,78 @@ class _AnimalState extends State<Animal> {
                 SizedBox(height: 10),
                 CustomSearchBar(),
                 SizedBox(height: 10),
-                FutureBuilder<QuerySnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection('Farm details/${user!.uid}/animal details')
-                      .get(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Wrap(
+
+      FutureBuilder<QuerySnapshot>(
+        future: FirebaseFirestore.instance.collection('Farm details/${user!.uid}/animal details').get(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Wrap(
+              children: [
+                    Container(
+                    height: 450,
+                    width: screenSize.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CircularProgressIndicator(color: Colors.black),
+                        SizedBox(height: 20,),
+                        Text("Loading data"),
+                      ],
+                    )),
+                  ],
+            );
+          }
+          else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+          else {
+            List<Cow> cows = [];
+            snapshot.data!.docs.forEach((doc) {
+              cows.add(Cow.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+            });
+            if (cows.isEmpty) {
+              return Wrap(
+                children: [
+                      Container(
+                                        width: screenSize.width,
+                      height: 450,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                              height: 450,
-                              width: screenSize.width,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const CircularProgressIndicator(
-                                      color: Colors.black),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text("Loading data"),
-                                ],
-                              )),
+                          Text('No details found'),
                         ],
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Error: ${snapshot.error}'),
-                      );
-                    } else {
-                      List<Cow> cows = [];
-                      snapshot.data!.docs.forEach((doc) {
-                        cows.add(Cow.fromMap(
-                            doc.data() as Map<String, dynamic>, doc.id));
-                      });
-                      if (cows.isEmpty) {
-                        return Wrap(
-                          children: [
-                            Container(
-                                width: screenSize.width,
-                                height: 450,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('No details found'),
-                                  ],
-                                )),
-                          ],
-                        );
-                      } else {
-                        return Container(
-                          width: screenSize.width,
-                          height: screenSize.height,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Column(
-                                  children: [
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: cows.length,
-                                      itemBuilder: (context, index) {
-                                        return CustomCardWidget(cows, index);
-                                      },
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
+                      )),
+                    ],
+              );
+            } else {
+              return Container(
+                width: screenSize.width,
+                height: screenSize.height,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: cows.length,
+                            itemBuilder: (context, index) {
+                              return CustomCardWidget(cows,index);
+                            },
                           ),
-                        );
-                      }
-                    }
-                  },
+                        ],
+                      )
+                    ],
+                  ),
                 ),
+              );
+            }
+          }
+        },
+      ),
               ],
             ),
           ],
@@ -206,26 +185,19 @@ class _AnimalState extends State<Animal> {
                   ListTile(
                     title: Text('Add new animal '),
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => addAnimalForm()));
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=> addAnimalForm()));
                     },
                   ),
                   ListTile(
                     title: Text('Farm milk output'),
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => totalMilkOutput()));
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=> totalMilkOutput()));
                     },
                   ),
                   ListTile(
                     title: Text('Account'),
                     onTap: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => Animal()));
+                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> Animal()));
                     },
                   ),
                 ],
@@ -320,7 +292,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   }
 }
 
-void signout(BuildContext context) async {
+void signout (BuildContext context)async{
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -330,13 +302,10 @@ void signout(BuildContext context) async {
         actions: <Widget>[
           ElevatedButton(
             child: Text('OK'),
-            onPressed: () async {
+            onPressed: () async{
               await FirebaseAuth.instance.signOut();
               Navigator.pop(context);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => LoginScreen())); // Close the dialog
+              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginScreen())); // Close the dialog
             },
           ),
         ],
@@ -352,7 +321,7 @@ class CustomCardWidget extends StatelessWidget {
   final List<Cow> cows;
   final int index;
 
-  CustomCardWidget(this.cows, this.index);
+  CustomCardWidget(this.cows,this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -360,8 +329,9 @@ class CustomCardWidget extends StatelessWidget {
         elevation: 3.0,
         margin: EdgeInsets.only(top: 10.0),
         child: InkWell(
-          onTap: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AnimalDetail())),
+          onTap: (){
+            Navigator.push(context,MaterialPageRoute(builder: (context)=> AnimalDetail(cows,index)));
+          },
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Row(
@@ -374,7 +344,7 @@ class CustomCardWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
                       image: AssetImage(
-                          'assets/cow.jpg'), // Load the image from the database
+                          getImageAsset(cows[index].type)), // Load the image from the database
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -385,8 +355,7 @@ class CustomCardWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                       Text(
-                        cows[index]
-                            .name, // Replace with the actual name from the database
+                        cows[index].name, // Replace with the actual name from the database
                         style: TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.bold),
                       ),
@@ -402,8 +371,7 @@ class CustomCardWidget extends StatelessWidget {
                             ),
                             SizedBox(width: 140),
                             Text(
-                              cows[index]
-                                  .age, // Replace with the actual age from the database
+                              cows[index].age+" Months", // Replace with the actual age from the database
                               style: TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -416,6 +384,20 @@ class CustomCardWidget extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+
+  String getImageAsset(String name) {
+    switch (name) {
+      case "Bull":
+        return 'assets/bull.jpg';
+      case "Heifer":
+        return 'assets/heifer.jpg';
+      case "Calf-Male":
+        return 'assets/mcalf.jpg';
+      default:
+        return 'assets/fcalf.jpg';
+    }
   }
 
   void showToast(String message) {

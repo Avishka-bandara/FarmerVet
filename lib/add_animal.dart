@@ -14,9 +14,9 @@ class addAnimalForm extends StatefulWidget {
 }
 
 class _addAnimalFormState extends State<addAnimalForm> {
+  String? _selectedItem;
   User? user = FirebaseAuth.instance.currentUser;
   final FirebaseAuthService _auth = FirebaseAuthService();
-  TextEditingController animalType = TextEditingController();
   TextEditingController animalName = TextEditingController();
   TextEditingController animalTag = TextEditingController();
   TextEditingController animalBreed = TextEditingController();
@@ -60,7 +60,6 @@ class _addAnimalFormState extends State<addAnimalForm> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Animal Type"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
@@ -69,28 +68,29 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: const Color.fromRGBO(209, 213, 219, 1),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
+                            fillColor: Color.fromRGBO(209, 213, 219, 1),
+                            hintText: 'Animal Type',
+                            border: OutlineInputBorder(),
                           ),
                           items: <String>[
                             'Bull',
                             'Heifer',
-                            'Calf Male',
-                            'Calf Female',
-                           ].map<DropdownMenuItem<String>>((String items) {
+                            'Calf-Male',
+                            'Calf-Female',
+                          ].map<DropdownMenuItem<String>>((String items) {
                             return DropdownMenuItem<String>(
                               value: items,
-                              child: Text(items),                            );
+                              child: Text(items),
+                            );
                           }).toList(),
                           onChanged: (String? newValue) {
-                            // Handle dropdown value change
+                            setState(() {
+                              _selectedItem = newValue;
+                            });
                           },
                         ),
                       ),
                     ),
-
                     Text("Animal Name"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
@@ -267,7 +267,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
       isLoading = true;
     });
 
-    String animaltype = animalType.text;
+    String? animaltype = _selectedItem;
     String animalname = animalName.text;
     String tag = animalTag.text;
     String breed = animalBreed.text;

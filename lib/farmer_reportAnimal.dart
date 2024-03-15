@@ -8,8 +8,7 @@ import 'farmer_animal.dart';
 class ReportAnimal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(
             'Report Animal Issue',
@@ -51,10 +50,7 @@ class ReportAnimal extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Animal()),
-                );
+                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> Animal()));
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(28, 42, 58, 1),
@@ -69,8 +65,7 @@ class ReportAnimal extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
 
