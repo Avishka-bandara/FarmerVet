@@ -60,10 +60,13 @@ class AnimalDetail extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: ElevatedButton(
             onPressed: () {
+
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ReportAnimal()),
               );
+
+              
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.black,

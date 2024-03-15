@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animal.dart';
 import 'package:farmervet/add_animal.dart';
+
+import 'firebase_auth_services.dart';
 
 class addAnimalForm extends StatefulWidget {
   @override
@@ -9,11 +14,15 @@ class addAnimalForm extends StatefulWidget {
 }
 
 class _addAnimalFormState extends State<addAnimalForm> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _idController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
-  late String _selectedDivision = '';
+  User? user = FirebaseAuth.instance.currentUser;
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  TextEditingController animalType = TextEditingController();
+  TextEditingController animalName = TextEditingController();
+  TextEditingController animalTag = TextEditingController();
+  TextEditingController animalBreed = TextEditingController();
+  TextEditingController age = TextEditingController();
   late DateTime? _selectedDate;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -66,15 +75,14 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             ),
                           ),
                           items: <String>[
-                            'Cow',
+                            'Bull',
                             'Heifer',
                             'Calf Male',
                             'Calf Female',
-                          ].map((String value) {
+                           ].map<DropdownMenuItem<String>>((String items) {
                             return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
+                              value: items,
+                              child: Text(items),                            );
                           }).toList(),
                           onChanged: (String? newValue) {
                             // Handle dropdown value change
@@ -82,13 +90,15 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         ),
                       ),
                     ),
-                    const Text("Animal Name"),
+
+                    Text("Animal Name"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
                         height: 60,
                         width: 342,
                         child: TextField(
+                          controller: animalName,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
@@ -108,6 +118,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         height: 60,
                         width: 342,
                         child: TextField(
+                          controller: animalTag,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
@@ -127,6 +138,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         height: 60,
                         width: 342,
                         child: TextField(
+                          controller: animalBreed,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
@@ -184,6 +196,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         height: 60,
                         width: 342,
                         child: TextField(
+                          controller: age,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
@@ -211,15 +224,34 @@ class _addAnimalFormState extends State<addAnimalForm> {
                           const Size(300, 50), // Change the color as needed
                     ),
                     onPressed: () {
-                      _showRegistrationSuccessfulDialog(context);
+                      register();
                     },
-                    child: Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: isLoading
+                        ? const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Registering....  ',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )),
+                            ],
+                          )
+                        : const Text(
+                            'Register',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
+                          ),
                   ),
                 )
               ],
@@ -229,30 +261,58 @@ class _addAnimalFormState extends State<addAnimalForm> {
       ),
     );
   }
-}
 
-void _showRegistrationSuccessfulDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Registration Successful'),
-        content: Text('Your registration has been successfully submitted.'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
-}
+  Future<void> register() async {
+    setState(() {
+      isLoading = true;
+    });
 
-void main() {
-  runApp(MaterialApp(
-    home: addAnimalForm(),
-  ));
+    String animaltype = animalType.text;
+    String animalname = animalName.text;
+    String tag = animalTag.text;
+    String breed = animalBreed.text;
+    String dateofBirth = (_selectedDate!.day).toString() +
+        "/" +
+        (_selectedDate!.month).toString() +
+        "/" +
+        (_selectedDate!.year).toString();
+    String animalAge = age.text;
+
+    await FirebaseFirestore.instance
+        .collection('Farm details/' + user!.uid + '/animal details')
+        .doc()
+        .set({
+      'animaltype': animaltype,
+      'animalname': animalname,
+      'tag': tag,
+      'breed': breed,
+      'dateofBirth': dateofBirth,
+      'animalAge': animalAge
+      // Add more fields as needed
+    }).then((value) {
+      setState(() {
+        isLoading = false;
+      });
+      showToast("Registered Successfully");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Animal()));
+    }).catchError((error) {
+      setState(() {
+        isLoading = false;
+      });
+      print("Failed to store data: $error");
+    });
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 }
