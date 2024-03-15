@@ -1,3 +1,4 @@
+import 'package:farmervet/vet_animalissue.dart';
 import 'package:flutter/material.dart';
 
 class FarmDetailView extends StatelessWidget {
@@ -29,19 +30,32 @@ class FarmDetailView extends StatelessWidget {
             Text('Gram Niladari Area :', style: TextStyle(fontSize: 15.0)),
             SizedBox(height: 10),
             Text('Phone Number:', style: TextStyle(fontSize: 15.0)),
-            SizedBox(height: 10),
-            Row(children: [
-              
-            ],)
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => vetAnimalIssue()),
+                    );
+                  },
+                  child: Container(
+                    child: Image.asset('assets/view.png'),
+                  ),
+                ),
+                Container(
+                  child: Image.asset('assets/milk.png'),
+                ),
+                Container(
+                  child: Image.asset('assets/breed.png'),
+                )
+              ],
+            )
           ],
         ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: FarmDetailView(),
-  ));
 }
