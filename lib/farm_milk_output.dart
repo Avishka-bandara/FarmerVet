@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class totalMilkOutput extends StatefulWidget {
   @override
@@ -23,7 +22,7 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
+        centerTitle: true,
         title: Text('Farm Milk Output',
             style: TextStyle(fontWeight: FontWeight.bold)),
       ),
@@ -39,13 +38,12 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
                   child: Row(
-                    // Use Row instead of Column
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         // Use Expanded to make the dropdown take remaining space
                         child: SizedBox(
-                          height: 45,
+                          height: 60,
                           child: DropdownButtonFormField<String>(
                             decoration: InputDecoration(
                               labelText: 'Year',
@@ -56,7 +54,8 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                               '2023',
                               '2024',
                               '2025',
-                              '2026'
+                              '2026',
+                              '2027',
                             ] // Add your list of years here
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
@@ -76,7 +75,7 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                       Expanded(
                         // Use Expanded to make the text field take remaining space
                         child: SizedBox(
-                          height: 45,
+                          height: 60,
                           child: DropdownButtonFormField<String>(
                             decoration: InputDecoration(
                               labelText: 'Month',
@@ -111,6 +110,28 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 18,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(75, 89, 99, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(4))),
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        "Total For This Month  :",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        "Total",
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -119,9 +140,3 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
     );
   }
 }
-
-/*void main() {
-  runApp(MaterialApp(
-    home: totalMilkOutput(),
-  ));
-}*/
