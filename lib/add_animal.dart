@@ -51,7 +51,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Animal Type"),
+                    const Text("Animal Type"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
@@ -60,7 +60,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.grey[200],
+                            fillColor: const Color.fromRGBO(209, 213, 219, 1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -82,7 +82,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         ),
                       ),
                     ),
-                    Text("Animal Name"),
+                    const Text("Animal Name"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
