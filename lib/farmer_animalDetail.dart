@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_reportAnimal.dart';
 
-void main() {
-  runApp(GetMaterialApp(
-    home: AnimalDetail(),
-  ));
-}
-
 class AnimalDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -66,8 +60,10 @@ class AnimalDetail extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: ElevatedButton(
             onPressed: () {
-              Get.to(ReportAnimal());
-              // Navigate to the Add Issue screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ReportAnimal()),
+              );
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.black,
