@@ -2,7 +2,6 @@ import 'package:farmervet/add_animal.dart';
 import 'package:farmervet/user_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
@@ -40,7 +39,10 @@ class _AnimalState extends State<Animal> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(dailyMilkEntry());
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => dailyMilkEntry()));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black,
@@ -58,7 +60,10 @@ class _AnimalState extends State<Animal> {
               SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(totalMilkOutput());
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => totalMilkOutput()));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black,
@@ -116,7 +121,8 @@ class _AnimalState extends State<Animal> {
                   ListTile(
                     title: Text('Account'),
                     onTap: () {
-                      Get.to(() => Animal());
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Animal()));
                     },
                   ),
                 ],
