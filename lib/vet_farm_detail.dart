@@ -1,3 +1,4 @@
+import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class FarmDetailView extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => vetAnimalIssue()),
+                      MaterialPageRoute(builder: (context) => vet_animal()),
                     );
                   },
                   child: Container(
