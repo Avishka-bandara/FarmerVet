@@ -60,7 +60,7 @@ class vetAnimalIssue extends StatelessWidget {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14.0),
-                              ) // grama niladhari from data base
+                              ) // mobile number from data base
                             ],
                           ),
                         ],
@@ -82,8 +82,7 @@ class vetAnimalIssue extends StatelessWidget {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromRGBO(28, 42, 58, 1),
-                        fixedSize: Size(150, 20), // background
-                        // foreground
+                        fixedSize: Size(150, 20),
                       ),
                       onPressed: () {
                         // this button handle according to the issue
@@ -94,7 +93,7 @@ class vetAnimalIssue extends StatelessWidget {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromRGBO(28, 42, 58, 1),
-                        fixedSize: Size(150, 20), // background
+                        fixedSize: Size(150, 20),
                       ),
                       onPressed: () {
                         // Handle second button press
@@ -121,10 +120,3 @@ class vetAnimalIssue extends StatelessWidget {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(
-    home: vetAnimalIssue(),
-  ));
-}
-
