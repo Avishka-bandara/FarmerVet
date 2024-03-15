@@ -1,4 +1,5 @@
 import 'package:farmervet/user_login.dart';
+import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,7 @@ class FarmViewScreen extends StatelessWidget {
               child: TextField(
                 decoration: InputDecoration(
                   filled: true,
-                  //fillColor: Color.fromRGBO(209, 213, 219, 1),
-                  hintText: 'Password',
+                  hintText: 'Search farms',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -83,8 +83,7 @@ class FarmViewScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => vetAnimalIssue()),
+                        MaterialPageRoute(builder: (context) => vet_animal()),
                       );
                     },
                   ),
