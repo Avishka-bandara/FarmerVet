@@ -126,17 +126,78 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                         style: TextStyle(color: Colors.white),
                       ),
                       Text(
-                        "Total",
+                        "Total", // total milk quantity
                         style: TextStyle(color: Colors.white),
                       )
                     ],
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                DataTableExample(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class DataTableExample extends StatelessWidget {
+  DataTableExample({Key? key}) : super(key: key);
+
+  // Sample data to populate the DataTable
+  final List<Map<String, dynamic>> _data = [
+    {'date': '12/1/2024', 'quantity': 19, 'milkedCow': '10'},
+    {'date': '14/1/2024', 'quantity': 43, 'milkedCow': '8'},
+    {'date': '13/1/2024', 'quantity': 27, 'milkedCow': '9'},
+    // Add more data here
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return DataTable(
+      columns: <DataColumn>[
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              'Date',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              'Quantity(liters)',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              'Milked Cows',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+          ),
+        ),
+      ],
+      rows: _data.map((Map<String, dynamic> item) {
+        return DataRow(
+          cells: <DataCell>[
+            DataCell(
+              Text(item['date'].toString(), style: TextStyle(fontSize: 14)),
+            ),
+            DataCell(Text(item['quantity'].toString(),
+                style: TextStyle(fontSize: 14))),
+            DataCell(Text(item['milkedCow'].toString(),
+                style: TextStyle(fontSize: 14))),
+          ],
+        );
+      }).toList(),
     );
   }
 }
