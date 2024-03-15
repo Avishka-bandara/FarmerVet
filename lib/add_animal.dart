@@ -22,6 +22,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
   TextEditingController animalBreed = TextEditingController();
   TextEditingController age = TextEditingController();
   late DateTime? _selectedDate;
+  String? _selectedItem;
   bool isLoading = false;
 
   @override
@@ -60,6 +61,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text("Animal Type"),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                       child: SizedBox(
@@ -68,10 +70,12 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
                             filled: true,
+                            hintText: ('Animal Type'),
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
-                            labelText: 'Animal Type',
                             border: OutlineInputBorder(),
+
                           ),
+
                           items: <String>[
                             'Bull',
                             'Heifer',
@@ -83,10 +87,15 @@ class _addAnimalFormState extends State<addAnimalForm> {
                               child: Text(items),
                             );
                           }).toList(),
+
                           onChanged: (String? newValue) {
-                            // Handle dropdown value change
+                            setState(() {
+                              _selectedItem=newValue;
+                            });
                           },
+                          value: _selectedItem,
                         ),
+
                       ),
                     ),
                     Text("Animal Name"),
@@ -265,7 +274,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
       isLoading = true;
     });
 
-    String animaltype = animalType.text;
+    String? animaltype = _selectedItem;
     String animalname = animalName.text;
     String tag = animalTag.text;
     String breed = animalBreed.text;
