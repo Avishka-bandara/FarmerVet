@@ -369,7 +369,7 @@ class CustomCardWidget extends StatelessWidget {
                               cows[index].type,
                               style: TextStyle(fontSize: 15.0),
                             ),
-                            SizedBox(width: 140),
+                            SizedBox(width: 100),
                             Text(
                               cows[index].age+" Months", // Replace with the actual age from the database
                               style: TextStyle(

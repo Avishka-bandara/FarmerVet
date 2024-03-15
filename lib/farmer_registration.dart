@@ -257,7 +257,12 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           'Farm Id':farmid,
           'Farm Address':farmaddress,
           'Divisional secretariat area':divisionalsec,
-          'Grama niladari area':gramanila
+          'Grama niladari area':gramanila,
+          // Add more fields as needed
+        });
+
+        await FirebaseFirestore.instance.collection('user role').doc(user.uid).set({
+          'role':'farmer',
           // Add more fields as needed
         });
         showToast("Account Created Successfully");

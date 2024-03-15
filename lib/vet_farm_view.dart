@@ -1,6 +1,7 @@
 import 'package:farmervet/user_login.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FarmViewScreen extends StatelessWidget {
@@ -100,10 +101,7 @@ class FarmViewScreen extends StatelessWidget {
               title: Text('Logout'),
               leading: Icon(Icons.logout),
               onTap: () {
-                Navigator.pop(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
+                signout(context);
               },
             ),
             SizedBox(height: 40)
@@ -112,6 +110,29 @@ class FarmViewScreen extends StatelessWidget {
       ),
     );
   }
+
+  void signout (BuildContext context)async{
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Signed Out'),
+          content: Text('Do you need to sign out.'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('OK'),
+              onPressed: () async{
+                await FirebaseAuth.instance.signOut();
+                Navigator.pop(context);
+                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginScreen())); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
 
 class FarmCard extends StatelessWidget {

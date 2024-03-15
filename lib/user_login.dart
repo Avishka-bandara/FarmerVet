@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/vet_farm_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuthService _auth=FirebaseAuthService();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _password = TextEditingController();
@@ -216,19 +219,42 @@ class _LoginScreenState extends State<LoginScreen> {
   void signin (String email,String password)async{
 
     User? user=await _auth.signInWithEmailAndPassword(email, password);
-    if(user!=null){
-      setState(() {
-        isLoading=false;
-      });
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> Animal()));
-    }
-    else{
-      setState(() {
-        isLoading=false;
-      });
 
-      showToast("Login Failed!");
+    DocumentSnapshot userSnapshot = await _firestore.collection('user role').doc(user!.uid).get();
+    Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>? ?? {};
+    String? role = userData['role'];
+
+    if(role == 'vet'){
+      if(user!=null){
+        setState(() {
+          isLoading=false;
+        });
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> FarmViewScreen()));
+      }
+      else{
+        setState(() {
+          isLoading=false;
+        });
+
+        showToast("Login Failed!");
+      }
     }
+    else if(role == 'farmer'){
+      if(user!=null){
+        setState(() {
+          isLoading=false;
+        });
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> Animal()));
+      }
+      else{
+        setState(() {
+          isLoading=false;
+        });
+
+        showToast("Login Failed!");
+      }
+    }
+
   }
 
   void showToast(String message) {
