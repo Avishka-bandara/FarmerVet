@@ -53,7 +53,7 @@ class _AnimalState extends State<Animal> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => dailyMilkEntry()));
@@ -73,7 +73,7 @@ class _AnimalState extends State<Animal> {
                   SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => totalMilkOutput()));

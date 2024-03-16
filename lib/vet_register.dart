@@ -4,8 +4,6 @@ import 'package:farmervet/vet_farm_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-
 import 'firebase_auth_services.dart';
 
 class RegisterVetForm extends StatefulWidget {

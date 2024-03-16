@@ -1,7 +1,8 @@
+import 'package:farmervet/farm_milk_output.dart';
+import 'package:farmervet/vet_add_new_reproduction.dart';
 import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:flutter/material.dart';
-import 'vet_farm_breeding_info.dart';
 
 class FarmDetailView extends StatelessWidget {
   @override
@@ -20,48 +21,71 @@ class FarmDetailView extends StatelessWidget {
               'Farmer Name: ',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Divider(thickness: 1),
-            SizedBox(height: 10),
-            Text('Registration ID :', style: TextStyle(fontSize: 15.0)),
-            SizedBox(height: 10),
-            Text('Address :', style: TextStyle(fontSize: 15.0)),
-            SizedBox(height: 10),
-            Text('Divisional Secretary :', style: TextStyle(fontSize: 15.0)),
-            SizedBox(height: 10),
-            Text('Gram Niladari Area :', style: TextStyle(fontSize: 15.0)),
-            SizedBox(height: 10),
-            Text('Phone Number:', style: TextStyle(fontSize: 15.0)),
             SizedBox(height: 20),
+            Divider(thickness: 1),
+            SizedBox(height: 20),
+            Text('Registration ID :', style: TextStyle(fontSize: 15.0)),
+            SizedBox(height: 20),
+            Text('Address :', style: TextStyle(fontSize: 15.0)),
+            SizedBox(height: 20),
+            Text('Divisional Secretary :', style: TextStyle(fontSize: 15.0)),
+            SizedBox(height: 20),
+            Text('Gram Niladari Area :', style: TextStyle(fontSize: 15.0)),
+            SizedBox(height: 20),
+            Text('Phone Number:', style: TextStyle(fontSize: 15.0)),
+            SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => vet_animal()),
-                    );
-                  },
-                  child: Container(
-                    child: Image.asset('assets/view.png'),
-                  ),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => vet_animal()),
+                        );
+                      },
+                      child: Container(
+                        child: Image.asset('assets/view.png'),
+                      ),
+                    ),
+                    Text("View Animals")
+                  ],
                 ),
-                Container(
-                  child: Image.asset('assets/milk.png'),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => totalMilkOutput()),
+                        );
+                      },
+                      child: Container(
+                        child: Image.asset('assets/milk.png'),
+                      ),
+                    ),
+                    Text("Milk Output")
+                  ],
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BreedingInfo()),
-                    );
-                    // Handle button tap event
-                    // For example, navigate to another screen or perform some action
-                  },
-                  child: Container(
-                    child: Image.asset('assets/breed.png'),
-                  ),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ReproductionEntry()),
+                        );
+                      },
+                      child: Container(
+                        child: Image.asset('assets/breed.png'),
+                      ),
+                    ),
+                    Text("Breeding")
+                  ],
                 )
               ],
             )

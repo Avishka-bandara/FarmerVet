@@ -69,7 +69,7 @@ class RegisterScreen extends StatelessWidget {
                             height: 48,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -100,7 +100,7 @@ class RegisterScreen extends StatelessWidget {
                             height: 48,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>

@@ -7,7 +7,7 @@ import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 import 'add_animal.dart';
 
-/*void main() {
+void main() {
   runApp(Home());
 }
 
@@ -22,8 +22,7 @@ class _HomeState extends State<Home> {
     return GetMaterialApp(
       home: Required_visits(),
     );
-  }
-}*/
+  }}
 
 class Required_visits extends StatefulWidget {
   @override

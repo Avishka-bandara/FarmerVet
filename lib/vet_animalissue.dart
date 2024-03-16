@@ -1,3 +1,4 @@
+import 'package:farmervet/vet_animal.dart';
 import 'package:flutter/material.dart';
 
 class vetAnimalIssue extends StatelessWidget {
@@ -129,7 +130,7 @@ class vetAnimalIssue extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => vetAnimalIssue()),
                 );
@@ -146,7 +147,7 @@ class vetAnimalIssue extends StatelessWidget {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => vetAnimalIssue()),
+                  MaterialPageRoute(builder: (context) => vet_animal()),
                 );
               },
               style: ElevatedButton.styleFrom(

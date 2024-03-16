@@ -24,7 +24,9 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Farm Milk Output',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(28, 42, 58, 1))),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -164,7 +166,10 @@ class DataTableExample extends StatelessWidget {
           label: Expanded(
             child: Text(
               'Date',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Color.fromRGBO(28, 42, 58, 1)),
             ),
           ),
         ),
@@ -172,7 +177,10 @@ class DataTableExample extends StatelessWidget {
           label: Expanded(
             child: Text(
               'Quantity(liters)',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Color.fromRGBO(28, 42, 58, 1)),
             ),
           ),
         ),
@@ -180,7 +188,10 @@ class DataTableExample extends StatelessWidget {
           label: Expanded(
             child: Text(
               'Milked Cows',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Color.fromRGBO(28, 42, 58, 1)),
             ),
           ),
         ),
@@ -189,12 +200,16 @@ class DataTableExample extends StatelessWidget {
         return DataRow(
           cells: <DataCell>[
             DataCell(
-              Text(item['date'].toString(), style: TextStyle(fontSize: 14)),
+              Text(item['date'].toString(),
+                  style: TextStyle(
+                      fontSize: 14, color: Color.fromRGBO(28, 42, 58, 1))),
             ),
             DataCell(Text(item['quantity'].toString(),
-                style: TextStyle(fontSize: 14))),
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(28, 42, 58, 1)))),
             DataCell(Text(item['milkedCow'].toString(),
-                style: TextStyle(fontSize: 14))),
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(28, 42, 58, 1)))),
           ],
         );
       }).toList(),

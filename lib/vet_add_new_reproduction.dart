@@ -4,24 +4,6 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
-void main() {
-  runApp(Home());
-}
-
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: ReproductionEntry(),
-    );
-  }
-}
-
 class ReproductionEntry extends StatefulWidget {
   @override
   _ReproductionEntryState createState() => _ReproductionEntryState();
@@ -119,12 +101,21 @@ class CustomCardWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                "Cow 1",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              Divider(thickness: 1),
+              SizedBox(height: 15),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: 10),
                   Container(
-                    width: 350,
+                    width: 330,
                     height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
@@ -143,7 +134,6 @@ class CustomCardWidget extends StatelessWidget {
               SizedBox(height: 10),
               Row(
                 children: [
-                  SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // Align children to the end (right side)
