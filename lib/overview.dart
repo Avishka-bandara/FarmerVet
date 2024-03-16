@@ -11,11 +11,12 @@ class OverviewScreen extends StatelessWidget {
         title: Text('Overview'),
         centerTitle: true,
       ),
-      body: Center(
+      body:Padding(
+        padding: EdgeInsets.all(20.0),
         child: Container(
-          padding: EdgeInsets.all(18.0),
+          height: 100.0,
           decoration: BoxDecoration(
-            color: Colors.grey[200],
+            color: Color.fromRGBO(217, 217, 217, 1),
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Column(
@@ -24,7 +25,7 @@ class OverviewScreen extends StatelessWidget {
 
               SizedBox(height: 20.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     children: [
@@ -42,8 +43,11 @@ class OverviewScreen extends StatelessWidget {
                           fontSize: 16.0,
                         ),
                       ),
+
                     ],
+
                   ),
+
                   Column(
                     children: [
                       Text(

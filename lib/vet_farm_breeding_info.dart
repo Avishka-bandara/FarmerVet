@@ -7,24 +7,6 @@ import 'package:farmervet/vet_add_new_reproduction.dart';
 
 import 'add_animal.dart';
 
-void main() {
-  runApp(Home());
-}
-
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: BreedingInfo(),
-    );
-  }
-}
-
 class BreedingInfo extends StatefulWidget {
   @override
   State<BreedingInfo> createState() => _BreedingInfoState();
@@ -110,7 +92,7 @@ class CustomCardWidget extends StatelessWidget {
       margin: EdgeInsets.only(top: 10.0),
       child: InkWell(
         child: Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(0.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

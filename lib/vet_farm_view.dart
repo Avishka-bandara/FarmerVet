@@ -3,6 +3,7 @@ import 'package:farmervet/farmList.dart';
 import 'package:farmervet/user_login.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
+import 'package:farmervet/vet_required_farm_visit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -39,10 +40,13 @@ class FarmViewScreen extends StatelessWidget {
                     prefixIcon: const Icon(Icons.search_outlined),
                   ),
                 ),
-
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 FutureBuilder<QuerySnapshot>(
-                  future: FirebaseFirestore.instance.collection('Farm details').get(),
+                  future: FirebaseFirestore.instance
+                      .collection('Farm details')
+                      .get(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Wrap(
@@ -53,23 +57,25 @@ class FarmViewScreen extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const CircularProgressIndicator(color: Colors.black),
-                                  SizedBox(height: 20,),
+                                  const CircularProgressIndicator(
+                                      color: Colors.black),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
                                   Text("Loading data"),
                                 ],
                               )),
                         ],
                       );
-                    }
-                    else if (snapshot.hasError) {
+                    } else if (snapshot.hasError) {
                       return Center(
                         child: Text('Error: ${snapshot.error}'),
                       );
-                    }
-                    else {
+                    } else {
                       List<Farm> farm = [];
                       snapshot.data!.docs.forEach((doc) {
-                        farm.add(Farm.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+                        farm.add(Farm.fromMap(
+                            doc.data() as Map<String, dynamic>, doc.id));
                       });
                       if (farm.isEmpty) {
                         return Wrap(
@@ -99,7 +105,7 @@ class FarmViewScreen extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemCount: farm.length,
                                       itemBuilder: (context, index) {
-                                        return FarmCard(farm,index);
+                                        return FarmCard(farm, index);
                                       },
                                     ),
                                   ],
@@ -156,7 +162,13 @@ class FarmViewScreen extends StatelessWidget {
                   ),
                   ListTile(
                     title: Text('Requard Farm Visit'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Required_visits()),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -176,7 +188,7 @@ class FarmViewScreen extends StatelessWidget {
     );
   }
 
-  void signout (BuildContext context)async{
+  void signout(BuildContext context) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -186,10 +198,14 @@ class FarmViewScreen extends StatelessWidget {
           actions: <Widget>[
             ElevatedButton(
               child: Text('OK'),
-              onPressed: () async{
+              onPressed: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.pop(context);
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginScreen())); // Close the dialog
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            LoginScreen())); // Close the dialog
               },
             ),
           ],
@@ -197,14 +213,13 @@ class FarmViewScreen extends StatelessWidget {
       },
     );
   }
-
 }
 
 class FarmCard extends StatelessWidget {
   final List<Farm> farm;
   final int index;
 
-  FarmCard(this.farm,this.index);
+  FarmCard(this.farm, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +230,9 @@ class FarmCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => FarmDetailView(farm,index))),
+            context,
+            MaterialPageRoute(
+                builder: (context) => FarmDetailView(farm, index))),
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Center(
