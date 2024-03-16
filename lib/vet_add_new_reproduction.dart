@@ -4,17 +4,44 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
+/*void main() {
+  runApp(Home());
+}
+
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      home: ReproductionEntry(),
+    );
+  }
+}*/
+
 class ReproductionEntry extends StatefulWidget {
   @override
   _ReproductionEntryState createState() => _ReproductionEntryState();
 }
 
 class _ReproductionEntryState extends State<ReproductionEntry> {
-  String? selectedValue;
   String? selectedValue_1;
+  DateTime? selectedDate;
+  String? selectedValue;
+  late int selectedRadio;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedRadio = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
+    var _selectedRadio;
     return Scaffold(
       appBar: AppBar(
         title: Text('Add New Reproduction Entry',
@@ -56,30 +83,219 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            CustomDropdownField(
-              hintText: "choose",
-              items: [
-                'Set as inseminated',
-                'Set as pregnant',
-                'Gave birth',
-                'Pregnanacy failed'
-              ],
-              value: selectedValue_1,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedValue_1 = newValue!;
-                });
-              },
+
+            SizedBox(
+              child: CustomDropdownField(
+                hintText: "choose",
+                items: [
+                  'Set as inseminated',
+                  'Set as pregnant',
+                  'Gave birth',
+                  'Pregnancy failed'
+                ],
+                value: selectedValue_1,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedValue_1 = newValue!;
+                    // Reset selected date when changing dropdown value
+                    selectedDate = null;
+                  });
+                },
+              ),
             ),
+            if (selectedValue_1 == 'Gave birth') SizedBox(height: 30),
+            if (selectedValue_1 == 'Gave birth')
+              Text(
+                "Date of Birth",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            if (selectedValue_1 == 'Gave birth') DatePickerFormField(),
+            SizedBox(height: 20),
+            if (selectedValue_1 == 'Gave birth')
+              Text(
+                'Calf NO./Name',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            if (selectedValue_1 == 'Gave birth')
+              SizedBox(
+                height: 60,
+                width: 350,
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'code',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+            if (selectedValue_1 == 'Gave birth') SizedBox(height: 20),
+
+            if (selectedValue_1 == 'Gave birth')
+              Text(
+                "Calf Gender",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            if (selectedValue_1 == 'Gave birth')
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  labelText: 'choose',
+                  border: OutlineInputBorder(),
+                ),
+                items: <String>[
+                  'Male',
+                  'Female',
+                ] // Add your list of years here
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  // Handle dropdown value change
+                },
+              ),
+            if (selectedValue_1 == 'Set as pregnant') SizedBox(height: 30),
+
+            // Conditionally render date input field if 'Set as inseminated' is selected
+            if (selectedValue_1 == 'Set as pregnant')
+              Text(
+                "Date of birth",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            SizedBox(height: 10),
+
+            if (selectedValue_1 == 'Set as pregnant') DatePickerFormField(),
+            if (selectedValue_1 == 'Pregnancy failed') SizedBox(height: 20),
+
+            // Conditionally render date input field if 'Set as inseminated' is selected
+            if (selectedValue_1 == 'Pregnancy failed')
+              Text(
+                "Date of diagnosis",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            SizedBox(height: 10),
+
+            if (selectedValue_1 == 'Pregnancy failed') DatePickerFormField(),
+            SizedBox(height: 10),
+            if (selectedValue_1 == 'Set as inseminated')
+              Text(
+                "Date of Insemination",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            SizedBox(height: 10),
+
+            if (selectedValue_1 == 'Set as inseminated') DatePickerFormField(),
+            SizedBox(height: 30),
+            if (selectedValue_1 == 'Set as inseminated')
+              Text(
+                "Method of Insemination",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            if (selectedValue_1 == 'Set as inseminated')
+              Row(
+                children: [
+                  Radio(
+                    value: 1,
+                    groupValue: selectedRadio,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRadio = value as int;
+                      });
+                    },
+                    activeColor: Color.fromRGBO(28, 42, 58, 1),
+                  ),
+                  Text("AI"),
+                  SizedBox(width: 50),
+                  Radio(
+                    value: 2,
+                    groupValue: selectedRadio,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRadio = value as int;
+                      });
+                    },
+                    activeColor: Color.fromRGBO(28, 42, 58, 1),
+                  ),
+                  Text("Bull"),
+                ],
+              ),
+            SizedBox(height: 20),
+            if (selectedValue_1 == 'Set as inseminated')
+              Text(
+                'Bull/AI Code',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            SizedBox(height: 10),
+            if (selectedValue_1 == 'Set as inseminated')
+              SizedBox(
+                height: 60,
+                width: 350,
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Code',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+            SizedBox(height: 25),
+            if (selectedValue_1 == 'Set as inseminated')
+              Text(
+                'AI Techinician Code',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            SizedBox(height: 10),
+            if (selectedValue_1 == 'Set as inseminated')
+              SizedBox(
+                height: 60,
+                width: 350,
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'in code',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+
             SizedBox(height: 35),
-            Text(
+
+            /*Text(
               "Date",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            DatePickerFormField(),
+            DatePickerFormField(),*/
           ]),
         ),
       ),
@@ -101,21 +317,12 @@ class CustomCardWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Cow 1",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              Divider(thickness: 1),
-              SizedBox(height: 15),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(width: 10),
                   Container(
-                    width: 330,
+                    width: 350,
                     height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
@@ -124,8 +331,8 @@ class CustomCardWidget extends StatelessWidget {
                           // Load image from the database
                           fit: BoxFit.cover,
                           alignment: Alignment
-                              .center // Ensures the image covers the entire container
-                          ),
+                              .bottomCenter // Ensures the image covers the entire container
+                      ),
                     ),
                   ),
                   SizedBox(width: 10),
@@ -134,6 +341,7 @@ class CustomCardWidget extends StatelessWidget {
               SizedBox(height: 10),
               Row(
                 children: [
+                  SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // Align children to the end (right side)
