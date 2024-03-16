@@ -14,7 +14,8 @@ class FarmDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Farm Detail'),
+        title:
+            Text('Farm Detail', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Padding(
@@ -44,7 +45,7 @@ class FarmDetailView extends StatelessWidget {
                 style: TextStyle(fontSize: 15.0)),
             SizedBox(height: 10),
             Text('Email Address: ' + farm[index].email,
-                style: TextStyle(fontSize: 15.0)),
+                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
