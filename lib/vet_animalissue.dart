@@ -146,10 +146,10 @@ class vetAnimalIssue extends StatelessWidget {
             SizedBox(height: 20.0),
             OutlinedButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => vet_animal()),
-                );
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => vet_animal()),
+                // );
               },
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(300, 50),
