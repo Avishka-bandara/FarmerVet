@@ -1,19 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmervet/add_animal.dart';
 import 'package:farmervet/user_login.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
+import 'animalIssue.dart';
+import 'farmList.dart';
+
 class vet_animal extends StatefulWidget {
+  final List<Farm> farm;
+  final int index;
+
+  vet_animal({required this.farm, required this.index});
+
   @override
   State<vet_animal> createState() => _vet_animalState();
 }
 
 class _vet_animalState extends State<vet_animal> {
+  User? user = FirebaseAuth.instance.currentUser;
+  late Size screenSize;
   @override
   void initState() {
     super.initState();
@@ -21,6 +33,7 @@ class _vet_animalState extends State<vet_animal> {
   }
 
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Animal', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -46,14 +59,98 @@ class _vet_animalState extends State<vet_animal> {
             SizedBox(height: 10),
             CustomSearchBar(),
             SizedBox(height: 16),
-            Text(
-              'Today',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            CustomCardWidget(),
+
+          FutureBuilder<QuerySnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('Farm details/'+widget.farm[widget.index].id+'/health issue')
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Wrap(
+                  children: [
+                    Container(
+                        height: 450,
+                        width: screenSize.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const CircularProgressIndicator(
+                                color: Colors.black),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text("Loading data"),
+                          ],
+                        )),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                List<Issue> issue = [];
+                snapshot.data!.docs.forEach((doc) {
+                  issue.add(Issue.fromMap(
+                      doc.data() as Map<String, dynamic>, doc.id));
+                });
+                if (issue.isEmpty) {
+                  return Wrap(
+                    children: [
+                      Container(
+                          width: screenSize.width,
+                          height: 450,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('No details found'),
+                            ],
+                          )),
+                    ],
+                  );
+                } else {
+                  return Container(
+                    width: screenSize.width,
+                    height: screenSize.height,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: issue.length,
+                                itemBuilder: (context, index) {
+                                  return CustomCardWidget(widget.farm,widget.index,issue, index);
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
+            },
+          ),
+
           ]),
         ),
       ),
+    );
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 }
@@ -161,6 +258,14 @@ void signout(BuildContext context) async {
 // custom card widget
 //
 class CustomCardWidget extends StatelessWidget {
+
+  final List<Farm> farm;
+  final int index2;
+  final List<Issue> issue;
+  final int index;
+
+  CustomCardWidget(this.farm,this.index2,this.issue, this.index);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -172,7 +277,7 @@ class CustomCardWidget extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topLeft,
-              child: Text("22 MAY 2024 - 10:00 AM",
+              child: Text(issue[index].timeDate,
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -188,7 +293,7 @@ class CustomCardWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                   image: DecorationImage(
                     image: AssetImage(
-                        'assets/cow.jpg'), // Load the image from the database
+                        getImageAsset(issue[index].animaltype)), // Load the image from the database
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -198,13 +303,13 @@ class CustomCardWidget extends StatelessWidget {
                 children: [
                   Row(children: [
                     Text(
-                      "Farm 1", // Name  of the farm
+                      farm[index2].name, // Name  of the farm
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                     SizedBox(width: 16),
                     Text(
-                      "Cow 1", // from data the name of the cow
+                      issue[index].animalname, // from data the name of the cow
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
@@ -214,14 +319,14 @@ class CustomCardWidget extends StatelessWidget {
                   ),
                   Row(children: [
                     Text(
-                      "Cow",
+                      issue[index].animaltype,
                       style: TextStyle(fontSize: 14), // load type from database
                     ),
                     SizedBox(
                       width: 16,
                     ),
                     Text(
-                      "2 years",
+                      issue[index].animalage+" Years",
                       style: TextStyle(fontSize: 14), // load from the data base
                     )
                   ]),
@@ -231,7 +336,7 @@ class CustomCardWidget extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Icons.location_on_outlined),
-                      Text("Divisinal Area") // divisional area
+                      Text(farm[index2].divisionalSecretariatArea) // divisional area
                     ],
                   ),
                 ],
@@ -256,5 +361,18 @@ class CustomCardWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getImageAsset(String name) {
+    switch (name) {
+      case "Bull":
+        return 'assets/bull.jpg';
+      case "Heifer":
+        return 'assets/heifer.jpg';
+      case "Calf-Male":
+        return 'assets/mcalf.jpg';
+      default:
+        return 'assets/fcalf.jpg';
+    }
   }
 }
