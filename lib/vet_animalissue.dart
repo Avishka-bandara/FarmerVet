@@ -83,7 +83,7 @@ class vetAnimalIssue extends StatelessWidget {
                     // Handle first button press
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                     fixedSize: const Size(150, 50),
                   ),
                   child: Text('Symtom 1',
@@ -96,7 +96,7 @@ class vetAnimalIssue extends StatelessWidget {
                     // Handle second button press
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                     fixedSize: const Size(150, 50),
                   ),
                   child: Text('Symtom 2',
@@ -135,7 +135,7 @@ class vetAnimalIssue extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(28, 42, 58, 1),
+                backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                 fixedSize: const Size(300, 50),
               ),
               child: Text('Confirm',
