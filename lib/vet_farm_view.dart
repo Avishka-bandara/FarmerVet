@@ -1,56 +1,121 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/farmList.dart';
 import 'package:farmervet/user_login.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'CowList.dart';
+import 'farmList.dart';
+import 'farmList.dart';
+
 class FarmViewScreen extends StatelessWidget {
+  User? user = FirebaseAuth.instance.currentUser;
+  late Size screenSize;
   @override
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Farm View'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(height: 16.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  //fillColor: Color.fromRGBO(209, 213, 219, 1),
-                  hintText: 'Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+      body: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                SizedBox(height: 16.0),
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    //fillColor: Color.fromRGBO(209, 213, 219, 1),
+                    hintText: 'Search farms',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    prefixIcon: const Icon(Icons.search_outlined),
                   ),
-                  prefixIcon: const Icon(Icons.search_outlined),
                 ),
-              ),
+
+                SizedBox(height: 20,),
+                FutureBuilder<QuerySnapshot>(
+                  future: FirebaseFirestore.instance.collection('Farm details').get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Wrap(
+                        children: [
+                          Container(
+                              height: 450,
+                              width: screenSize.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const CircularProgressIndicator(color: Colors.black),
+                                  SizedBox(height: 20,),
+                                  Text("Loading data"),
+                                ],
+                              )),
+                        ],
+                      );
+                    }
+                    else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
+                      );
+                    }
+                    else {
+                      List<Farm> farm = [];
+                      snapshot.data!.docs.forEach((doc) {
+                        farm.add(Farm.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+                      });
+                      if (farm.isEmpty) {
+                        return Wrap(
+                          children: [
+                            Container(
+                                width: screenSize.width,
+                                height: 450,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('No details found'),
+                                  ],
+                                )),
+                          ],
+                        );
+                      } else {
+                        return Container(
+                          width: screenSize.width,
+                          height: screenSize.height,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Column(
+                                  children: [
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: farm.length,
+                                      itemBuilder: (context, index) {
+                                        return FarmCard(farm,index);
+                                      },
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                ),
+              ],
             ),
-            SizedBox(height: 16.0),
-            FarmCard(
-              farmName: 'Farm A',
-              farmLocation: 'Location A',
-              farmDistance: '5 km',
-            ),
-            SizedBox(height: 16.0),
-            FarmCard(
-              farmName: 'Farm B',
-              farmLocation: 'Location B',
-              farmDistance: '25 km',
-            ),
-            SizedBox(height: 16.0),
-            FarmCard(
-              farmName: 'Farm C',
-              farmLocation: 'Location C',
-              farmDistance: '15 km',
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: Column(
@@ -116,8 +181,8 @@ class FarmViewScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Signed Out'),
-          content: Text('Do you need to sign out.'),
+          title: Text('Log Out'),
+          content: Text('Do you need to Log out.'),
           actions: <Widget>[
             ElevatedButton(
               child: Text('OK'),
@@ -136,15 +201,10 @@ class FarmViewScreen extends StatelessWidget {
 }
 
 class FarmCard extends StatelessWidget {
-  final String farmName;
-  final String farmLocation;
-  final String farmDistance;
+  final List<Farm> farm;
+  final int index;
 
-  const FarmCard({
-    required this.farmName,
-    required this.farmLocation,
-    required this.farmDistance,
-  });
+  FarmCard(this.farm,this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +215,7 @@ class FarmCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => FarmDetailView())),
+            context, MaterialPageRoute(builder: (context) => FarmDetailView(farm,index))),
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Center(
@@ -164,7 +224,7 @@ class FarmCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    farmName,
+                    farm[index].name,
                     // Replace with the farm name from the database
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -173,7 +233,7 @@ class FarmCard extends StatelessWidget {
                         .location_on_outlined), // Add your desired prefix icon here
                     SizedBox(width: 5),
                     Text(
-                      farmLocation,
+                      farm[index].area,
                       style: TextStyle(fontSize: 15.0),
                     ),
                   ]),
@@ -187,7 +247,7 @@ class FarmCard extends StatelessWidget {
                         width:
                             5), */ // Adjust spacing between icon and text as needed
                       Text(
-                        farmDistance,
+                        farm[index].email,
                         // Replace with the farm name from the database
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
