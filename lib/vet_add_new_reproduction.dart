@@ -4,24 +4,6 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
-/*void main() {
-  runApp(Home());
-}
-
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: ReproductionEntry(),
-    );
-  }
-}*/
-
 class ReproductionEntry extends StatefulWidget {
   @override
   _ReproductionEntryState createState() => _ReproductionEntryState();
@@ -256,7 +238,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 height: 60,
                 width: 350,
                 child: TextField(
-                  obscureText: true,
+                  obscureText: false,
                   decoration: InputDecoration(
                     labelText: 'Code',
                     border: OutlineInputBorder(),
@@ -278,7 +260,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 height: 60,
                 width: 350,
                 child: TextField(
-                  obscureText: true,
+                  obscureText: false,
                   decoration: InputDecoration(
                     labelText: 'in code',
                     border: OutlineInputBorder(),
@@ -332,7 +314,7 @@ class CustomCardWidget extends StatelessWidget {
                           fit: BoxFit.cover,
                           alignment: Alignment
                               .bottomCenter // Ensures the image covers the entire container
-                      ),
+                          ),
                     ),
                   ),
                   SizedBox(width: 10),
