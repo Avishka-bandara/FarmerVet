@@ -4,23 +4,6 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
-/*void main() {
-  runApp(Home());
-}
-
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: ReproductionEntry(),
-    );
-  }
-}*/
 
 class ReproductionEntry extends StatefulWidget {
   @override
