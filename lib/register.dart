@@ -76,7 +76,7 @@ class RegisterScreen extends StatelessWidget {
                                             UserRegistrationForm()));
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Color.fromRGBO(28, 42, 58, 1),
+                                backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                                 fixedSize: const Size(
                                     300, 50), // Change the color as needed
                               ),
@@ -103,10 +103,11 @@ class RegisterScreen extends StatelessWidget {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => RegisterVetForm()));
+                                        builder: (context) =>
+                                            RegisterVetForm()));
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Color.fromRGBO(28, 42, 58, 1),
+                                backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                                 fixedSize: const Size(
                                     300, 50), // Change the color as needed
                               ),

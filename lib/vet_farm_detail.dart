@@ -1,6 +1,7 @@
 import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:flutter/material.dart';
+import 'vet_farm_breeding_info.dart';
 
 class FarmDetailView extends StatelessWidget {
   @override
@@ -49,8 +50,18 @@ class FarmDetailView extends StatelessWidget {
                 Container(
                   child: Image.asset('assets/milk.png'),
                 ),
-                Container(
-                  child: Image.asset('assets/breed.png'),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BreedingInfo()),
+                    );
+                    // Handle button tap event
+                    // For example, navigate to another screen or perform some action
+                  },
+                  child: Container(
+                    child: Image.asset('assets/breed.png'),
+                  ),
                 )
               ],
             )

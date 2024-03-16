@@ -2,6 +2,8 @@ import 'package:farmervet/user_login.dart';
 import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
+import 'package:farmervet/vet_required_farm_visit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FarmViewScreen extends StatelessWidget {
@@ -89,7 +91,13 @@ class FarmViewScreen extends StatelessWidget {
                   ),
                   ListTile(
                     title: Text('Requard Farm Visit'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Required_visits()),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -99,16 +107,39 @@ class FarmViewScreen extends StatelessWidget {
               title: Text('Logout'),
               leading: Icon(Icons.logout),
               onTap: () {
-                Navigator.pop(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
+                signout(context);
               },
             ),
             SizedBox(height: 40)
           ],
         ),
       ),
+    );
+  }
+
+  void signout(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Signed Out'),
+          content: Text('Do you need to sign out.'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('OK'),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            LoginScreen())); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -147,8 +178,8 @@ class FarmCard extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Row(children: [
-                    Icon(Icons
-                        .location_on_outlined), // Add your desired prefix icon here
+                    Icon(Icons.location_on_outlined),
+                    // Add your desired prefix icon here
                     SizedBox(width: 5),
                     Text(
                       farmLocation,
@@ -163,7 +194,8 @@ class FarmCard extends StatelessWidget {
                         .location_on_outlined), // Add your desired prefix icon here
                     SizedBox(
                         width:
-                            5), */ // Adjust spacing between icon and text as needed
+                            5), */
+                      // Adjust spacing between icon and text as needed
                       Text(
                         farmDistance,
                         // Replace with the farm name from the database

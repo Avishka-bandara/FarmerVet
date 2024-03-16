@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/vet_farm_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:farmervet/user_login.dart';
 import 'farmer_animal.dart';
+import 'firebase_auth_services.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,20 +17,68 @@ Future main() async {
           projectId: "farmervet-4e6b9"));
   await Firebase.initializeApp();
 
-  User? user = FirebaseAuth.instance.currentUser;
-  runApp(FarmerVetApp(user: user));
+  runApp(FarmerVetApp());
 }
 
 class FarmerVetApp extends StatelessWidget {
-  final User? user;
+  late Size screenSize;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuthService _auth=FirebaseAuthService();
 
-  FarmerVetApp({this.user});
+  Future<Widget> checkRole() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      DocumentSnapshot userSnapshot = await _firestore.collection('user role').doc(user.uid).get();
+      Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>? ?? {};
+      String? role = userData['role'];
+
+      if (role == 'vet') {
+        return FarmViewScreen();
+      } else if (role == 'farmer') {
+        return Animal();
+      }
+    }
+    // Default screen if role is not found or user is not logged in
+    return LoginScreen();
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: user != null ? Animal() : LoginScreen(),
+      home: FutureBuilder(
+          future: checkRole(),
+          builder: (context,snapshot){
+            if (snapshot.connectionState == ConnectionState.done) {
+              return snapshot.data ?? LoginScreen(); // Use LoginScreen as default
+            } else {
+              return Scaffold(
+                body: Container(
+                  height: screenSize.height,
+                    width: screenSize.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(color: Colors.black),
+                            SizedBox(width: 20,),
+                            Text("Loading data ....."),
+                          ],
+                        ),
+                      ],
+                    )),
+              );
+            }
+          }),
     );
   }
+
+
+
 }
