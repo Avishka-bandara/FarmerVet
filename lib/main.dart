@@ -55,25 +55,7 @@ class FarmerVetApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.done) {
               return snapshot.data ?? LoginScreen(); // Use LoginScreen as default
             } else {
-              return Scaffold(
-                body: Container(
-                  height: screenSize.height,
-                    width: screenSize.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircularProgressIndicator(color: Colors.black),
-                            SizedBox(width: 20,),
-                            Text("Loading data ....."),
-                          ],
-                        ),
-                      ],
-                    )),
-              );
+              return LoginScreen();
             }
           }),
     );

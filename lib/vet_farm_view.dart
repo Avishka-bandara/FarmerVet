@@ -1,63 +1,121 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/farmList.dart';
 import 'package:farmervet/user_login.dart';
-import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
-import 'package:farmervet/vet_required_farm_visit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: FarmViewScreen(),
-  ));
-}
+import 'CowList.dart';
+import 'farmList.dart';
+import 'farmList.dart';
 
 class FarmViewScreen extends StatelessWidget {
+  User? user = FirebaseAuth.instance.currentUser;
+  late Size screenSize;
   @override
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Farm View'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(height: 16.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  hintText: 'Search farms',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+      body: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                SizedBox(height: 16.0),
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    //fillColor: Color.fromRGBO(209, 213, 219, 1),
+                    hintText: 'Search farms',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    prefixIcon: const Icon(Icons.search_outlined),
                   ),
-                  prefixIcon: const Icon(Icons.search_outlined),
                 ),
-              ),
+
+                SizedBox(height: 20,),
+                FutureBuilder<QuerySnapshot>(
+                  future: FirebaseFirestore.instance.collection('Farm details').get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Wrap(
+                        children: [
+                          Container(
+                              height: 450,
+                              width: screenSize.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const CircularProgressIndicator(color: Colors.black),
+                                  SizedBox(height: 20,),
+                                  Text("Loading data"),
+                                ],
+                              )),
+                        ],
+                      );
+                    }
+                    else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
+                      );
+                    }
+                    else {
+                      List<Farm> farm = [];
+                      snapshot.data!.docs.forEach((doc) {
+                        farm.add(Farm.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+                      });
+                      if (farm.isEmpty) {
+                        return Wrap(
+                          children: [
+                            Container(
+                                width: screenSize.width,
+                                height: 450,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('No details found'),
+                                  ],
+                                )),
+                          ],
+                        );
+                      } else {
+                        return Container(
+                          width: screenSize.width,
+                          height: screenSize.height,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Column(
+                                  children: [
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: farm.length,
+                                      itemBuilder: (context, index) {
+                                        return FarmCard(farm,index);
+                                      },
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                ),
+              ],
             ),
-            SizedBox(height: 16.0),
-            FarmCard(
-              farmName: 'Farm A',
-              farmLocation: 'Location A',
-              farmDistance: '5 km',
-            ),
-            SizedBox(height: 16.0),
-            FarmCard(
-              farmName: 'Farm B',
-              farmLocation: 'Location B',
-              farmDistance: '25 km',
-            ),
-            SizedBox(height: 16.0),
-            FarmCard(
-              farmName: 'Farm C',
-              farmLocation: 'Location C',
-              farmDistance: '15 km',
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: Column(
@@ -71,17 +129,13 @@ class FarmViewScreen extends StatelessWidget {
                     height: 200,
                   ),
                   ListTile(
-                    title: Text('Overview',
-                        style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                    title: Text('Overview'),
                     onTap: () {
                       // navigate to the overview screen bar chart
                     },
                   ),
                   ListTile(
-                    title: Text(
-                      'View Farms',
-                      style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                    ),
+                    title: Text('View Farms'),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -91,33 +145,25 @@ class FarmViewScreen extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: Text('Reported Health Issue',
-                        style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => vet_animal()),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text('Requard Farm Visit',
-                        style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                    title: Text('Reported Health Issue'),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Required_visits()),
+                            builder: (context) => vetAnimalIssue()),
                       );
                     },
+                  ),
+                  ListTile(
+                    title: Text('Requard Farm Visit'),
+                    onTap: () {},
                   ),
                 ],
               ),
             ),
             // This ListTile is now at the bottom of the Drawer
             ListTile(
-              title: Text('Logout',
-                  style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+              title: Text('Logout'),
               leading: Icon(Icons.logout),
               onTap: () {
                 signout(context);
@@ -130,26 +176,20 @@ class FarmViewScreen extends StatelessWidget {
     );
   }
 
-  void signout(BuildContext context) async {
+  void signout (BuildContext context)async{
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Signed Out',
-              style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-          content: Text('Do you need to sign out.',
-              style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+          title: Text('Log Out'),
+          content: Text('Do you need to Log out.'),
           actions: <Widget>[
             ElevatedButton(
               child: Text('OK'),
-              onPressed: () async {
+              onPressed: () async{
                 await FirebaseAuth.instance.signOut();
                 Navigator.pop(context);
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            LoginScreen())); // Close the dialog
+                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginScreen())); // Close the dialog
               },
             ),
           ],
@@ -157,32 +197,14 @@ class FarmViewScreen extends StatelessWidget {
       },
     );
   }
+
 }
 
-class FarmCard extends StatefulWidget {
-  final String farmName;
-  final String farmLocation;
-  final String farmDistance;
+class FarmCard extends StatelessWidget {
+  final List<Farm> farm;
+  final int index;
 
-  const FarmCard({
-    required this.farmName,
-    required this.farmLocation,
-    required this.farmDistance,
-  });
-
-  @override
-  _FarmCardState createState() => _FarmCardState();
-}
-
-class _FarmCardState extends State<FarmCard> {
-  bool isActive = false; // Initialize the checkbox state
-
-  // Function to update the database
-  void updateDatabase(bool newValue) {
-    // Simulate updating the database with the new status
-    print('Updating database with status: ${newValue ? "Inactive" : "Active"}');
-    // Add your database update logic here
-  }
+  FarmCard(this.farm,this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -193,68 +215,47 @@ class _FarmCardState extends State<FarmCard> {
       ),
       child: InkWell(
         onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => FarmDetailView()),
-        ),
+            context, MaterialPageRoute(builder: (context) => FarmDetailView(farm,index))),
         child: Padding(
           padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Center(
+            child: Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.farmName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color:
-                          isActive ? Colors.red : Color.fromRGBO(28, 42, 58, 1),
-                    ),
+                    farm[index].name,
+                    // Replace with the farm name from the database
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Checkbox(
-                    value: isActive,
-                    onChanged: (newValue) {
-                      // Update the checkbox state
-                      setState(() {
-                        isActive = newValue!;
-                        // Call function to update the database
-                        updateDatabase(newValue!);
-                      });
-                    },
+                  Row(children: [
+                    Icon(Icons
+                        .location_on_outlined), // Add your desired prefix icon here
+                    SizedBox(width: 5),
+                    Text(
+                      farm[index].area,
+                      style: TextStyle(fontSize: 15.0),
+                    ),
+                  ]),
+                  Divider(thickness: 1.0),
+                  SizedBox(height: 5),
+                  Row(
+                    children: [
+                      /*Icon(Icons
+                        .location_on_outlined), // Add your desired prefix icon here
+                    SizedBox(
+                        width:
+                            5), */ // Adjust spacing between icon and text as needed
+                      Text(
+                        farm[index].email,
+                        // Replace with the farm name from the database
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: Color.fromRGBO(28, 42, 58, 1),
-                    size: 20.0,
-                  ),
-                  Text(
-                    widget.farmLocation,
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Color.fromRGBO(28, 42, 58, 1),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(thickness: 1.0),
-              SizedBox(height: 5),
-              Row(
-                children: [
-                  Text(
-                    widget.farmDistance,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(28, 42, 58, 1),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+            ),
           ),
         ),
       ),
