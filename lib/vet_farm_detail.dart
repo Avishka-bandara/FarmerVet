@@ -1,5 +1,6 @@
 import 'package:farmervet/farmList.dart';
 import 'package:farmervet/farm_milk_output.dart';
+import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_breeding_info.dart';
 import 'package:flutter/material.dart';
@@ -50,39 +51,56 @@ class FarmDetailView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => vetAnimalIssue()),
-                    );
-                  },
-                  child: Container(
-                    child: Image.asset('assets/view.png'),
-                  ),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => vet_animal()),
+                        );
+                      },
+                      child: Container(
+                        child: Image.asset('assets/view.png'),
+                      ),
+                    ),
+                    Text("Animal View")
+                  ],
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => totalMilkOutput()),
-                    );
-                  },
-                  child: Container(
-                    child: Image.asset('assets/milk.png'),
-                  ),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => totalMilkOutput()),
+                        );
+                      },
+                      child: Container(
+                        child: Image.asset('assets/milk.png'),
+                      ),
+                    ),
+                    Text("Total Milk View")
+                  ],
                 ),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BreedingInfo()),
-                      );
-                    },
-                    child: Container(
-                      child: Image.asset('assets/breed.png'),
-                    )),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BreedingInfo()),
+                        );
+                      },
+                      child: Container(
+                        child: Image.asset('assets/breed.png'),
+                      ),
+                    ),
+                    Text("Breeding View"),
+                  ],
+                ),
               ],
             )
           ],
