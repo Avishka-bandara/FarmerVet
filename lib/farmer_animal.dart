@@ -297,8 +297,8 @@ void signout (BuildContext context)async{
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Signed Out'),
-        content: Text('Do you need to sign out.'),
+        title: Text('Log Out'),
+        content: Text('Do you need to Log out.'),
         actions: <Widget>[
           ElevatedButton(
             child: Text('OK'),
