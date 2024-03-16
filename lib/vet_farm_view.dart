@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmervet/farmList.dart';
+import 'package:farmervet/overview.dart';
 import 'package:farmervet/user_login.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
@@ -19,7 +20,10 @@ class FarmViewScreen extends StatelessWidget {
     screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Farm View'),
+        title: Text(
+          'Farm View',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Wrap(
@@ -137,7 +141,11 @@ class FarmViewScreen extends StatelessWidget {
                   ListTile(
                     title: Text('Overview'),
                     onTap: () {
-                      // navigate to the overview screen bar chart
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OverviewScreen()),
+                      );
                     },
                   ),
                   ListTile(
