@@ -1,11 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'dart:io';
 
+import 'CowList.dart';
 import 'farmer_animal.dart';
 
-class ReportAnimal extends StatelessWidget {
+class ReportAnimal extends StatefulWidget {
+
+  final List<Cow> cows;
+  final int index;
+  ReportAnimal({required this.cows,required this.index});
+
+  @override
+  State<ReportAnimal> createState() => _ReportAnimalState();
+}
+
+class _ReportAnimalState extends State<ReportAnimal> {
+  String _currentDateTime = '';
+  bool isLoading = false;
+  User? user = FirebaseAuth.instance.currentUser;
+  String? _selectedIssue;
+  final TextEditingController issuecontroller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +48,52 @@ class ReportAnimal extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
-              IssueButtons(),
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    OutlinedButton(
+                      onPressed: (){
+                        setState(() {
+                          _selectedIssue = 'Limping';
+                        });
+                      },
+                      child: Text('Limping'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {
+                        _selectedIssue = 'Diarrhea';
+                      },
+                      child: Text('Diarrhea'),
+                    ),
+                    OutlinedButton(
+                      onPressed: (){
+                        _selectedIssue = 'Fever';
+                        showToast(_selectedIssue!);
+                      },
+                      child: Text('Fever'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (int i = 1; i <= 3; i++)
+                      OutlinedButton(
+                        onPressed: () => print('Symptoms $i'),
+                        child: Text('Symptoms'),
+                      ),
+                  ],
+                )
+              ],
+            ),
               SizedBox(height: 10),
               TextField(
+                controller: issuecontroller,
                 decoration: InputDecoration(
                   helperText: 'Ex: Cow is lazy, not eating, dull eyes',
                   hintText: "optional",
@@ -50,17 +114,35 @@ class ReportAnimal extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: ElevatedButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Animal()));
+              register();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color.fromRGBO(28, 42, 58, 1),
             ),
-            child: Text(
-              'Submit ',
+            child: isLoading
+                ? const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Submitting....  ',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    )),
+              ],
+            )
+                : const Text(
+              'Submit',
               style: TextStyle(
+                fontSize: 16.0,
                 color: Colors.white,
-                fontSize: 20.0,
               ),
             ),
           ),
@@ -68,43 +150,57 @@ class ReportAnimal extends StatelessWidget {
       ),
     );
   }
-}
 
-class IssueButtons extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            OutlinedButton(
-              onPressed: () => print('Limping'),
-              child: Text('Limping'),
-            ),
-            OutlinedButton(
-              onPressed: () => print('Diarrhea'),
-              child: Text('Diarrhea'),
-            ),
-            OutlinedButton(
-              onPressed: () => print('Fever'),
-              child: Text('Fever'),
-            ),
-          ],
-        ),
-        SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            for (int i = 1; i <= 3; i++)
-              OutlinedButton(
-                onPressed: () => print('Symptoms $i'),
-                child: Text('Symptoms'),
-              ),
-          ],
-        )
-      ],
+  void _updateDateTime() {
+    setState(() {
+      _currentDateTime = DateFormat('yyyy-MM-dd - HH:mm').format(DateTime.now());
+    });
+  }
+
+  Future<void> register() async {
+    _updateDateTime();
+    setState(() {
+      isLoading = true;
+    });
+
+    String? issue;
+    _selectedIssue==null?issue=issuecontroller.text: issue=_selectedIssue;
+
+    await FirebaseFirestore.instance
+        .collection('Farm details/' +user!.uid +'/health issue')
+        .doc()
+        .set({
+      'animal id':widget.cows[widget.index].id,
+      'animalissue': _selectedIssue,
+      'timeDate':_currentDateTime,
+      'cowname':widget.cows[widget.index].name,
+      'cowtype':widget.cows[widget.index].type,
+      'cowage':widget.cows[widget.index].age,
+      // Add more fields as needed
+    }).then((value) {
+      setState(() {
+        isLoading = false;
+      });
+      showToast("Saved");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Animal()));
+    }).catchError((error) {
+      setState(() {
+        isLoading = false;
+      });
+      print("Failed to store data: $error");
+    });
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 }
@@ -170,4 +266,5 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       ),
     );
   }
+
 }

@@ -57,7 +57,7 @@ class FarmDetailView extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => vet_animal()),
+                          MaterialPageRoute(builder: (context) => vet_animal(farm: farm,index: index,)),
                         );
                       },
                       child: Container(

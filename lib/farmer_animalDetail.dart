@@ -71,7 +71,7 @@ class AnimalDetail extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ReportAnimal()));
+                  MaterialPageRoute(builder: (context) => ReportAnimal(cows: cows,index: index,)));
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
