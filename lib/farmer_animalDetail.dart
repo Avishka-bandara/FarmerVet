@@ -11,7 +11,7 @@ class AnimalDetail extends StatelessWidget {
   final List<Cow> cows;
   final int index;
 
-  AnimalDetail(this.cows,this.index);
+  AnimalDetail(this.cows, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class AnimalDetail extends StatelessWidget {
         padding: EdgeInsets.all(8.0), // Add padding to the whole screen
         child: ListView(
           children: [
-            CustomCardWidget(cows,index),
+            CustomCardWidget(cows, index),
             SizedBox(height: 10),
             const Text(
               'Record the vaccination given to the animal',
@@ -39,7 +39,7 @@ class AnimalDetail extends StatelessWidget {
                   // Logic for adding vaccination details
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(28, 42, 58, 1),
+                  backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                   fixedSize: const Size(200, 36),
                 ),
                 child: const Text(
@@ -70,11 +70,11 @@ class AnimalDetail extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: ElevatedButton(
             onPressed: () {
-
-              Navigator.push(context,MaterialPageRoute(builder: (context)=> ReportAnimal()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ReportAnimal()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.black,
+              backgroundColor: Colors.black,
             ),
             child: Text(
               'Add New Issue',
@@ -100,11 +100,10 @@ class AnimalDetail extends StatelessWidget {
 }
 
 class CustomCardWidget extends StatelessWidget {
-
   final List<Cow> cows;
   final int index;
 
-  CustomCardWidget(this.cows,this.index);
+  CustomCardWidget(this.cows, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +119,8 @@ class CustomCardWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 image: DecorationImage(
-                  image: AssetImage(
-                      getImageAsset(cows[index].type)), // Load the image from the database
+                  image: AssetImage(getImageAsset(cows[index].type)),
+                  // Load the image from the database
                   fit: BoxFit.cover,
                 ),
               ),
@@ -144,7 +143,7 @@ class CustomCardWidget extends StatelessWidget {
                           removeAnimal(context);
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromRGBO(234, 67, 53, 1),
+                          backgroundColor: Color.fromRGBO(234, 67, 53, 1),
                         ),
                         child: const Text(
                           'Remove Animal',
@@ -159,7 +158,7 @@ class CustomCardWidget extends StatelessWidget {
                   Divider(thickness: 1.0),
                   Text(cows[index].tag, style: TextStyle(fontSize: 15.0)),
                   Text(
-                    cows[index].age+" Months",
+                    cows[index].age + " Months",
                     style: TextStyle(fontSize: 15.0),
                     textAlign: TextAlign.right,
                   ),
@@ -176,6 +175,7 @@ class CustomCardWidget extends StatelessWidget {
       ),
     );
   }
+
   String getImageAsset(String name) {
     switch (name) {
       case "Bull":
@@ -189,22 +189,20 @@ class CustomCardWidget extends StatelessWidget {
     }
   }
 
-  void removeAnimal (BuildContext context)async{
+  void removeAnimal(BuildContext context) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Remove Animal'),
-          content: Text('Do you want to remove '+cows[index].name),
+          content: Text('Do you want to remove ' + cows[index].name),
           actions: <Widget>[
             ElevatedButton(
               child: Text('OK'),
               onPressed: () {
-                deleteDocument(cows[index].id,onDeleted: (){
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Animal())
-                  );
+                deleteDocument(cows[index].id, onDeleted: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Animal()));
                 }); // Close the dialog
               },
             ),
@@ -214,7 +212,8 @@ class CustomCardWidget extends StatelessWidget {
     );
   }
 
-  Future<void> deleteDocument(String documentId,{VoidCallback? onDeleted}) async {
+  Future<void> deleteDocument(String documentId,
+      {VoidCallback? onDeleted}) async {
     User? user = FirebaseAuth.instance.currentUser;
     try {
       await FirebaseFirestore.instance
@@ -242,9 +241,10 @@ class _OnIssueState extends State<OnIssue> {
     return GridView.count(
       crossAxisCount: 1,
       mainAxisSpacing: 8.0,
-      shrinkWrap:
-          true, // Add this to allow GridView to scroll inside SingleChildScrollView
-      physics: NeverScrollableScrollPhysics(), // Prevent scrolling of GridView
+      shrinkWrap: true,
+      // Add this to allow GridView to scroll inside SingleChildScrollView
+      physics: NeverScrollableScrollPhysics(),
+      // Prevent scrolling of GridView
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,7 +267,7 @@ class _OnIssueState extends State<OnIssue> {
                             // Logic for the button
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromRGBO(254, 176, 82, 1),
+                            backgroundColor: Color.fromRGBO(254, 176, 82, 1),
                           ),
                           child: Text(
                             'Minor Issue',
@@ -293,7 +293,7 @@ class _OnIssueState extends State<OnIssue> {
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(180, 20),
-                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                   ),
                   child: Text('Now Healthy',
                       style: TextStyle(color: Colors.white)),
@@ -318,5 +318,3 @@ class _OnIssueState extends State<OnIssue> {
     );
   }
 }
-
-

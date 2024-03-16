@@ -67,6 +67,7 @@ class CustomSearchBar extends StatefulWidget {
 class _CustomSearchBarState extends State<CustomSearchBar> {
   String searchText = '';
   List<String> selectedKeywords = [];
+
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -244,7 +245,7 @@ class CustomCardWidget extends StatelessWidget {
                               builder: (context) => vet_animalIssue()));*/
                 },
                 style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                     fixedSize: const Size(300, 50)),
                 child: Text(
                   "View Info",
