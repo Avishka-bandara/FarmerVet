@@ -27,7 +27,9 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
       appBar: AppBar(
         centerTitle: false,
         title: Text('Daily Milk Entry',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(28, 42, 58, 1))),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -46,9 +48,9 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                         child: Text(
                           'Date',
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(28, 42, 58, 1)),
                         ),
                       ),
                       SizedBox(height: 8),
@@ -96,6 +98,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(28, 42, 58, 1),
                         ),
                       ),
                       SizedBox(
@@ -126,6 +129,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(28, 42, 58, 1),
                         ),
                       ),
                       SizedBox(
@@ -152,7 +156,8 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                     fixedSize: const Size(300, 50),
                   ),
                   onPressed: () {
-                    // save the information to the database and navigate to the home screen
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Animal()));
                   },
                   child: Text(
                     'Submit',
@@ -173,7 +178,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                     ), // Change the color as needed
                   ),
                   onPressed: () {
-                    Navigator.push(context,
+                    Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => Animal()));
                   },
                   child: Text(

@@ -4,8 +4,6 @@ import 'package:farmervet/vet_farm_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-
 import 'firebase_auth_services.dart';
 
 class RegisterVetForm extends StatefulWidget {
@@ -14,8 +12,8 @@ class RegisterVetForm extends StatefulWidget {
 }
 
 class _RegisterVetFormState extends State<RegisterVetForm> {
-  final FirebaseAuthService _auth=FirebaseAuthService();
-  bool isLoading=false;
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  bool isLoading = false;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -85,30 +83,35 @@ class _RegisterVetFormState extends State<RegisterVetForm> {
                     checkSignup();
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(28, 42, 58, 1),
+                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                     fixedSize: const Size(300, 50),
                   ),
-                  child: isLoading? const Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Creating an account....  ',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
+                  child: isLoading
+                      ? const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Creating an account....  ',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                )),
+                          ],
+                        )
+                      : const Text(
+                          'Create a account',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                          height:30,
-                          width: 30,
-                          child: CircularProgressIndicator(color: Colors.white,)),
-                    ],
-                  ): const Text(
-                    'Create a account',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
-                  ),
                 ),
               ),
               SizedBox(height: 16)
@@ -119,59 +122,61 @@ class _RegisterVetFormState extends State<RegisterVetForm> {
     );
   }
 
-  void signup (String email,String password,String username)async{
-
-    try{
-      User? user=await _auth.signUpWithEmailAndPassword(email, password);
-      if(user!=null){
+  void signup(String email, String password, String username) async {
+    try {
+      User? user = await _auth.signUpWithEmailAndPassword(email, password);
+      if (user != null) {
         setState(() {
-          isLoading=false;
+          isLoading = false;
         });
 
-        await FirebaseFirestore.instance.collection('vet details').doc(user.uid).set({
-          'User Id':user.uid,
-          'Vet Email':email,
-          'User Name':username,
+        await FirebaseFirestore.instance
+            .collection('vet details')
+            .doc(user.uid)
+            .set({
+          'User Id': user.uid,
+          'Vet Email': email,
+          'User Name': username,
           // Add more fields as needed
         });
 
-        await FirebaseFirestore.instance.collection('user role').doc(user.uid).set({
-          'role':'vet',
+        await FirebaseFirestore.instance
+            .collection('user role')
+            .doc(user.uid)
+            .set({
+          'role': 'vet',
           // Add more fields as needed
         });
         showToast("Account Created Successfully");
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> FarmViewScreen()));
-      }
-
-      else{
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => FarmViewScreen()));
+      } else {
         setState(() {
-          isLoading=false;
+          isLoading = false;
         });
         showToast("This account is already exists");
       }
-    }catch(e){
+    } catch (e) {
       print(e.toString());
       showToast(e.toString());
     }
-
   }
 
-  void checkSignup(){
+  void checkSignup() {
     String username = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
 
-    if(!password.isEmpty && !username.isEmpty && !email.isEmpty){
-      if(password.length>=6){
+    if (!password.isEmpty && !username.isEmpty && !email.isEmpty) {
+      if (password.length >= 6) {
         setState(() {
-          isLoading=true;
+          isLoading = true;
         });
-        signup(email,password,username);
-      }else{
+        signup(email, password, username);
+      } else {
         showToast("Password must be include at least 6 characters");
       }
-
-    }else{
+    } else {
       showToast("All the fields must be filled");
     }
   }
