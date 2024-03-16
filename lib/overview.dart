@@ -33,7 +33,7 @@ class OverviewScreen extends StatelessWidget {
                           Text(
                             'Active Farms',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -46,9 +46,8 @@ class OverviewScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // Add some spacing between the VerticalDivider and the Column
                       SizedBox(
-                        height: 60, // Adjust the height as needed
+                        height: 60,
                         child:
                             VerticalDivider(thickness: 1, color: Colors.black),
                       ),
@@ -57,7 +56,7 @@ class OverviewScreen extends StatelessWidget {
                           Text(
                             'Inactive Farms',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -74,10 +73,10 @@ class OverviewScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            ), // Showing the Deseased unproductive and lost/stolen animals
             Container(
-              height: 100.0,
-              margin: EdgeInsets.only(top: 20.0),
+              //height: 100.0,
+              margin: EdgeInsets.only(top: 30.0),
               decoration: BoxDecoration(
                 color: Color.fromRGBO(217, 217, 217, 1),
                 borderRadius: BorderRadius.circular(12.0),
@@ -94,44 +93,180 @@ class OverviewScreen extends StatelessWidget {
                           Text(
                             'Deseased',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(height: 5.0),
                           Text(
-                            '20', // Example value for active farmers
+                            '20', // Example value for deseased animals
                             style: TextStyle(
-                              fontSize: 16.0,
-                            ),
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(29, 36, 217, 1),
+                                fontWeight: FontWeight.bold),
                           ),
+                          SizedBox(height: 5.0),
+                          Text(
+                            '35', // Example value for deseased animals
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(180, 187, 17, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5.0),
+                          Text(
+                            '35', // Example value for deseased animals
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(50, 119, 32, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 10)
                         ],
                       ),
                       SizedBox(
-                        height: 60, // Adjust the height as needed
+                        height: 100, // Adjust the height as needed
                         child:
                             VerticalDivider(thickness: 1, color: Colors.black),
                       ),
                       Column(
                         children: [
                           Text(
-                            'Inactive Farmers',
+                            'Unproductive',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(height: 5.0),
                           Text(
-                            '5', // Example value for inactive farmers
+                            '5', // Example value for Unproductive animals
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(29, 36, 217, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5.0),
+                          Text(
+                            '15', // Example value for deseased animals
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(180, 187, 17, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5.0),
+                          Text(
+                            '35', // Example value for deseased animals
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(50, 119, 32, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 100, // Adjust the height as needed
+                        child:
+                            VerticalDivider(thickness: 1, color: Colors.black),
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Lost/stolen',
                             style: TextStyle(
                               fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
                             ),
+                          ),
+                          SizedBox(height: 5.0),
+                          Text(
+                            '15', // Example value for lost/stolen animals
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(29, 36, 217, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5.0),
+                          Text(
+                            '2', // Example value for deseased animals
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(180, 187, 17, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5.0),
+                          Text(
+                            '35', // Example value for deseased animals
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(50, 119, 32, 1),
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 40), // Adjust the height as needed
+                      Text(
+                        "Total Active Animals",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  // Showing the total active animals
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Text('60',
+                                style: TextStyle(
+                                    color: Color.fromRGBO(29, 36, 217, 1),
+                                    fontWeight: FontWeight.bold)),
+                            Text('Cow',
+                                style: TextStyle(
+                                    color: Color.fromRGBO(29, 36, 217, 1),
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text('60',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Color.fromRGBO(180, 187, 17, 1),
+                                    fontWeight: FontWeight.bold)),
+                            Text('Calf',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Color.fromRGBO(180, 187, 17, 1),
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              '35', // Example value for deseased animals
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Color.fromRGBO(50, 119, 32, 1),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'Heifer', // Example value for deseased animals
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Color.fromRGBO(50, 119, 32, 1),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ]),
+                  SizedBox(height: 10),
                 ],
               ),
             ),

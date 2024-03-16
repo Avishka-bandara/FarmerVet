@@ -23,14 +23,16 @@ Future main() async {
 class FarmerVetApp extends StatelessWidget {
   late Size screenSize;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuthService _auth=FirebaseAuthService();
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
   Future<Widget> checkRole() async {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      DocumentSnapshot userSnapshot = await _firestore.collection('user role').doc(user.uid).get();
-      Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>? ?? {};
+      DocumentSnapshot userSnapshot =
+          await _firestore.collection('user role').doc(user.uid).get();
+      Map<String, dynamic> userData =
+          userSnapshot.data() as Map<String, dynamic>? ?? {};
       String? role = userData['role'];
 
       if (role == 'vet') {
@@ -43,7 +45,6 @@ class FarmerVetApp extends StatelessWidget {
     return LoginScreen();
   }
 
-
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -51,16 +52,14 @@ class FarmerVetApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(
           future: checkRole(),
-          builder: (context,snapshot){
+          builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return snapshot.data ?? LoginScreen(); // Use LoginScreen as default
+              return snapshot.data ??
+                  LoginScreen(); // Use LoginScreen as default
             } else {
               return LoginScreen();
             }
           }),
     );
   }
-
-
-
 }

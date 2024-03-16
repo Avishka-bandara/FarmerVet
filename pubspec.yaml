@@ -39,6 +39,7 @@ dependencies:
   hover: ^0.4.0
   get: ^4.3.8
   easy_search_bar: ^2.5.0
+  fl_chart: ^0.35.0
   
 
 
