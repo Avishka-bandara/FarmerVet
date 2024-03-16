@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmervet/farmList.dart';
 import 'package:farmervet/overview.dart';
 import 'package:farmervet/user_login.dart';
+import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_detail.dart';
 import 'package:farmervet/vet_required_farm_visit.dart';
@@ -163,8 +164,7 @@ class FarmViewScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => vetAnimalIssue()),
+                        MaterialPageRoute(builder: (context) => vet_animal()),
                       );
                     },
                   ),

@@ -1,3 +1,4 @@
+import 'package:farmervet/vet_reproduction.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
@@ -184,6 +185,11 @@ class CustomCardWidget extends StatelessWidget {
                       ),
                       onPressed: () {
                         // Functionality for the second button
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => vet_reproduction()),
+                        );
                       },
                       child: Text(
                         "View Reproduction",
