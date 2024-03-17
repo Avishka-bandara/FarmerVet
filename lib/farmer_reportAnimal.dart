@@ -80,15 +80,48 @@ class IssueButtons extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             OutlinedButton(
-              onPressed: () => print('Limping'),
+              onPressed: () {
+                print('Limping');
+              },
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return Colors.black.withOpacity(1); // Color when pressed
+                    }
+                    return Colors.red.withOpacity(1); // Default color
+                  },
+                ),
+              ),
               child: Text('Limping'),
             ),
+
             OutlinedButton(
               onPressed: () => print('Diarrhea'),
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return Colors.black.withOpacity(1); // Color when pressed
+                    }
+                    return Colors.red.withOpacity(1); // Default color
+                  },
+                ),
+              ),
               child: Text('Diarrhea'),
             ),
             OutlinedButton(
               onPressed: () => print('Fever'),
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return Colors.black.withOpacity(1); // Color when pressed
+                    }
+                    return Colors.red.withOpacity(1); // Default color
+                  },
+                ),
+              ),
               child: Text('Fever'),
             ),
           ],

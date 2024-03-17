@@ -1,26 +1,10 @@
+import 'package:farmervet/vet_farm_breeding_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 
-/*void main() {
-  runApp(Home());
-}
-
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: ReproductionEntry(),
-    );
-  }
-}*/
 
 class ReproductionEntry extends StatefulWidget {
   @override
@@ -56,15 +40,15 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
             CustomCardWidget(),
             SizedBox(height: 35),
             Text(
-              "Select Service",
+              "Select Session",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
             CustomDropdownField(
-              hintText: '1st Service',
-              items: ['Option 1', 'Option 2', 'Option 3'],
+              hintText: 'Session',
+              items: ['1st Session', '2nd Session', '3rd Session'],
               // List of dropdown items
               value: selectedValue,
               // Pass the selected value
@@ -286,16 +270,37 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 ),
               ),
 
-            SizedBox(height: 35),
+              Container(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize:Size(200, 10),
+                      backgroundColor:
+                            Color.fromRGBO(28, 42, 58, 1),
+                      side:
+                        BorderSide(
+                            color: Color.fromRGBO(28, 42, 58, 1), width: 1.0),
 
-            /*Text(
-              "Date",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            DatePickerFormField(),*/
+                    ),
+                    onPressed: () {
+                      // Data should be send to the database when user pressed the submit
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BreedingInfo()),
+
+                      );
+                    },
+                    child: Text(
+                      "Submit",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+
+
+
+
           ]),
         ),
       ),
