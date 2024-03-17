@@ -111,7 +111,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 child: TextField(
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'code',
+                    hintText: 'code',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -129,7 +129,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
             if (selectedValue_1 == 'Gave birth')
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  labelText: 'choose',
+                  hintText: 'choose',
                   border: OutlineInputBorder(),
                 ),
                 items: <String>[
@@ -240,7 +240,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 child: TextField(
                   obscureText: false,
                   decoration: InputDecoration(
-                    labelText: 'Code',
+                    hintText: 'Code',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -262,7 +262,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 child: TextField(
                   obscureText: false,
                   decoration: InputDecoration(
-                    labelText: 'in code',
+                    hintText: 'in code',
                     border: OutlineInputBorder(),
                   ),
                 ),
