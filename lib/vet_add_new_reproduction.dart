@@ -59,7 +59,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 });
               },
             ),
-            SizedBox(height: 35),
+            SizedBox(height: 25),
             Text(
               "Select Reproduction Stage",
               style: TextStyle(
@@ -68,26 +68,24 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
               ),
             ),
 
-            SizedBox(
-              child: CustomDropdownField(
-                hintText: "choose",
-                items: [
-                  'Set as inseminated',
-                  'Set as pregnant',
-                  'Gave birth',
-                  'Pregnancy failed'
-                ],
-                value: selectedValue_1,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedValue_1 = newValue!;
-                    // Reset selected date when changing dropdown value
-                    selectedDate = null;
-                  });
-                },
-              ),
+            CustomDropdownField(
+              hintText: "choose",
+              items: [
+                'Set as inseminated',
+                'Set as pregnant',
+                'Gave birth',
+                'Pregnancy failed'
+              ],
+              value: selectedValue_1,
+              onChanged: (newValue) {
+                setState(() {
+                  selectedValue_1 = newValue!;
+                  // Reset selected date when changing dropdown value
+                  selectedDate = null;
+                });
+              },
             ),
-            if (selectedValue_1 == 'Gave birth') SizedBox(height: 30),
+            if (selectedValue_1 == 'Gave birth') SizedBox(height: 20),
             if (selectedValue_1 == 'Gave birth')
               Text(
                 "Date of Birth",
@@ -148,7 +146,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                   // Handle dropdown value change
                 },
               ),
-            if (selectedValue_1 == 'Set as pregnant') SizedBox(height: 30),
+            if (selectedValue_1 == 'Set as pregnant') SizedBox(height: 20),
 
             // Conditionally render date input field if 'Set as inseminated' is selected
             if (selectedValue_1 == 'Set as pregnant')
@@ -176,7 +174,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
             SizedBox(height: 10),
 
             if (selectedValue_1 == 'Pregnancy failed') DatePickerFormField(),
-            SizedBox(height: 10),
+
             if (selectedValue_1 == 'Set as inseminated')
               Text(
                 "Date of Insemination",
@@ -185,10 +183,9 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            SizedBox(height: 10),
 
             if (selectedValue_1 == 'Set as inseminated') DatePickerFormField(),
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             if (selectedValue_1 == 'Set as inseminated')
               Text(
                 "Method of Insemination",
@@ -297,10 +294,6 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                     ),
                   ),
                 ),
-
-
-
-
           ]),
         ),
       ),
@@ -336,7 +329,7 @@ class CustomCardWidget extends StatelessWidget {
                           // Load image from the database
                           fit: BoxFit.cover,
                           alignment: Alignment
-                              .bottomCenter // Ensures the image covers the entire container
+                              .topRight // Ensures the image covers the entire container
                       ),
                     ),
                   ),
@@ -407,17 +400,32 @@ class CustomDropdownField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      value: value,
-      hint: Text(hintText),
-      onChanged: onChanged,
-      items: items.map((String item) {
-        return DropdownMenuItem<String>(
-          value: item,
-          child: Text(item),
-        );
-      }).toList(),
+    return Container(
+      height: 60,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: DropdownButtonFormField<String>(
+        value: value,
+        hint: Text(hintText),
+        onChanged: onChanged,
+        items: items.map((String item) {
+          return DropdownMenuItem<String>(
+            value: item,
+            child: Padding(
+              padding: EdgeInsets.all(2.0),
+              child: Text(item),
+            ),
+          );
+        }).toList(),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        ),
+      ),
     );
+
   }
 }
 

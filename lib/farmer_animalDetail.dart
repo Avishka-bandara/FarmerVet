@@ -100,136 +100,134 @@ class AnimalDetail extends StatelessWidget {
 }
 
 class CustomCardWidget extends StatelessWidget {
-final List<Cow> cows;
-final int index;
+  final List<Cow> cows;
+  final int index;
 
-CustomCardWidget(this.cows, this.index);
-
-@override
-Widget build(BuildContext context) {
+  CustomCardWidget(this.cows, this.index);
   int selectedRadio = 0; // Define selectedRadio within the build method
 
-  return Container(
-    margin: EdgeInsets.only(top: 10.0),
-    child: Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
-        children: [
-          Container(
-            width: 130,
-            height: 130,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              image: DecorationImage(
-                image: AssetImage(getImageAsset(cows[index].type)),
-                fit: BoxFit.cover,
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Row(
+          children: [
+            Container(
+              width: 130,
+              height: 130,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: AssetImage(getImageAsset(cows[index].type)),
+                  // Load the image from the database
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      cows[index].name,
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Reason for remove"),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  RadioListTile(
-                                    title: Text("Stolen"),
-                                    value: 1,
-                                    groupValue: selectedRadio,
-                                    onChanged: (value) {
-                                      Navigator.of(context).pop();
-                                      // You can handle the selected radio value here
-                                      selectedRadio = value as int;
-                                    },
-                                  ),
-                                  RadioListTile(
-                                    title: Text("Deceased "),
-                                    value: 2,
-                                    groupValue: selectedRadio,
-                                    onChanged: (value) {
-                                      Navigator.of(context).pop();
-                                      // You can handle the selected radio value here
-                                      selectedRadio = value as int;
-                                    },
-                                  ),
-                                  RadioListTile(
-                                    title: Text("Unproductive "),
-                                    value: 3,
-                                    groupValue: selectedRadio,
-                                    onChanged: (value) {
-                                      Navigator.of(context).pop();
-                                      // You can handle the selected radio value here
-                                      selectedRadio = value as int;
-                                    },
-                                  ),
-                                ],
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    cows[index].name,
+                    style: TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Reason for remove"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                RadioListTile(
+                                  title: Text("Stolen"),
+                                  value: 1,
+                                  groupValue: selectedRadio,
+                                  onChanged: (value) {
                                     Navigator.of(context).pop();
+                                    // You can handle the selected radio value here
+                                    selectedRadio = value as int;
                                   },
-                                  child: Text("Cancel"),
+                                ),
+                                RadioListTile(
+                                  title: Text("Deceased "),
+                                  value: 2,
+                                  groupValue: selectedRadio,
+                                  onChanged: (value) {
+                                    Navigator.of(context).pop();
+                                    // You can handle the selected radio value here
+                                    selectedRadio = value as int;
+                                  },
+                                ),
+                                RadioListTile(
+                                  title: Text("Unproductive "),
+                                  value: 3,
+                                  groupValue: selectedRadio,
+                                  onChanged: (value) {
+                                    Navigator.of(context).pop();
+                                    // You can handle the selected radio value here
+                                    selectedRadio = value as int;
+                                  },
                                 ),
                               ],
-                            );
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(234, 67, 53, 1),
-                      ),
-                      child: const Text(
-                        'Remove Animal',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                        ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Cancel"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(234, 67, 53, 1),
+                    ),
+                    child: const Text(
+                      'Remove Animal',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromRGBO(255, 255, 255, 1),
                       ),
                     ),
-                  ],
-                ),
-                Divider(thickness: 1.0),
-                Text(cows[index].tag, style: TextStyle(fontSize: 15.0)),
-                Text(
-                  cows[index].age + " Months",
-                  style: TextStyle(fontSize: 15.0),
-                  textAlign: TextAlign.right,
-                ),
-                SizedBox(height: 5),
-                Text(
-                  'Health Issue',
-                  style: TextStyle(fontSize: 15.0),
-                ),
-              ],
+                  ),
+                ],
+              ),
+                  Divider(thickness: 1.0),
+                  Text(cows[index].tag, style: TextStyle(fontSize: 15.0)),
+                  Text(
+                    cows[index].age + " Months",
+                    style: TextStyle(fontSize: 15.0),
+                    textAlign: TextAlign.right,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'Health Issue',
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
-}
+    );
+  }
 
-
-String getImageAsset(String name) {
+  String getImageAsset(String name) {
     switch (name) {
       case "Bull":
         return 'assets/bull.jpg';
@@ -242,28 +240,28 @@ String getImageAsset(String name) {
     }
   }
 
-  // void removeAnimal(BuildContext context) async {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Remove Animal'),
-  //         content: Text('Do you want to remove ' + cows[index].name),
-  //         actions: <Widget>[
-  //           ElevatedButton(
-  //             child: Text('OK'),
-  //             onPressed: () {
-  //               deleteDocument(cows[index].id, onDeleted: () {
-  //                 Navigator.pushReplacement(context,
-  //                     MaterialPageRoute(builder: (context) => Animal()));
-  //               }); // Close the dialog
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  void removeAnimal(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Remove Animal'),
+          content: Text('Do you want to remove ' + cows[index].name),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('OK'),
+              onPressed: () {
+                deleteDocument(cows[index].id, onDeleted: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Animal()));
+                }); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> deleteDocument(String documentId,
       {VoidCallback? onDeleted}) async {
@@ -281,9 +279,7 @@ String getImageAsset(String name) {
       print('Error deleting document: $e');
     }
   }
-
-  void setState(Null Function() param0) {}
-
+}
 
 class OnIssue extends StatefulWidget {
   @override
