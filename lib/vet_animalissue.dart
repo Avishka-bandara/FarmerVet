@@ -1,4 +1,5 @@
 import 'package:farmervet/vet_animal.dart';
+import 'package:farmervet/vet_diagnose_helath.dart';
 import 'package:flutter/material.dart';
 
 class vetAnimalIssue extends StatelessWidget {
@@ -131,9 +132,9 @@ class vetAnimalIssue extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => vetAnimalIssue()),
+                  MaterialPageRoute(builder: (context) => Diagnose_health()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -146,10 +147,10 @@ class vetAnimalIssue extends StatelessWidget {
             SizedBox(height: 20.0),
             OutlinedButton(
               onPressed: () {
-                // Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => vet_animal()),
-                // );
+                //  Navigator.pushReplacement(
+                //    context,
+                //  MaterialPageRoute(builder: (context) => vet_animal()),
+                //  );
               },
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(300, 50),
