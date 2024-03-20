@@ -1,11 +1,10 @@
-//import 'package:farmervet/vet_reproduction.dart';
+import 'package:farmervet/vet_reproduction.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 import 'package:farmervet/vet_add_new_reproduction.dart';
-
 import 'add_animal.dart';
 
 class BreedingInfo extends StatefulWidget {
@@ -185,11 +184,11 @@ class CustomCardWidget extends StatelessWidget {
                       ),
                       onPressed: () {
                         // Functionality for the second button
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => vet_reproduction()),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => vet_reproduction()),
+                        );
                       },
                       child: Text(
                         "View Reproduction",

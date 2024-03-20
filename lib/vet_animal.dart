@@ -348,7 +348,7 @@ class CustomCardWidget extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => vetAnimalIssue()));
+                          builder: (context) => vetAnimalIssue(index: index,farm: farm,index2: index2,issue: issue)));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(28, 42, 58, 1),
