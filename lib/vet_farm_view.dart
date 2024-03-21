@@ -152,22 +152,22 @@ class FarmViewScreen extends StatelessWidget {
                   ListTile(
                     title: Text('View Farms'),
                     onTap: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => FarmViewScreen()),
                       );
                     },
                   ),
-                  // ListTile(
-                  //   // title: Text('Reported Health Issue'),
-                  //   // onTap: () {
-                  //   //   Navigator.push(
-                  //   //     context,
-                  //   //     MaterialPageRoute(builder: (context) => vet_animal( )),
-                  //   //   );
-                  //   // },
-                  // ),
+                  ListTile(
+                    title: Text('Reported Health Issue'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => vet_animal()),
+                      );
+                    },
+                  ),
                   ListTile(
                     title: Text('Requard Farm Visit'),
                     onTap: () {
