@@ -5,23 +5,23 @@ import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 import 'add_animal.dart';
 
-void main() {
-  runApp(Home());
-}
-
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: Diagnose_health(),
-    );
-  }
-}
+// void main() {
+//   runApp(Home());
+// }
+//
+// class Home extends StatefulWidget {
+//   @override
+//   State<Home> createState() => _HomeState();
+// }
+//
+// class _HomeState extends State<Home> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return GetMaterialApp(
+//       home: Diagnose_health(),
+//     );
+//   }
+// }
 
 class Diagnose_health extends StatefulWidget {
   @override
@@ -51,7 +51,6 @@ class _diagnose_health extends State<Diagnose_health> {
             Divider(),
             SizedBox(height: 10),
             CustomCardWidget(),
-            SizedBox(height: 10),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
@@ -62,7 +61,10 @@ class _diagnose_health extends State<Diagnose_health> {
               },
               child: Text(
                 "Submit",
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16
+                ),
               ),
             ),
           ]),
@@ -362,7 +364,19 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
                             ),
                           ),
                         ),
-                      )),
+                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Visibility(
+                    visible: _selectedRadio == 2,
+                    // Show label when radio button with value 1 is selected
+                    child: Text(
+                      '** Please advice the farmer by contacting them ',
+                      style: TextStyle(
+                          color: Colors.red
+                          ),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -183,6 +183,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            SizedBox(height: 10),
 
             if (selectedValue_1 == 'Set as inseminated') DatePickerFormField(),
             SizedBox(height: 20),
