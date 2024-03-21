@@ -14,7 +14,8 @@ Future main() async {
           apiKey: "AIzaSyDwno0qdxzwfT5KRSqNSVnTswyNzwVGnqQ",
           appId: "1:93156038537:android:93c9059b01621461daf358",
           messagingSenderId: "93156038537",
-          projectId: "farmervet-4e6b9"));
+          projectId: "farmervet-4e6b9",
+          storageBucket: "farmervet-4e6b9.appspot.com"));
   await Firebase.initializeApp();
 
   runApp(FarmerVetApp());

@@ -6,6 +6,8 @@ class Issue {
   final String animaltype;
   final String timeDate;
   final String animalname;
+  final String imageUrl;
+  final bool visit;
 
 
   Issue({
@@ -16,8 +18,8 @@ class Issue {
     required this.animaltype,
     required this.animalage,
     required this.animalname,
-
-
+    required this.imageUrl,
+    required this.visit
   });
 
   factory Issue.fromMap(Map<String, dynamic> map, String id) {
@@ -29,6 +31,8 @@ class Issue {
       animaltype:map['cowtype'],
       animalage:map['cowage'],
       animalname:map['cowname'],
+        imageUrl:map['imageurl'],
+      visit:map['visit'],
     );
   }
 }

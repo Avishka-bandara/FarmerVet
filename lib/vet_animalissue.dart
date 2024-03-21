@@ -44,11 +44,11 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                         children: [
                           Row(
                             children: [
-                              Text(widget.issue[widget.index2].animalname,
+                              Text(widget.issue[widget.index].animalname,
                                   style: TextStyle(
                                       fontSize: 14, fontWeight: FontWeight.bold)),
                               SizedBox(width: 10.0),
-                              Text(widget.farm[widget.index].name,
+                              Text(widget.farm[widget.index2].name,
                                   style: TextStyle(
                                       fontSize: 14, fontWeight: FontWeight.bold)),
                             ],
@@ -56,7 +56,7 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                           SizedBox(height: 12.0),
                           Row(
                             children: [
-                              Text('Divisional Secretary : '+widget.farm[widget.index].divisionalSecretariatArea,
+                              Text('Divisional Secretary : '+widget.farm[widget.index2].divisionalSecretariatArea,
                                   style: TextStyle(
                                     fontSize: 14,
                                   )),
@@ -66,7 +66,7 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                           SizedBox(height: 12.0),
                           Row(
                             children: [
-                              Text('Reported Time  : '+widget.issue[widget.index2].timeDate,
+                              Text('Reported Time  : '+widget.issue[widget.index].timeDate,
                                   style: TextStyle(
                                     fontSize: 14,
                                   )),
@@ -76,7 +76,7 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                           SizedBox(height: 12.0),
                           Row(
                             children: [
-                              Text('Email : '+widget.farm[widget.index].email,
+                              Text('Email : '+widget.farm[widget.index2].email,
                                   style: TextStyle(
                                       fontSize: 14, fontWeight: FontWeight.bold)),
                               SizedBox(width: 10.0),
@@ -109,7 +109,7 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                         backgroundColor: Color.fromRGBO(28, 42, 58, 1),
                         fixedSize: const Size(150, 50),
                       ),
-                      child: Text(widget.issue[widget.index2].animalissue,
+                      child: Text(widget.issue[widget.index].animalissue,
                           style: TextStyle(
                             color: Colors.white,
                           )),
@@ -130,10 +130,11 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 SizedBox(height: 20.0),
                 Text("View Added Images", style: TextStyle(fontSize: 18.0)),
                 SizedBox(height: 10.0),
-                Container(
-                  height: 150,
-                  width: 200,
-                  color: Colors.grey,
+                Image.network(
+                widget.issue[widget.index].imageUrl,
+                  width: 150,
+                  height: 200,
+                  fit: BoxFit.cover,
                 ),
                 // load the image releted to issue
                 SizedBox(height: 20.0),
