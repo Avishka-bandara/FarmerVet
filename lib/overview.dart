@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class OverviewScreen extends StatelessWidget {
   @override
@@ -273,13 +274,29 @@ class OverviewScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                //height: 100.0,
+                  //height: 100.0,
+                  margin: EdgeInsets.only(top: 30.0),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(217, 217, 217, 1),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10.0),
+                      Text("Monthly Yeild Milk Range",
+                          style: TextStyle(
+                              fontSize: 20.0, fontWeight: FontWeight.bold)),
+                      Text("Total in Litres", style: TextStyle(fontSize: 12.0)),
+                      barchart(),
+                    ],
+                  )),
+              Container(
                 margin: EdgeInsets.only(top: 30.0),
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(217, 217, 217, 1),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                child: barchart(),
+                child: circle_indi(),
               ),
             ],
           ),
@@ -289,6 +306,9 @@ class OverviewScreen extends StatelessWidget {
   }
 }
 
+//
+//............... displaying the Bar charts...............
+//
 class barchart extends StatefulWidget {
   @override
   _barchartState createState() => _barchartState();
@@ -417,6 +437,135 @@ class _barchartState extends State<barchart> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+//
+//............... displaying the breeding metrics...............
+//
+
+class circle_indi extends StatefulWidget {
+  @override
+  _circle_indiState createState() => _circle_indiState();
+}
+
+class _circle_indiState extends State<circle_indi> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Text("Breeding Metrics", style: TextStyle(fontSize: 14.0)),
+          SizedBox(height: 10.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    child: Image.asset(
+                      'assets/Medikit.png',
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Container(
+                    child: CircularPercentIndicator(
+                      radius: 27.0,
+                      lineWidth: 4.0,
+                      percent: 0.5,
+                      center: new Text("40%",
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Color.fromRGBO(36, 52, 101, 1))),
+                      progressColor: Color.fromRGBO(4, 191, 218, 1),
+                      circularStrokeCap: CircularStrokeCap.round,
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Text("AI s", style: TextStyle(fontSize: 14.0)),
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    child: Image.asset(
+                      'assets/Stehoscope.png',
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Container(
+                    child: CircularPercentIndicator(
+                      radius: 27.0,
+                      lineWidth: 4.0,
+                      percent: 0.5,
+                      center: new Text("40%",
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Color.fromRGBO(36, 52, 101, 1))),
+                      progressColor: Color.fromRGBO(4, 191, 218, 1),
+                      circularStrokeCap: CircularStrokeCap.round,
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Text("PDs by AIs", style: TextStyle(fontSize: 14.0)),
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    child: Image.asset(
+                      'assets/kid.png',
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Container(
+                    child: CircularPercentIndicator(
+                      radius: 27.0,
+                      lineWidth: 4.0,
+                      percent: 0.5,
+                      center: new Text("40%",
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Color.fromRGBO(36, 52, 101, 1))),
+                      progressColor: Color.fromRGBO(4, 191, 218, 1),
+                      circularStrokeCap: CircularStrokeCap.round,
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Text("Calving", style: TextStyle(fontSize: 14.0)),
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    child: Image.asset(
+                      'assets/transgender.png',
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Container(
+                    child: CircularPercentIndicator(
+                      radius: 27.0,
+                      lineWidth: 4.0,
+                      percent: 0.5,
+                      center: new Text("40%",
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Color.fromRGBO(36, 52, 101, 1))),
+                      progressColor: Color.fromRGBO(4, 191, 218, 1),
+                      circularStrokeCap: CircularStrokeCap.round,
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Text("M:F Ratio", style: TextStyle(fontSize: 14.0)),
+                ],
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
