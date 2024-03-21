@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.17.0
   easy_search_bar: ^2.5.0
   fl_chart: ^0.35.0
+
   
 
 
