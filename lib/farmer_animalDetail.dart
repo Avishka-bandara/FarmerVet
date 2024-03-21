@@ -6,15 +6,19 @@ import 'package:farmervet/farmer_reportAnimal.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'CowList.dart';
+import 'animalIssue.dart';
 
 class AnimalDetail extends StatelessWidget {
   final List<Cow> cows;
-  final int index;
+  final int indexcows;
+  User? user = FirebaseAuth.instance.currentUser;
+  late Size screenSize;
 
-  AnimalDetail(this.cows, this.index);
+  AnimalDetail(this.cows, this.indexcows);
 
   @override
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Animal Detail',
@@ -25,7 +29,7 @@ class AnimalDetail extends StatelessWidget {
         padding: EdgeInsets.all(8.0), // Add padding to the whole screen
         child: ListView(
           children: [
-            CustomCardWidget(cows, index),
+            CustomCardWidget(cows, indexcows),
             SizedBox(height: 10),
             const Text(
               'Record the vaccination given to the animal',
@@ -57,7 +61,85 @@ class AnimalDetail extends StatelessWidget {
             const Text('Ongoing Issues',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            OnIssue(),
+
+          FutureBuilder<QuerySnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('Farm details/'+user!.uid+'/health issue')
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Wrap(
+                  children: [
+                    Container(
+                        height: 450,
+                        width: screenSize.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const CircularProgressIndicator(
+                                color: Colors.black),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text("Loading data"),
+                          ],
+                        )),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                List<Issue> issue = [];
+                snapshot.data!.docs.forEach((doc) {
+                  issue.add(Issue.fromMap(
+                      doc.data() as Map<String, dynamic>, doc.id));
+                });
+                if (issue.isEmpty) {
+                  return Wrap(
+                    children: [
+                      Container(
+                          width: screenSize.width,
+                          height: 450,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('No details found'),
+                            ],
+                          )),
+                    ],
+                  );
+                } else {
+                  return Container(
+                    width: screenSize.width,
+                    height: screenSize.height,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: issue.length,
+                                itemBuilder: (context, index) {
+                                  if(issue[index].animalid==cows[indexcows].id){
+                                    return OnIssue(issue,index);
+                                  }
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
+            },
+          ),
+
             const SizedBox(
                 height: 50), // Adjust the height as needed for spacing
             const Divider(thickness: 1.0),
@@ -71,7 +153,7 @@ class AnimalDetail extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ReportAnimal(cows: cows,index: index,)));
+                  MaterialPageRoute(builder: (context) => ReportAnimal(cows: cows,index: indexcows,)));
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
@@ -212,12 +294,13 @@ class CustomCardWidget extends StatelessWidget {
     );
   }
 
+
   Future<void> deleteDocument(String documentId,
       {VoidCallback? onDeleted}) async {
     User? user = FirebaseAuth.instance.currentUser;
     try {
       await FirebaseFirestore.instance
-          .collection('Farm details/' + user!.uid + '/animal details')
+          .collection('Farm details/'+user!.uid +'/animal details')
           .doc(documentId)
           .delete();
       print('Document deleted successfully.');
@@ -230,91 +313,134 @@ class CustomCardWidget extends StatelessWidget {
   }
 }
 
+
+
 class OnIssue extends StatefulWidget {
+  final List<Issue> issue;
+  final int index;
+
+  OnIssue(this.issue,this.index);
+
   @override
   State<OnIssue> createState() => _OnIssueState();
 }
 
 class _OnIssueState extends State<OnIssue> {
   @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 1,
-      mainAxisSpacing: 8.0,
-      shrinkWrap: true,
-      // Add this to allow GridView to scroll inside SingleChildScrollView
-      physics: NeverScrollableScrollPhysics(),
-      // Prevent scrolling of GridView
+  Widget build(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Health Issue',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Logic for the button
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromRGBO(254, 176, 82, 1),
-                          ),
-                          child: Text(
-                            'Minor Issue',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Health Issue : '+widget.issue[widget.index].animalissue,
+                      style: TextStyle(fontSize: 16),
                     ),
-                    Text('Date'),
+                    widget.issue[widget.index].visit==false?
+                    ElevatedButton(
+                      onPressed: () {
+                        // Logic for the button
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(254, 176, 82, 1),
+                      ),
+                      child: Text(
+                        'Minor Issue',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ):SizedBox(),
                   ],
                 ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Logic for the first button
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(180, 20),
-                    backgroundColor: Color.fromRGBO(28, 42, 58, 1),
-                  ),
-                  child: Text('Now Healthy',
-                      style: TextStyle(color: Colors.white)),
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    // Logic for the second button
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(180, 20),
-                  ),
-                  child: Text(
-                    'Comment',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
+                Text('Date : '+widget.issue[widget.index].timeDate),
               ],
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                removeAnimalissue(context);
+              },
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(180, 20),
+                backgroundColor: Color.fromRGBO(28, 42, 58, 1),
+              ),
+              child: Text('Now Healthy',
+                  style: TextStyle(color: Colors.white)),
+            ),
+            OutlinedButton(
+              onPressed: () {
+
+              },
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(180, 20),
+              ),
+              child: Text(
+                'Comment',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         ),
+        SizedBox(height: 20,)
       ],
     );
   }
+
+  void removeAnimalissue(context) async {
+    bool _refreshIndicatorVisible = false;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Healthy'),
+          content: Text('Are you sure '+widget.issue[widget.index].animalname+' is healthy now?'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('yes'),
+              onPressed: () {
+                deleteDocumentissue(widget.issue[widget.index].id, onDeleted: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Animal()));
+                }); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> deleteDocumentissue(String documentId,
+      {VoidCallback? onDeleted}) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    try {
+      await FirebaseFirestore.instance
+          .collection('Farm details/' + user!.uid + '/health issue')
+          .doc(documentId)
+          .delete();
+      print('Document deleted successfully.');
+      if (onDeleted != null) {
+        onDeleted!();
+      }
+    } catch (e) {
+      print('Error deleting document: $e');
+    }
+  }
+
 }
