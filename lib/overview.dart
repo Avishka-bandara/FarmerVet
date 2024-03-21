@@ -476,7 +476,8 @@ class _circle_indiState extends State<circle_indi> {
                       radius: 27.0,
                       lineWidth: 4.0,
                       percent: 0.5,
-                      center: new Text("40%",
+                      center: new Text(
+                          "25", //...............Number of AI s getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -501,7 +502,8 @@ class _circle_indiState extends State<circle_indi> {
                       radius: 27.0,
                       lineWidth: 4.0,
                       percent: 0.5,
-                      center: new Text("40%",
+                      center: new Text(
+                          "10", //...............Number of PDs by AI s getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -526,7 +528,8 @@ class _circle_indiState extends State<circle_indi> {
                       radius: 27.0,
                       lineWidth: 4.0,
                       percent: 0.5,
-                      center: new Text("40%",
+                      center: new Text(
+                          "40%", //...............Calving percentage getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -551,7 +554,8 @@ class _circle_indiState extends State<circle_indi> {
                       radius: 27.0,
                       lineWidth: 4.0,
                       percent: 0.5,
-                      center: new Text("40%",
+                      center: new Text(
+                          "40%", //...............M:F ratio getting data from reproduction table (there is no data in the table)...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -569,10 +573,4 @@ class _circle_indiState extends State<circle_indi> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: OverviewScreen(),
-  ));
 }
