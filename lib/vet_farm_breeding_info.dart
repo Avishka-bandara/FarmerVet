@@ -5,7 +5,6 @@ import 'package:farmervet/farmer_animalDetail.dart';
 import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 import 'package:farmervet/vet_add_new_reproduction.dart';
-
 import 'add_animal.dart';
 
 class BreedingInfo extends StatefulWidget {

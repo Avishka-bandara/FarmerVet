@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -24,8 +25,13 @@ class _ReportAnimalState extends State<ReportAnimal> {
   String _currentDateTime = '';
   bool isLoading = false;
   User? user = FirebaseAuth.instance.currentUser;
-  String? _selectedIssue;
+  String? _selectedIssue='';
   final TextEditingController issuecontroller = TextEditingController();
+  String? _imagePath;
+  String imageUrl='';
+  bool isSelectedlimping=false;
+  bool isSelecteddiarhea=false;
+  bool isSelectedfever=false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,44 +61,72 @@ class _ReportAnimalState extends State<ReportAnimal> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    OutlinedButton(
-                      onPressed: (){
-                        setState(() {
-                          _selectedIssue = 'Limping';
-                        });
-                      },
-                      child: Text('Limping'),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: isSelectedlimping?Colors.deepPurple:Colors.white
+                      ),
+                      child: OutlinedButton(
+                        onPressed: (){
+                          setState(() {
+                            _selectedIssue = 'Limping';
+                            isSelectedlimping=true;
+                            isSelecteddiarhea=false;
+                            isSelectedfever=false;
+                          });
+                        },
+                        child: Text('Limping',style: isSelectedlimping?TextStyle(color: Colors.white):TextStyle()),
+                      ),
                     ),
-                    OutlinedButton(
-                      onPressed: () {
-                        _selectedIssue = 'Diarrhea';
-                      },
-                      child: Text('Diarrhea'),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: isSelecteddiarhea?Colors.deepPurple:Colors.white
+                      ),
+                      child: OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            _selectedIssue = 'Diarrhea';
+                            isSelectedlimping=false;
+                            isSelecteddiarhea=true;
+                            isSelectedfever=false;
+                          });
+                        },
+                        child: Text('Diarrhea',style: isSelecteddiarhea?TextStyle(color: Colors.white):TextStyle()),
+                      ),
                     ),
-                    OutlinedButton(
-                      onPressed: (){
-                        _selectedIssue = 'Fever';
-                        showToast(_selectedIssue!);
-                      },
-                      child: Text('Fever'),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: isSelectedfever?Colors.deepPurple:Colors.white
+                      ),
+                      child: OutlinedButton(
+                        onPressed: (){
+                          setState(() {
+                            _selectedIssue = 'Fever';
+                            isSelectedlimping=false;
+                            isSelecteddiarhea=false;
+                            isSelectedfever=true;
+                          });
+                        },
+                        child: Text('Fever',style: isSelectedfever?TextStyle(color: Colors.white):TextStyle()),
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    for (int i = 1; i <= 3; i++)
-                      OutlinedButton(
-                        onPressed: () => print('Symptoms $i'),
-                        child: Text('Symptoms'),
-                      ),
-                  ],
-                )
               ],
             ),
               SizedBox(height: 10),
               TextField(
+                onTap: (){
+                  setState(() {
+                    _selectedIssue='';
+                    isSelectedlimping=false;
+                    isSelecteddiarhea=false;
+                    isSelectedfever=false;
+                  });
+                },
                 controller: issuecontroller,
                 decoration: InputDecoration(
                   helperText: 'Ex: Cow is lazy, not eating, dull eyes',
@@ -103,7 +137,46 @@ class _ReportAnimalState extends State<ReportAnimal> {
                 ),
               ),
               SizedBox(height: 20),
-              ImagePickerWidget(),
+
+          Container(
+            height: 150, // Adjust height as needed
+            width: double.infinity, // Take full width
+            child: Stack(
+              children: [
+                if (_imagePath != null)
+                  Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      Image.file(
+                        File(_imagePath!),
+                        height: 100,
+                        width: 100,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.cancel_outlined),
+                        onPressed: () {
+                          setState(() {
+                            _imagePath = null;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                if (_imagePath == null)
+                  ElevatedButton(
+                    onPressed: _pickImageFromGallery,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(28, 42, 58, 1),
+                      fixedSize: const Size(200, 45),
+                    ),
+                    child: Text(
+                      'Add Image',
+                      style: TextStyle(fontSize: 16.0, color: Colors.white),
+                    ),
+                  ),
+              ],
+            ),
+          ),
             ],
           ),
         ),
@@ -151,6 +224,16 @@ class _ReportAnimalState extends State<ReportAnimal> {
     );
   }
 
+  Future<void> _pickImageFromGallery() async {
+    ImagePicker picker = ImagePicker();
+    XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _imagePath = pickedImage.path;
+      });
+    }
+  }
+
   void _updateDateTime() {
     setState(() {
       _currentDateTime = DateFormat('yyyy-MM-dd - HH:mm').format(DateTime.now());
@@ -158,24 +241,54 @@ class _ReportAnimalState extends State<ReportAnimal> {
   }
 
   Future<void> register() async {
+    String uniqueFileName=DateTime.now().millisecondsSinceEpoch.toString();
+    Reference referenceRoot =FirebaseStorage.instance.ref();
+    Reference referenceDirImage=referenceRoot.child('images');
+    Reference referenceImageToUpload=referenceDirImage.child(uniqueFileName);
+
     _updateDateTime();
     setState(() {
       isLoading = true;
     });
 
-    String? issue;
-    _selectedIssue==null?issue=issuecontroller.text: issue=_selectedIssue;
+    String?issue='';
+    _selectedIssue==''?issue=issuecontroller.text: issue=_selectedIssue;
+
+    if(issue==''){
+      showToast("Please select or type a symptom");
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }else if(_imagePath==null){
+      showToast("Please add an image");
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+
+    try{
+      await referenceImageToUpload.putFile(File(_imagePath!)).then((p0) => null);
+      imageUrl= await referenceImageToUpload.getDownloadURL();
+
+    }catch(error){
+      showToast(error.toString());
+      print('Error uploading image: $error');
+    }
 
     await FirebaseFirestore.instance
         .collection('Farm details/' +user!.uid +'/health issue')
         .doc()
         .set({
       'animal id':widget.cows[widget.index].id,
-      'animalissue': _selectedIssue,
+      'animalissue': issue,
       'timeDate':_currentDateTime,
       'cowname':widget.cows[widget.index].name,
       'cowtype':widget.cows[widget.index].type,
       'cowage':widget.cows[widget.index].age,
+      'imageurl':imageUrl,
+      'visit':true,
       // Add more fields as needed
     }).then((value) {
       setState(() {
@@ -184,6 +297,7 @@ class _ReportAnimalState extends State<ReportAnimal> {
       showToast("Saved");
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Animal()));
+
     }).catchError((error) {
       setState(() {
         isLoading = false;
@@ -203,68 +317,4 @@ class _ReportAnimalState extends State<ReportAnimal> {
       fontSize: 16.0,
     );
   }
-}
-
-class ImagePickerWidget extends StatefulWidget {
-  @override
-  _ImagePickerWidgetState createState() => _ImagePickerWidgetState();
-}
-
-class _ImagePickerWidgetState extends State<ImagePickerWidget> {
-  String? _imagePath;
-
-  Future<void> _pickImageFromGallery() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      setState(() {
-        _imagePath = pickedImage.path;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 150, // Adjust height as needed
-      width: double.infinity, // Take full width
-      child: Stack(
-        children: [
-          if (_imagePath != null)
-            Stack(
-              alignment: Alignment.topRight,
-              children: [
-                Image.file(
-                  File(_imagePath!),
-                  height: 100,
-                  width: 100,
-                ),
-                IconButton(
-                  icon: Icon(Icons.cancel_outlined),
-                  onPressed: () {
-                    setState(() {
-                      _imagePath = null;
-                    });
-                  },
-                ),
-              ],
-            ),
-          if (_imagePath == null)
-            ElevatedButton(
-              onPressed: _pickImageFromGallery,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(28, 42, 58, 1),
-                fixedSize: const Size(200, 45),
-              ),
-              child: Text(
-                'Add Image',
-                style: TextStyle(fontSize: 16.0, color: Colors.white),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
 }
