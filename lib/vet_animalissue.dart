@@ -1,6 +1,4 @@
 import 'package:farmervet/vet_animal.dart';
-import 'package:farmervet/vet_diagnose_helath.dart';
-import 'package:farmervet/vet_reproduction.dart';
 import 'package:flutter/material.dart';
 
 import 'animalIssue.dart';
@@ -11,11 +9,7 @@ class vetAnimalIssue extends StatefulWidget {
   final int index2;
   final List<Issue> issue;
   final int index;
-  vetAnimalIssue(
-      {required this.farm,
-      required this.index,
-      required this.issue,
-      required this.index2});
+  vetAnimalIssue({required this.farm, required this.index,required this.issue,required this.index2});
 
   late Size screenSize;
 
@@ -52,22 +46,17 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                             children: [
                               Text(widget.issue[widget.index].animalname,
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
+                                      fontSize: 14, fontWeight: FontWeight.bold)),
                               SizedBox(width: 10.0),
                               Text(widget.farm[widget.index2].name,
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
+                                      fontSize: 14, fontWeight: FontWeight.bold)),
                             ],
                           ),
                           SizedBox(height: 12.0),
                           Row(
                             children: [
-                              Text(
-                                  'Divisional Secretary : ' +
-                                      widget.farm[widget.index2]
-                                          .divisionalSecretariatArea,
+                              Text('Divisional Secretary : '+widget.farm[widget.index2].divisionalSecretariatArea,
                                   style: TextStyle(
                                     fontSize: 14,
                                   )),
@@ -77,9 +66,7 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                           SizedBox(height: 12.0),
                           Row(
                             children: [
-                              Text(
-                                  'Reported Time  : ' +
-                                      widget.issue[widget.index].timeDate,
+                              Text('Reported Time  : '+widget.issue[widget.index].timeDate,
                                   style: TextStyle(
                                     fontSize: 14,
                                   )),
@@ -89,11 +76,9 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                           SizedBox(height: 12.0),
                           Row(
                             children: [
-                              Text(
-                                  'Email : ' + widget.farm[widget.index2].email,
+                              Text('Email : '+widget.farm[widget.index2].email,
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
+                                      fontSize: 14, fontWeight: FontWeight.bold)),
                               SizedBox(width: 10.0),
                             ],
                           ),
@@ -146,7 +131,7 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 Text("View Added Images", style: TextStyle(fontSize: 18.0)),
                 SizedBox(height: 10.0),
                 Image.network(
-                  widget.issue[widget.index].imageUrl,
+                widget.issue[widget.index].imageUrl,
                   width: 150,
                   height: 200,
                   fit: BoxFit.cover,
@@ -155,11 +140,9 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Diagnose_health()), // navigate to vet_animal.dart
+                      MaterialPageRoute(builder: (context) => vetAnimalIssue(index: widget.index,farm: widget.farm,index2: widget.index2,issue: widget.issue)),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -172,20 +155,16 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 SizedBox(height: 20.0),
                 OutlinedButton(
                   onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) =>
-                    //           vet_animal()), // navigate to vet_animal.dart
-                    // );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => vet_animal(farm: widget.farm,index: widget.index2)));
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(300, 50),
                   ),
                   child: Text('Decline',
                       style: TextStyle(
-                          color: Color.fromRGBO(28, 42, 58, 1),
-                          fontSize: 16.0)),
+                          color: Color.fromRGBO(28, 42, 58, 1), fontSize: 16.0)),
                 ),
               ],
             ),

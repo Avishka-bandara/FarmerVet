@@ -216,42 +216,48 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void signin(String email, String password) async {
-    User? user = await _auth.signInWithEmailAndPassword(email, password);
+    try{
+      User? user = await _auth.signInWithEmailAndPassword(email, password);
+      DocumentSnapshot userSnapshot =
+      await _firestore.collection('user role').doc(user!.uid).get();
+      Map<String, dynamic> userData =
+          userSnapshot.data() as Map<String, dynamic>? ?? {};
+      String? role = userData['role'];
 
-    DocumentSnapshot userSnapshot =
-        await _firestore.collection('user role').doc(user!.uid).get();
-    Map<String, dynamic> userData =
-        userSnapshot.data() as Map<String, dynamic>? ?? {};
-    String? role = userData['role'];
+      if (role == 'vet') {
+        if (user != null) {
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => FarmViewScreen()));
+        } else {
+          setState(() {
+            isLoading = false;
+          });
 
-    if (role == 'vet') {
-      if (user != null) {
-        setState(() {
-          isLoading = false;
-        });
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => FarmViewScreen()));
-      } else {
-        setState(() {
-          isLoading = false;
-        });
+          showToast("Login Failed!");
+        }
+      } else if (role == 'farmer') {
+        if (user != null) {
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => Animal()));
+        } else {
+          setState(() {
+            isLoading = false;
+          });
 
-        showToast("Login Failed!");
+          showToast("Login Failed!");
+        }
       }
-    } else if (role == 'farmer') {
-      if (user != null) {
-        setState(() {
-          isLoading = false;
-        });
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Animal()));
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-
-        showToast("Login Failed!");
-      }
+    }catch(error){
+      setState(() {
+        isLoading = false;
+      });
+      showToast("Invalid Credentials");
     }
   }
 

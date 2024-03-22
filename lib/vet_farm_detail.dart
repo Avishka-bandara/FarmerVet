@@ -31,7 +31,7 @@ class FarmDetailView extends StatelessWidget {
             SizedBox(height: 10),
             Divider(thickness: 1),
             SizedBox(height: 10),
-            Text('Registration ID : ' + farm[index].id,
+            Text('Registration ID : ' + farm[index].farmid,
                 style: TextStyle(fontSize: 15.0)),
             SizedBox(height: 10),
             Text('Address : ' + farm[index].address,
@@ -74,7 +74,7 @@ class FarmDetailView extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => totalMilkOutput()),
+                              builder: (context) => totalMilkOutput(id: farm[index].id)),
                         );
                       },
                       child: Container(
