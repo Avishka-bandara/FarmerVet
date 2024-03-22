@@ -155,10 +155,9 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 SizedBox(height: 20.0),
                 OutlinedButton(
                   onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => vet_animal()),
-                    // );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => vet_animal(farm: widget.farm,index: widget.index2)));
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(300, 50),

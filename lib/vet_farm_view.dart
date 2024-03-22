@@ -79,8 +79,7 @@ class FarmViewScreen extends StatelessWidget {
                     } else {
                       List<Farm> farm = [];
                       snapshot.data!.docs.forEach((doc) {
-                        farm.add(Farm.fromMap(
-                            doc.data() as Map<String, dynamic>, doc.id));
+                        farm.add(Farm.fromMap(doc.data() as Map<String, dynamic>, doc.id));
                       });
                       if (farm.isEmpty) {
                         return Wrap(
