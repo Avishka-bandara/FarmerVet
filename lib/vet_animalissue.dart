@@ -1,4 +1,6 @@
 import 'package:farmervet/vet_animal.dart';
+import 'package:farmervet/vet_diagnose_helath.dart';
+import 'package:farmervet/vet_reproduction.dart';
 import 'package:flutter/material.dart';
 
 import 'animalIssue.dart';
@@ -153,14 +155,11 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => vetAnimalIssue(
-                              index: widget.index,
-                              farm: widget.farm,
-                              index2: widget.index2,
-                              issue: widget.issue)),
+                          builder: (context) =>
+                              Diagnose_health()), // navigate to vet_animal.dart
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -173,10 +172,12 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 SizedBox(height: 20.0),
                 OutlinedButton(
                   onPressed: () {
-                    //  Navigator.pushReplacement(
-                    //    context,
-                    //   MaterialPageRoute(builder: (context) => vet_animal()),
-                    //  );
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) =>
+                    //           vet_animal()), // navigate to vet_animal.dart
+                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(300, 50),

@@ -108,9 +108,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                         height: 60,
                         width: 350,
                         child: TextField(
-                          obscureText: true,
                           decoration: InputDecoration(
-                            labelText: 'in Liters',
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -139,9 +137,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                         height: 60,
                         width: 350,
                         child: TextField(
-                          obscureText: true,
                           decoration: InputDecoration(
-                            labelText: 'Cows milked',
                             border: OutlineInputBorder(),
                           ),
                         ),

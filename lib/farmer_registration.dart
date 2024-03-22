@@ -38,7 +38,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           title: Text(
             "Register your farm with FarmerVet",
             style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 18.0,
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(28, 42, 58, 1)),
             textAlign: TextAlign.justify,
@@ -92,7 +92,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                               filled: true,
                               fillColor: Color.fromRGBO(209, 213, 219, 1),
                               // Change this to the color you want
-                              hintText: '*************',
+
                               border: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8))),
