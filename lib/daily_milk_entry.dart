@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmervet/farmer_animal.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class dailyMilkEntry extends StatefulWidget {
   @override
@@ -7,10 +10,11 @@ class dailyMilkEntry extends StatefulWidget {
 }
 
 class _dailyMilkEntryState extends State<dailyMilkEntry> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _idController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
-  late String _selectedDivision = '';
+  bool isLoading = false;
+  User? user = FirebaseAuth.instance.currentUser;
+  TextEditingController _datecontroller = TextEditingController();
+  TextEditingController _litercontroller = TextEditingController();
+  TextEditingController _cowscontroller = TextEditingController();
   late DateTime? _selectedDate;
 
   @override
@@ -108,7 +112,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                         height: 60,
                         width: 350,
                         child: TextField(
-                          obscureText: true,
+                          controller: _litercontroller,
                           decoration: InputDecoration(
                             labelText: 'in Liters',
                             border: OutlineInputBorder(),
@@ -139,7 +143,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                         height: 60,
                         width: 350,
                         child: TextField(
-                          obscureText: true,
+                          controller: _cowscontroller,
                           decoration: InputDecoration(
                             labelText: 'Cows milked',
                             border: OutlineInputBorder(),
@@ -156,14 +160,36 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                     fixedSize: const Size(300, 50),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Animal()));
+                    addMilkdata();
                   },
-                  child: Text(
+                  child: isLoading
+                      ? const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Submitting....  ',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          )),
+                    ],
+                  )
+                      : const Text(
                     'Submit',
-                    style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -193,11 +219,48 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
       ),
     );
   }
-}
 
-/*void main() {
-  runApp(MaterialApp(
-    home: dailyMilkEntry(),
-  ));
+  Future<void> addMilkdata() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String date = _selectedDate!.day.toString()+'/'+_selectedDate!.month.toString()+'/'+_selectedDate!.year.toString();
+    String liters = _litercontroller.text;
+    String cows = _cowscontroller.text;
+
+    await FirebaseFirestore.instance
+        .collection('Farm details/' + user!.uid + '/milk output')
+        .doc()
+        .set({
+      'date': date,
+      'liters': liters,
+      'cows': cows,
+      // Add more fields as needed
+    }).then((value) {
+      setState(() {
+        isLoading = false;
+      });
+      showToast("Added");
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => Animal()));
+    }).catchError((error) {
+      setState(() {
+        isLoading = false;
+      });
+      print("Failed to store data: $error");
+    });
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 }
-*/

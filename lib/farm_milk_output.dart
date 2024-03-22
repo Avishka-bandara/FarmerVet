@@ -1,11 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'milkData.dart';
+import 'milkData.dart';
+import 'milkData.dart';
+
 class totalMilkOutput extends StatefulWidget {
+
+  final String id;
+  totalMilkOutput({required this.id});
+
   @override
   _totalMilkOutputState createState() => _totalMilkOutputState();
 }
 
 class _totalMilkOutputState extends State<totalMilkOutput> {
+
   TextEditingController _nameController = TextEditingController();
   TextEditingController _idController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
@@ -34,110 +45,189 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
           child: Container(
             width: screenSize.width,
             height: screenSize.height,
-            child: Column(
+            child: Wrap(
               children: [
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        // Use Expanded to make the dropdown take remaining space
-                        child: SizedBox(
-                          height: 60,
-                          child: DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              labelText: 'Year',
-                              border: OutlineInputBorder(),
+                Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            // Use Expanded to make the dropdown take remaining space
+                            child: SizedBox(
+                              height: 60,
+                              child: DropdownButtonFormField<String>(
+                                decoration: InputDecoration(
+                                  labelText: 'Year',
+                                  border: OutlineInputBorder(),
+                                ),
+                                items: <String>[
+                                  '2022',
+                                  '2023',
+                                  '2024',
+                                  '2025',
+                                  '2026',
+                                  '2027',
+                                ] // Add your list of years here
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  // Handle dropdown value change
+                                },
+                              ),
                             ),
-                            items: <String>[
-                              '2022',
-                              '2023',
-                              '2024',
-                              '2025',
-                              '2026',
-                              '2027',
-                            ] // Add your list of years here
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              // Handle dropdown value change
-                            },
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                          width:
-                              12), // Add space between dropdown and text field
-                      Expanded(
-                        // Use Expanded to make the text field take remaining space
-                        child: SizedBox(
-                          height: 60,
-                          child: DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              labelText: 'Month',
-                              border: OutlineInputBorder(),
+                          SizedBox(
+                              width:
+                                  12), // Add space between dropdown and text field
+                          Expanded(
+                            // Use Expanded to make the text field take remaining space
+                            child: SizedBox(
+                              height: 60,
+                              child: DropdownButtonFormField<String>(
+                                decoration: InputDecoration(
+                                  labelText: 'Month',
+                                  border: OutlineInputBorder(),
+                                ),
+                                items: <String>[
+                                  'Jnauary',
+                                  'February',
+                                  'March',
+                                  'April',
+                                  'May',
+                                  'June',
+                                  'July',
+                                  'August',
+                                  'September',
+                                  'October',
+                                  'November',
+                                  'December'
+                                ] // Add your list of years here
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  // Handle dropdown value change
+                                },
+                              ),
                             ),
-                            items: <String>[
-                              'Jnauary',
-                              'February',
-                              'March',
-                              'April',
-                              'May',
-                              'June',
-                              'July',
-                              'August',
-                              'September',
-                              'October',
-                              'November',
-                              'December'
-                            ] // Add your list of years here
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              // Handle dropdown value change
-                            },
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 18,
+                    ),
+
+                    FutureBuilder<QuerySnapshot>(
+                      future: FirebaseFirestore.instance
+                          .collection('Farm details/'+widget.id+'/milk output')
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Wrap(
+                            children: [
+                              Container(
+                                  height: 450,
+                                  width: screenSize.width,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const CircularProgressIndicator(
+                                          color: Colors.black),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text("Loading data"),
+                                    ],
+                                  )),
+                            ],
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        } else {
+                          List<Milk> milk = [];
+                          snapshot.data!.docs.forEach((doc) {
+                            milk.add(Milk.fromMap(
+                                doc.data() as Map<String, dynamic>, doc.id));
+                          });
+                          MilkList milkList = MilkList(milks: milk);
+                          if (milk.isEmpty) {
+                            return
+                              Wrap(
+                              children: [
+                                Container(
+                                    width: screenSize.width,
+                                    height: 450,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('No details found'),
+                                      ],
+                                    )),
+                              ],
+                            );
+                          } else {
+                            return Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(75, 89, 99, 1),
+                                      borderRadius: BorderRadius.all(Radius.circular(4))),
+                                  height: 50,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        "Total For This Month : "+milkList.getTotalLitersthismonth().toString()+" L",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Text(
+                                        "Total : "+milkList.getTotalLiters().toString()+" L", // total milk quantity
+                                        style: TextStyle(color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                Container(
+                                  width: screenSize.width,
+                                  height: screenSize.height,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            DataTableExample(milk: milk),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 18,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(75, 89, 99, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(4))),
-                  height: 50,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        "Total For This Month  :",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        "Total", // total milk quantity
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                DataTableExample(),
               ],
             ),
           ),
@@ -147,16 +237,16 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
   }
 }
 
-class DataTableExample extends StatelessWidget {
-  DataTableExample({Key? key}) : super(key: key);
+class DataTableExample extends StatefulWidget {
 
-  // Sample data to populate the DataTable
-  final List<Map<String, dynamic>> _data = [
-    {'date': '12/1/2024', 'quantity': 19, 'milkedCow': '10'},
-    {'date': '14/1/2024', 'quantity': 43, 'milkedCow': '8'},
-    {'date': '13/1/2024', 'quantity': 27, 'milkedCow': '9'},
-    // Add more data here
-  ];
+  final List<Milk> milk;
+  DataTableExample({Key? key, required this.milk}) : super(key: key);
+
+  @override
+  State<DataTableExample> createState() => _DataTableExampleState();
+}
+
+class _DataTableExampleState extends State<DataTableExample> {
 
   @override
   Widget build(BuildContext context) {
@@ -196,20 +286,12 @@ class DataTableExample extends StatelessWidget {
           ),
         ),
       ],
-      rows: _data.map((Map<String, dynamic> item) {
+      rows:widget.milk.map((data) {
         return DataRow(
           cells: <DataCell>[
-            DataCell(
-              Text(item['date'].toString(),
-                  style: TextStyle(
-                      fontSize: 14, color: Color.fromRGBO(28, 42, 58, 1))),
-            ),
-            DataCell(Text(item['quantity'].toString(),
-                style: TextStyle(
-                    fontSize: 14, color: Color.fromRGBO(28, 42, 58, 1)))),
-            DataCell(Text(item['milkedCow'].toString(),
-                style: TextStyle(
-                    fontSize: 14, color: Color.fromRGBO(28, 42, 58, 1)))),
+            DataCell(Text(data.date)),
+            DataCell(Text(data.liter)),
+            DataCell(Text(data.cows)),
           ],
         );
       }).toList(),

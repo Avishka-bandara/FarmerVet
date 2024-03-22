@@ -76,7 +76,7 @@ class _AnimalState extends State<Animal> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => totalMilkOutput()));
+                              builder: (context) => totalMilkOutput(id: user!.uid)));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
@@ -202,7 +202,7 @@ class _AnimalState extends State<Animal> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => totalMilkOutput()));
+                              builder: (context) => totalMilkOutput(id: user!.uid,)));
                     },
                   ),
                   ListTile(

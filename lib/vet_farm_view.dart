@@ -236,6 +236,9 @@ class FarmCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: InkWell(
+        onLongPress: (){
+          removeView(context);
+        },
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -285,4 +288,24 @@ class FarmCard extends StatelessWidget {
       ),
     );
   }
+
+  void removeView(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Farm Settings'),
+          content: Text('Do you need to mark '+farm[index].name+' farm as Inactive'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('yes'),
+              onPressed: ()  {// Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
