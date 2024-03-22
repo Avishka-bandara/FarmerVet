@@ -62,83 +62,84 @@ class AnimalDetail extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
 
-          FutureBuilder<QuerySnapshot>(
-            future: FirebaseFirestore.instance
-                .collection('Farm details/'+user!.uid+'/health issue')
-                .get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Wrap(
-                  children: [
-                    Container(
-                        height: 450,
-                        width: screenSize.width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const CircularProgressIndicator(
-                                color: Colors.black),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text("Loading data"),
-                          ],
-                        )),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else {
-                List<Issue> issue = [];
-                snapshot.data!.docs.forEach((doc) {
-                  issue.add(Issue.fromMap(
-                      doc.data() as Map<String, dynamic>, doc.id));
-                });
-                if (issue.isEmpty) {
+            FutureBuilder<QuerySnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection('Farm details/' + user!.uid + '/health issue')
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return Wrap(
                     children: [
                       Container(
-                          width: screenSize.width,
                           height: 450,
+                          width: screenSize.width,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('No details found'),
+                              const CircularProgressIndicator(
+                                  color: Colors.black),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text("Loading data"),
                             ],
                           )),
                     ],
                   );
-                } else {
-                  return Container(
-                    width: screenSize.width,
-                    height: screenSize.height,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: issue.length,
-                                itemBuilder: (context, index) {
-                                  if(issue[index].animalid==cows[indexcows].id){
-                                    return OnIssue(issue,index);
-                                  }
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
                   );
+                } else {
+                  List<Issue> issue = [];
+                  snapshot.data!.docs.forEach((doc) {
+                    issue.add(Issue.fromMap(
+                        doc.data() as Map<String, dynamic>, doc.id));
+                  });
+                  if (issue.isEmpty) {
+                    return Wrap(
+                      children: [
+                        Container(
+                            width: screenSize.width,
+                            height: 450,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('No details found'),
+                              ],
+                            )),
+                      ],
+                    );
+                  } else {
+                    return Container(
+                      width: screenSize.width,
+                      height: screenSize.height,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: issue.length,
+                                  itemBuilder: (context, index) {
+                                    if (issue[index].animalid ==
+                                        cows[indexcows].id) {
+                                      return OnIssue(issue, index);
+                                    }
+                                  },
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }
                 }
-              }
-            },
-          ),
+              },
+            ),
 
             const SizedBox(
                 height: 50), // Adjust the height as needed for spacing
@@ -152,8 +153,13 @@ class AnimalDetail extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ReportAnimal(cows: cows,index: indexcows,)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReportAnimal(
+                            cows: cows,
+                            index: indexcows,
+                          )));
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
@@ -294,13 +300,12 @@ class CustomCardWidget extends StatelessWidget {
     );
   }
 
-
   Future<void> deleteDocument(String documentId,
       {VoidCallback? onDeleted}) async {
     User? user = FirebaseAuth.instance.currentUser;
     try {
       await FirebaseFirestore.instance
-          .collection('Farm details/'+user!.uid +'/animal details')
+          .collection('Farm details/' + user!.uid + '/animal details')
           .doc(documentId)
           .delete();
       print('Document deleted successfully.');
@@ -313,13 +318,11 @@ class CustomCardWidget extends StatelessWidget {
   }
 }
 
-
-
 class OnIssue extends StatefulWidget {
   final List<Issue> issue;
   final int index;
 
-  OnIssue(this.issue,this.index);
+  OnIssue(this.issue, this.index);
 
   @override
   State<OnIssue> createState() => _OnIssueState();
@@ -341,28 +344,30 @@ class _OnIssueState extends State<OnIssue> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Health Issue : '+widget.issue[widget.index].animalissue,
+                      'Health Issue : ' +
+                          widget.issue[widget.index].animalissue,
                       style: TextStyle(fontSize: 16),
                     ),
-                    widget.issue[widget.index].visit==false?
-                    ElevatedButton(
-                      onPressed: () {
-                        // Logic for the button
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(254, 176, 82, 1),
-                      ),
-                      child: Text(
-                        'Minor Issue',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ):SizedBox(),
+                    widget.issue[widget.index].visit == false
+                        ? ElevatedButton(
+                            onPressed: () {
+                              // Logic for the button
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromRGBO(254, 176, 82, 1),
+                            ),
+                            child: Text(
+                              'Minor Issue',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
                   ],
                 ),
-                Text('Date : '+widget.issue[widget.index].timeDate),
+                Text('Date : ' + widget.issue[widget.index].timeDate),
               ],
             ),
           ),
@@ -378,13 +383,10 @@ class _OnIssueState extends State<OnIssue> {
                 fixedSize: const Size(180, 20),
                 backgroundColor: Color.fromRGBO(28, 42, 58, 1),
               ),
-              child: Text('Now Healthy',
-                  style: TextStyle(color: Colors.white)),
+              child: Text('Now Healthy', style: TextStyle(color: Colors.white)),
             ),
             OutlinedButton(
-              onPressed: () {
-
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(180, 20),
               ),
@@ -395,7 +397,9 @@ class _OnIssueState extends State<OnIssue> {
             ),
           ],
         ),
-        SizedBox(height: 20,)
+        SizedBox(
+          height: 20,
+        )
       ],
     );
   }
@@ -407,16 +411,17 @@ class _OnIssueState extends State<OnIssue> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Healthy'),
-          content: Text('Are you sure '+widget.issue[widget.index].animalname+' is healthy now?'),
+          content: Text('Are you sure ' +
+              widget.issue[widget.index].animalname +
+              ' is healthy now?'),
           actions: <Widget>[
             ElevatedButton(
               child: Text('yes'),
               onPressed: () {
-                deleteDocumentissue(widget.issue[widget.index].id, onDeleted: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Animal()));
+                deleteDocumentissue(widget.issue[widget.index].id,
+                    onDeleted: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Animal()));
                 }); // Close the dialog
               },
             ),
@@ -442,5 +447,4 @@ class _OnIssueState extends State<OnIssue> {
       print('Error deleting document: $e');
     }
   }
-
 }

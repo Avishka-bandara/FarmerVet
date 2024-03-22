@@ -1,5 +1,3 @@
-import 'package:farmervet/vet_animal.dart';
-import 'package:farmervet/vet_farm_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
@@ -29,23 +27,19 @@ class _diagnose_health extends State<Diagnose_health> {
             Text(
               "Specify a health issue based on animal condition mentioned by farmer",
               style: TextStyle(
-                  color: Color.fromRGBO(107, 114, 128, 1), fontSize: 16),
+                  color: Color.fromRGBO(107, 114, 128, 1), fontSize: 18),
             ),
             SizedBox(height: 20),
-            //Divider(),
+            Divider(),
             SizedBox(height: 10),
             CustomCardWidget(),
-            SizedBox(height: 30),
-            // bring the elevated buton in to bottom
-
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(28, 42, 58, 1),
-                fixedSize: Size(200, 50),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromRGBO(28, 42, 58, 1)),
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FarmViewScreen()));
+                // Functionality for the third button
               },
               child: Text(
                 "Submit",
@@ -81,7 +75,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
     return Column(
       children: [
         Card(
-          elevation: 0.0,
+          elevation: 3.0,
           margin: EdgeInsets.only(top: 10.0),
           child: InkWell(
             child: Padding(
@@ -292,7 +286,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: [Text("Choose:", style: TextStyle(fontSize: 16))],
+                    children: [Text("Choose:")],
                   ),
                   SizedBox(height: 10),
                   Row(
@@ -329,39 +323,35 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
                   Visibility(
                     visible: _selectedRadio == 2,
                     // Show label when radio button with value 1 is selected
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(254, 176, 82, 1),
-                            borderRadius: BorderRadius.circular(
-                                20), // Adjust the radius as needed
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(5),
-                              // Adjust padding as needed
-                              child: Text(
-                                'Minor Issue',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
+                    child: Container(
+                      width: 100,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(254, 176, 82, 1),
+                        borderRadius: BorderRadius.circular(
+                            20), // Adjust the radius as needed
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(5),
+                          // Adjust padding as needed
+                          child: Text(
+                            'Minor Issue',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Text(
-                          "* * Please advise the farmer by contacting them",
-                          style: TextStyle(
-                            color: Color.fromRGBO(234, 67, 53, 1),
-                            fontSize: 13.0,
-                          ),
-                        ),
-                      ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Visibility(
+                    visible: _selectedRadio == 2,
+                    // Show label when radio button with value 1 is selected
+                    child: Text(
+                      '** Please advice the farmer by contacting them ',
+                      style: TextStyle(color: Colors.red),
                     ),
                   ),
                 ],
