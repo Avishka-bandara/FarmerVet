@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/vet_reproduction.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
@@ -5,16 +7,27 @@ import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 import 'package:farmervet/vet_add_new_reproduction.dart';
 
+import 'CowList.dart';
 import 'add_animal.dart';
+import 'farmList.dart';
 
 class BreedingInfo extends StatefulWidget {
+
+  final List<Farm> farm;
+  final int index;
+
+  BreedingInfo(this.farm, this.index);
+
   @override
   State<BreedingInfo> createState() => _BreedingInfoState();
 }
 
 class _BreedingInfoState extends State<BreedingInfo> {
+
+  late Size screenSize;
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Farm Breeding Info',
@@ -34,7 +47,98 @@ class _BreedingInfoState extends State<BreedingInfo> {
             SizedBox(height: 10),
             CustomSearchBar(),
             SizedBox(height: 10),
-            CustomCardWidget(),
+            FutureBuilder<QuerySnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection('Farm details/${widget.farm[widget.index].id}/animal details')
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Wrap(
+                    children: [
+                      Container(
+                          height: 450,
+                          width: screenSize.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const CircularProgressIndicator(
+                                  color: Colors.black),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text("Loading data"),
+                            ],
+                          )),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  List<Cow> cows = [];
+                  snapshot.data!.docs.forEach((doc) {
+                    cows.add(Cow.fromMap(
+                        doc.data() as Map<String, dynamic>, doc.id));
+                  });
+                  if (cows.isEmpty) {
+                    return Wrap(
+                      children: [
+                        Container(
+                            width: screenSize.width,
+                            height: 450,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('No details found'),
+                              ],
+                            )),
+                      ],
+                    );
+                  } else {
+                    return Container(
+                      width: screenSize.width,
+                      height: screenSize.height,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: cows.length,
+                                  itemBuilder: (context, index) {
+                                    if(cows[index].type=="Heifer"){
+                                      return CustomCardWidget(cows, index);
+                                    }
+                                    else{
+                                      return Wrap(
+                                        children: [
+                                          Container(
+                                              width: screenSize.width,
+                                              height: 450,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text('No details found'),
+                                                ],
+                                              )),
+                                        ],
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
           ]),
         ),
       ),
@@ -85,6 +189,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 // custom card widget
 //
 class CustomCardWidget extends StatelessWidget {
+  final List<Cow> cows;
+  final int index;
+
+  CustomCardWidget(this.cows, this.index);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -105,7 +214,7 @@ class CustomCardWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-                        image: AssetImage('assets/cow.jpg'),
+                        image: AssetImage(getImageAsset(cows[index].type)),
                         // Load the image from the database
                         fit: BoxFit.cover,
                       ),
@@ -117,7 +226,7 @@ class CustomCardWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Cow 1',
+                          cows[index].name,
                           // Replace with the actual name from the database
                           style: TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -129,12 +238,12 @@ class CustomCardWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Heifer',
+                              cows[index].type,
                               style: TextStyle(fontSize: 15.0),
                             ),
                             SizedBox(width: 140),
                             Text(
-                              '6 Months',
+                              cows[index].age+" months",
                               // Replace with the actual age from the database
                               style: TextStyle(
                                 fontSize: 15.0,
@@ -183,7 +292,11 @@ class CustomCardWidget extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        // Functionality for the second button
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => vet_reproduction()),
+                        );
                       },
                       child: Text(
                         "View Reproduction",
@@ -199,4 +312,18 @@ class CustomCardWidget extends StatelessWidget {
       ),
     );
   }
+
+  String getImageAsset(String name) {
+    switch (name) {
+      case "Bull":
+        return 'assets/bull.jpg';
+      case "Heifer":
+        return 'assets/heifer.jpg';
+      case "Calf-Male":
+        return 'assets/mcalf.jpg';
+      default:
+        return 'assets/fcalf.jpg';
+    }
+  }
+
 }
