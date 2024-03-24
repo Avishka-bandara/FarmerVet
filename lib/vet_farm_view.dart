@@ -222,12 +222,17 @@ class FarmViewScreen extends StatelessWidget {
   }
 }
 
-class FarmCard extends StatelessWidget {
+class FarmCard extends StatefulWidget {
   final List<Farm> farm;
   final int index;
 
   FarmCard(this.farm, this.index);
 
+  @override
+  State<FarmCard> createState() => _FarmCardState();
+}
+
+class _FarmCardState extends State<FarmCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -239,10 +244,14 @@ class FarmCard extends StatelessWidget {
         onLongPress: (){
           removeView(context);
         },
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => FarmDetailView(farm, index))),
+        onTap: () {
+          if(widget.farm[widget.index].status=="active"){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => FarmDetailView(widget.farm, widget.index)));
+          }
+        },
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Center(
@@ -250,17 +259,27 @@ class FarmCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    farm[index].name,
-                    // Replace with the farm name from the database
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  Row(children: [
+                    Text(
+                      widget.farm[widget.index].name,
+                      // Replace with the farm name from the database
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 150,),
+                    Text(
+                      widget.farm[widget.index].status,
+                      // Replace with the farm name from the database
+                      style: TextStyle(
+                        color: Colors.red,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],),
                   Row(children: [
                     Icon(Icons
                         .location_on_outlined), // Add your desired prefix icon here
                     SizedBox(width: 5),
                     Text(
-                      farm[index].area,
+                      widget.farm[widget.index].area,
                       style: TextStyle(fontSize: 15.0),
                     ),
                   ]),
@@ -274,7 +293,7 @@ class FarmCard extends StatelessWidget {
                         width:
                             5), */ // Adjust spacing between icon and text as needed
                       Text(
-                        farm[index].email,
+                        widget.farm[widget.index].email,
                         // Replace with the farm name from the database
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -290,22 +309,61 @@ class FarmCard extends StatelessWidget {
   }
 
   void removeView(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Farm Settings'),
-          content: Text('Do you need to mark '+farm[index].name+' farm as Inactive'),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text('yes'),
-              onPressed: ()  {// Close the dialog
-              },
-            ),
-          ],
-        );
-      },
-    );
+    if(widget.farm[widget.index].status=='active'){
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Farm Settings'),
+            content: Text('Do you need to mark '+widget.farm[widget.index].name+' farm as Inactive'),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text('yes'),
+                onPressed: ()  {
+                  updateStatus('inactive');
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    else if(widget.farm[widget.index].status=='inactive'){
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Farm Settings'),
+            content: Text('Do you need to mark '+widget.farm[widget.index].name+' farm as active'),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text('yes'),
+                onPressed: ()  {
+                  updateStatus('active');
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
   }
 
+  Future<void> updateStatus(String status) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    final DocumentReference documentReference = _firestore.collection('Farm details').doc(widget.farm[widget.index].id);
+
+    await documentReference.update({
+      'status': status,
+    }).then((value){
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => FarmViewScreen()),
+      );
+    });
+  }
 }

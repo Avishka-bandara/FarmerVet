@@ -1,13 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class OverviewScreen extends StatelessWidget {
+class OverviewScreen extends StatefulWidget {
+  @override
+  State<OverviewScreen> createState() => _OverviewScreenState();
+}
+
+class _OverviewScreenState extends State<OverviewScreen> {
+
+  int activeCount=0;
+  int inactiveCount=0;
+  int _stolen = 0;
+  int _deceased = 0;
+  int _unproductive = 0;
+  int Bullcount=0;
+  int Heifercount=0;
+  int Calf_Malecount=0;
+  int Calf_Femalecount=0;
+
+  @override
+  void initState() {
+    super.initState();
+    getactiveinactive();
+    getremovereason();
+    getTotalanimalcount();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    int activeFarms = 10; // Example value for active farms
-    int inactiveFarms = 5; // Example value for inactive farms
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Overview'),
@@ -42,7 +66,7 @@ class OverviewScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 5.0),
                             Text(
-                              '$activeFarms',
+                              '$activeCount',
                               style: TextStyle(
                                 fontSize: 16.0,
                               ),
@@ -65,7 +89,7 @@ class OverviewScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 5.0),
                             Text(
-                              '$inactiveFarms',
+                              '$inactiveCount',
                               style: TextStyle(
                                 fontSize: 16.0,
                               ),
@@ -102,26 +126,10 @@ class OverviewScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 5.0),
                             Text(
-                              '20', // Example value for deseased animals
+                              '$_deceased', // Example value for deseased animals
                               style: TextStyle(
                                   fontSize: 16.0,
-                                  color: Color.fromRGBO(29, 36, 217, 1),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              '35', // Example value for deseased animals
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color.fromRGBO(180, 187, 17, 1),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              '35', // Example value for deseased animals
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color.fromRGBO(50, 119, 32, 1),
+                                  color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10)
@@ -143,28 +151,13 @@ class OverviewScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 5.0),
                             Text(
-                              '5', // Example value for Unproductive animals
+                              '$_unproductive', // Example value for Unproductive animals
                               style: TextStyle(
                                   fontSize: 16.0,
-                                  color: Color.fromRGBO(29, 36, 217, 1),
+                                  color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              '15', // Example value for deseased animals
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color.fromRGBO(180, 187, 17, 1),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              '35', // Example value for deseased animals
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color.fromRGBO(50, 119, 32, 1),
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            SizedBox(height: 10)
                           ],
                         ),
                         SizedBox(
@@ -183,28 +176,13 @@ class OverviewScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 5.0),
                             Text(
-                              '15', // Example value for lost/stolen animals
+                              '$_stolen', // Example value for lost/stolen animals
                               style: TextStyle(
                                   fontSize: 16.0,
-                                  color: Color.fromRGBO(29, 36, 217, 1),
+                                  color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              '2', // Example value for deseased animals
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color.fromRGBO(180, 187, 17, 1),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              '35', // Example value for deseased animals
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color.fromRGBO(50, 119, 32, 1),
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            SizedBox(height: 10)
                           ],
                         ),
                       ],
@@ -226,11 +204,11 @@ class OverviewScreen extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              Text('60',
+                              Text('$Bullcount',
                                   style: TextStyle(
                                       color: Color.fromRGBO(29, 36, 217, 1),
                                       fontWeight: FontWeight.bold)),
-                              Text('Cow',
+                              Text('Bull',
                                   style: TextStyle(
                                       color: Color.fromRGBO(29, 36, 217, 1),
                                       fontWeight: FontWeight.bold))
@@ -238,12 +216,12 @@ class OverviewScreen extends StatelessWidget {
                           ),
                           Column(
                             children: [
-                              Text('60',
+                              Text('$Calf_Malecount',
                                   style: TextStyle(
                                       fontSize: 16.0,
                                       color: Color.fromRGBO(180, 187, 17, 1),
                                       fontWeight: FontWeight.bold)),
-                              Text('Calf',
+                              Text('Calf-male',
                                   style: TextStyle(
                                       fontSize: 16.0,
                                       color: Color.fromRGBO(180, 187, 17, 1),
@@ -253,7 +231,25 @@ class OverviewScreen extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                '35', // Example value for deseased animals
+                                '$Calf_Femalecount', // Example value for deseased animals
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Color.fromRGBO(50, 119, 32, 1),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Calf-female', // Example value for deseased animals
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Color.fromRGBO(50, 119, 32, 1),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                '$Heifercount', // Example value for deseased animals
                                 style: TextStyle(
                                     fontSize: 16.0,
                                     color: Color.fromRGBO(50, 119, 32, 1),
@@ -304,6 +300,108 @@ class OverviewScreen extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> getremovereason() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Query to get documents with field "status" equal to "active"
+    QuerySnapshot stolen = await firestore
+        .collection('remove animal')
+        .where('reason', isEqualTo: 'Stolen')
+        .get();
+
+
+    // Query to get documents with field "status" equal to "inactive"
+    QuerySnapshot deceased = await firestore
+        .collection('remove animal')
+        .where('reason', isEqualTo: 'Deceased')
+        .get();
+
+    QuerySnapshot unproductive = await firestore
+        .collection('remove animal')
+        .where('reason', isEqualTo: 'Unproductive')
+        .get();
+
+     setState(() {
+       _stolen = stolen.docs.length;
+       _deceased = deceased.docs.length;
+       _unproductive = unproductive.docs.length;
+     });
+  }
+
+  Future<void> getactiveinactive() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Query to get documents with field "status" equal to "active"
+    QuerySnapshot activeSnapshot = await firestore
+        .collection('Farm details')
+        .where('status', isEqualTo: 'active')
+        .get();
+
+    // Query to get documents with field "status" equal to "inactive"
+    QuerySnapshot inactiveSnapshot = await firestore
+        .collection('Farm details')
+        .where('status', isEqualTo: 'inactive')
+        .get();
+
+    setState(() {
+      activeCount = activeSnapshot.docs.length;
+      inactiveCount = inactiveSnapshot.docs.length;
+    });
+
+  }
+
+  Future<void> getTotalanimalcount() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('Farm details')
+        .get();
+
+    List<String> documentIds = snapshot.docs.map((doc) => doc.id).toList();
+
+    documentIds.forEach((id) async {
+      QuerySnapshot bullcount = await firestore
+          .collection('Farm details/'+id+'/animal details')
+          .where('animaltype', isEqualTo: 'Bull')
+          .get();
+
+      QuerySnapshot heifercount = await firestore
+          .collection('Farm details/'+id+'/animal details')
+          .where('animaltype', isEqualTo: 'Heifer')
+          .get();
+
+      QuerySnapshot calf_Malecount = await firestore
+          .collection('Farm details/'+id+'/animal details')
+          .where('animaltype', isEqualTo: 'Calf-Male')
+          .get();
+
+      QuerySnapshot calf_Femalecount = await firestore
+          .collection('Farm details/'+id+'/animal details')
+          .where('animaltype', isEqualTo: 'Calf-Female')
+          .get();
+
+      setState(() {
+        Bullcount = bullcount.docs.length;
+        Heifercount = heifercount.docs.length;
+        Calf_Malecount = calf_Malecount.docs.length;
+        Calf_Femalecount = calf_Femalecount.docs.length;
+      });
+
+    });
+
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 }
 
 //
@@ -315,7 +413,7 @@ class barchart extends StatefulWidget {
 }
 
 class _barchartState extends State<barchart> {
-  List<double> data = List.filled(12, 0); // Initial data for Y-axis
+  List<double> data = List.filled(12, 0);// Initial data for Y-axis
   List<String> years = [
     'Jan',
     'Feb',
@@ -347,6 +445,7 @@ class _barchartState extends State<barchart> {
 
   @override
   Widget build(BuildContext context) {
+    getTotalamilkcount();
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: AspectRatio(
@@ -438,6 +537,40 @@ class _barchartState extends State<barchart> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> getTotalamilkcount() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('Farm details')
+        .get();
+
+    List<String> documentIds = snapshot.docs.map((doc) => doc.id).toList();
+
+    documentIds.forEach((id) async {
+      snapshot = await FirebaseFirestore.instance
+          .collection('Farm details'+id+'milk output')
+          .get();
+
+      List<String> milkdocumentIds = snapshot.docs.map((doc) => doc.id).toList();
+      milkdocumentIds.forEach((element) {
+        showToast(element);
+      });
+
+    });
+
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 }
@@ -573,4 +706,6 @@ class _circle_indiState extends State<circle_indi> {
       ),
     );
   }
+
+
 }

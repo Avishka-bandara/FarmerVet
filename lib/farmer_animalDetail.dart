@@ -243,6 +243,7 @@ class CustomCardWidget extends StatelessWidget {
                                       groupValue: selectedRadio,
                                       onChanged: (value) {
                                         Navigator.of(context).pop();
+                                        removeAnimal(context,"Stolen");
                                         // You can handle the selected radio value here
                                         selectedRadio = value as int;
                                       },
@@ -253,6 +254,7 @@ class CustomCardWidget extends StatelessWidget {
                                       groupValue: selectedRadio,
                                       onChanged: (value) {
                                         Navigator.of(context).pop();
+                                        removeAnimal(context,"Deceased");
                                         // You can handle the selected radio value here
                                         selectedRadio = value as int;
                                       },
@@ -263,6 +265,7 @@ class CustomCardWidget extends StatelessWidget {
                                       groupValue: selectedRadio,
                                       onChanged: (value) {
                                         Navigator.of(context).pop();
+                                        removeAnimal(context,"Unproductive");
                                         // You can handle the selected radio value here
                                         selectedRadio = value as int;
                                       },
@@ -328,7 +331,7 @@ class CustomCardWidget extends StatelessWidget {
     }
   }
 
-  void removeAnimal(BuildContext context) async {
+  void removeAnimal(BuildContext context,String reason) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -338,11 +341,24 @@ class CustomCardWidget extends StatelessWidget {
           actions: <Widget>[
             ElevatedButton(
               child: Text('OK'),
-              onPressed: () {
-                deleteDocument(cows[index].id, onDeleted: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Animal()));
-                }); // Close the dialog
+              onPressed: () async {
+
+                await FirebaseFirestore.instance
+                    .collection('remove animal')
+                    .doc()
+                    .set({
+                  'reason': reason,
+                  // Add more fields as needed
+                }).then((value) {
+                  deleteDocument(cows[index].id, onDeleted: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Animal()));
+                  });
+                }).catchError((error) {
+                  print("Failed to store data: $error");
+                });
+
+ // Close the dialog
               },
             ),
           ],

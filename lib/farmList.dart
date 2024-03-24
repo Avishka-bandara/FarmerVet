@@ -6,6 +6,7 @@ class Farm {
   final String divisionalSecretariatArea;
   final String address;
   final String farmid;
+  final String status;
 
 
   Farm({
@@ -15,7 +16,8 @@ class Farm {
     required this.email,
     required this.divisionalSecretariatArea,
     required this.address,
-    required this.farmid
+    required this.farmid,
+    required this.status
 
   });
 
@@ -28,6 +30,7 @@ class Farm {
       divisionalSecretariatArea:map['Divisional secretariat area'],
       address:map['Farm Address'],
       farmid:map['Farm Id'],
+      status: map['status'],
     );
   }
 }
