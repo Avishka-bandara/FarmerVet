@@ -46,7 +46,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
             ),
             CustomDropdownField(
               hintText: '1st Service',
-              items: ['Option 1', 'Option 2', 'Option 3'],
+              items: ['1st Service', '2st Service', '3rd Service'],
               // List of dropdown items
               value: selectedValue,
               // Pass the selected value
