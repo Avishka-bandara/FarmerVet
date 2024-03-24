@@ -91,7 +91,7 @@ class FarmDetailView extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BreedingInfo()),
+                              builder: (context) => BreedingInfo(farm,index)),
                         );
                       },
                       child: Container(
