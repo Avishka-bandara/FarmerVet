@@ -475,7 +475,7 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: 0.5,
+                      percent: 0.8,
                       center: new Text(
                           "25", //...............Number of AI s getting data from reproduction table...............
                           style: TextStyle(

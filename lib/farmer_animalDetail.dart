@@ -192,6 +192,7 @@ class CustomCardWidget extends StatelessWidget {
   final int index;
 
   CustomCardWidget(this.cows, this.index);
+  int selectedRadio = 0; // Define selectedRadio within the build method
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +229,57 @@ class CustomCardWidget extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          removeAnimal(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Reason for remove"),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    RadioListTile(
+                                      title: Text("Stolen"),
+                                      value: 1,
+                                      groupValue: selectedRadio,
+                                      onChanged: (value) {
+                                        Navigator.of(context).pop();
+                                        // You can handle the selected radio value here
+                                        selectedRadio = value as int;
+                                      },
+                                    ),
+                                    RadioListTile(
+                                      title: Text("Deceased "),
+                                      value: 2,
+                                      groupValue: selectedRadio,
+                                      onChanged: (value) {
+                                        Navigator.of(context).pop();
+                                        // You can handle the selected radio value here
+                                        selectedRadio = value as int;
+                                      },
+                                    ),
+                                    RadioListTile(
+                                      title: Text("Unproductive "),
+                                      value: 3,
+                                      groupValue: selectedRadio,
+                                      onChanged: (value) {
+                                        Navigator.of(context).pop();
+                                        // You can handle the selected radio value here
+                                        selectedRadio = value as int;
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Cancel"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromRGBO(234, 67, 53, 1),
