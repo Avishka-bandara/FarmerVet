@@ -193,7 +193,7 @@ class _diagnose_health extends State<Diagnose_health> {
           isLoading = false;
         });
 
-        DocumentReference documentReference = FirebaseFirestore.instance.collection('Farm visit').doc(widget.farm[widget.index2].id);
+        DocumentReference documentReference = FirebaseFirestore.instance.collection('Farm visit').doc(widget.farm[widget.index2].id+widget.issue[widget.index].id);
         await documentReference.delete().then((value){
           print('Document deleted successfully!');
           showToast("Saved");
