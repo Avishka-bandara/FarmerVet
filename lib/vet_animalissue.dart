@@ -157,8 +157,12 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Diagnose_health()),
-                      MaterialPageRoute(builder: (context) => Diagnose_health(farm: widget.farm,index2: widget.index2,index: widget.index,issue: widget.issue,)),
+                          builder: (context) => Diagnose_health(
+                                farm: widget.farm,
+                                index2: widget.index2,
+                                index: widget.index,
+                                issue: widget.issue,
+                              )),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -174,7 +178,8 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Diagnose_health()));
+                            builder: (context) => vet_animal(
+                                farm: widget.farm, index: widget.index2)));
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(300, 50),

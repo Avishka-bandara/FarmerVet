@@ -109,7 +109,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 height: 60,
                 width: 350,
                 child: TextField(
-                  obscureText: true,
+                  //obscureText: false,
                   decoration: InputDecoration(
                     hintText: 'code',
                     border: OutlineInputBorder(),
@@ -238,7 +238,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 height: 60,
                 width: 350,
                 child: TextField(
-                  obscureText: true,
+                  obscureText: false,
                   decoration: InputDecoration(
                     hintText: 'Code',
                     border: OutlineInputBorder(),
@@ -260,7 +260,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 height: 60,
                 width: 350,
                 child: TextField(
-                  obscureText: true,
+                  obscureText: false,
                   decoration: InputDecoration(
                     hintText: 'in code',
                     border: OutlineInputBorder(),
@@ -278,6 +278,17 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
               ),
             ),
             DatePickerFormField(),*/
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                // Handle button press
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromRGBO(28, 42, 58, 1),
+                fixedSize: const Size(150, 50),
+              ),
+              child: Text('Submit', style: TextStyle(color: Colors.white)),
+            ),
           ]),
         ),
       ),
