@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/milkTotalByMonth.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
+import 'milkData.dart';
 
 class OverviewScreen extends StatefulWidget {
   @override
@@ -415,32 +418,32 @@ class barchart extends StatefulWidget {
 class _barchartState extends State<barchart> {
   List<double> data = List.filled(12, 0);// Initial data for Y-axis
   List<String> years = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
+    'Jan ',
+    'Feb ',
+    'Mar ',
+    'Apr ',
+    'May ',
+    'Jun ',
+    'Jul ',
+    'Aug ',
+    'Sep ',
+    'Oct ',
+    'Nov ',
+    'Dec '
   ];
   List<double> value = [
-    7.0,
-    5.6,
-    12.1,
-    3.8,
-    5.0,
-    1.0,
-    11.0,
-    1.36,
-    8.6,
-    3.6,
-    7.8,
-    13.8,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
 
   @override
@@ -541,6 +544,10 @@ class _barchartState extends State<barchart> {
   }
 
   Future<void> getTotalamilkcount() async {
+    List<Milk> milks = [];
+    DateTime now = DateTime.now();
+    String currentYear = now.year.toString();
+
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('Farm details')
@@ -550,16 +557,83 @@ class _barchartState extends State<barchart> {
 
     documentIds.forEach((id) async {
       snapshot = await FirebaseFirestore.instance
-          .collection('Farm details'+id+'milk output')
+          .collection('Farm details/'+id+'/milk output')
           .get();
 
-      List<String> milkdocumentIds = snapshot.docs.map((doc) => doc.id).toList();
-      milkdocumentIds.forEach((element) {
-        showToast(element);
+      snapshot.docs.forEach((doc) {
+        milks.add(Milk.fromMap(doc.data()as Map<String, dynamic>, doc.id));
       });
 
-    });
+      MilkListtotal milkList = MilkListtotal(milks: milks);
 
+      Map<String, double> totalLitersByMonth = milkList.getTotalLitersByMonth();
+
+      totalLitersByMonth.forEach((monthYear, totalLiters) {
+        if(monthYear.substring(3)==currentYear){
+          if(monthYear.substring(0,2)=="01"){
+            setState(() {
+              value[0]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="02"){
+            setState(() {
+              value[1]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="03"){
+            setState(() {
+              value[2]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="04"){
+            setState(() {
+              value[3]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="05"){
+            setState(() {
+              value[4]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="06"){
+            setState(() {
+              value[5]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="07"){
+            setState(() {
+              value[6]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="08"){
+            setState(() {
+              value[7]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="09"){
+            setState(() {
+              value[8]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="10"){
+            setState(() {
+              value[9]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="11"){
+            setState(() {
+              value[10]=totalLiters;
+            });
+          }
+          else if(monthYear.substring(0,2)=="12"){
+            setState(() {
+              value[11]=totalLiters;
+            });
+          }
+        }
+      });
+    }
+    );
   }
 
   void showToast(String message) {

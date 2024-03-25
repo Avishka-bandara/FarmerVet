@@ -2,10 +2,10 @@ import 'package:intl/intl.dart';
 
 import 'milkData.dart';
 
-class MilkList {
+class MilkListtotal {
   final List<Milk> milks;
 
-  MilkList({required this.milks});
+  MilkListtotal({required this.milks});
 
   Map<String, double> getTotalLitersByMonth() {
     Map<String, double> totalLitersByMonth = {};
