@@ -52,4 +52,5 @@ class MilkList {
     }
     return total;
   }
+
 }

@@ -154,10 +154,11 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Diagnose_health()),
+                      MaterialPageRoute(builder: (context) => Diagnose_health(farm: widget.farm,index2: widget.index2,index: widget.index,issue: widget.issue,)),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -170,7 +171,7 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                 SizedBox(height: 20.0),
                 OutlinedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => Diagnose_health()));

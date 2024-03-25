@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/farmVisit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +17,7 @@ class Required_visits extends StatefulWidget {
 class _Required_visitsState extends State<Required_visits> {
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Required Farm Visits',
@@ -24,22 +27,81 @@ class _Required_visitsState extends State<Required_visits> {
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: SafeArea(
-          child: ListView(children: [
-            SizedBox(height: 10),
-            Text(
-              "Farm visits for animal health issues posted by farmer or officer",
-              style: TextStyle(
-                  color: Color.fromRGBO(107, 114, 128, 1), fontSize: 18),
-            ),
-            SizedBox(height: 20),
-            Divider(),
-            SizedBox(height: 10),
-            CustomCardWidget(),
-            SizedBox(height: 10),
-            CustomCardWidget(),
-            SizedBox(height: 10),
-            CustomCardWidget(),
-          ]),
+          child: FutureBuilder<QuerySnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('Farm visit')
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Wrap(
+                  children: [
+                    Container(
+                        height: 450,
+                        width: screenSize.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const CircularProgressIndicator(
+                                color: Colors.black),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text("Loading data"),
+                          ],
+                        )),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                List<FarmVisit> farmVisit = [];
+                snapshot.data!.docs.forEach((doc) {
+                  farmVisit.add(FarmVisit.fromMap(
+                      doc.data() as Map<String, dynamic>, doc.id));
+                });
+                if (farmVisit.isEmpty) {
+                  return Wrap(
+                    children: [
+                      Container(
+                          width: screenSize.width,
+                          height: 450,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('No details found'),
+                            ],
+                          )),
+                    ],
+                  );
+                } else {
+                  return Container(
+                    width: screenSize.width,
+                    height: screenSize.height,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: farmVisit.length,
+                                itemBuilder: (context, index) {
+                                  return CustomCardWidget(farmVisit,index);
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
+            },
+          ),
         ),
       ),
     );
@@ -50,6 +112,11 @@ class _Required_visitsState extends State<Required_visits> {
 // custom card widget
 //
 class CustomCardWidget extends StatefulWidget {
+  final List<FarmVisit> farmVisit;
+  final int index;
+
+  CustomCardWidget(this.farmVisit,this.index);
+
   @override
   _CustomCardWidgetState createState() => _CustomCardWidgetState();
 }
@@ -81,7 +148,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
                     children: [
                       Text(
                         //data should be retrieved from the database
-                        "Cow 01 Farm 01",
+                        widget.farmVisit[widget.index].cowname+"   "+widget.farmVisit[widget.index].farmName,
                         style: TextStyle(
                             color: Color.fromRGBO(75, 85, 99, 1),
                             fontWeight: FontWeight.bold,
@@ -102,7 +169,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
                       Text(
                         //data should be retrieved from the database
 
-                        "Requires immediate visit to farm",
+                        widget.farmVisit[widget.index].location,
                         style: TextStyle(
                           color: Color.fromRGBO(107, 114, 128, 1),
                         ),
@@ -115,7 +182,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
                       SizedBox(width: 5),
                       // Adjust the width as needed for spacing
                       Text(
-                        "Reported Time",
+                        "Reported Time : "+widget.farmVisit[widget.index].timedate,
                         style: TextStyle(
                           color: Color.fromRGBO(107, 114, 128, 1),
                         ),
@@ -129,7 +196,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
                       SizedBox(width: 5),
                       // Adjust the width as needed for spacing
                       Text(
-                        "Phone Number",
+                        "Email : "+widget.farmVisit[widget.index].email,
                         style: TextStyle(
                           color: Color.fromRGBO(107, 114, 128, 1),
                         ),

@@ -274,6 +274,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           'Farm Address': farmaddress,
           'Divisional secretariat area': divisionalsec,
           'Grama niladari area': gramanila,
+          'status':"active"
           // Add more fields as needed
         });
 
