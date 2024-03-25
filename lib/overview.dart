@@ -326,9 +326,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
         .get();
 
      setState(() {
-       _stolen = stolen.docs.length;
-       _deceased = deceased.docs.length;
-       _unproductive = unproductive.docs.length;
+       _stolen += stolen.docs.length;
+       _deceased += deceased.docs.length;
+       _unproductive += unproductive.docs.length;
      });
   }
 
@@ -348,8 +348,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
         .get();
 
     setState(() {
-      activeCount = activeSnapshot.docs.length;
-      inactiveCount = inactiveSnapshot.docs.length;
+      activeCount += activeSnapshot.docs.length;
+      inactiveCount += inactiveSnapshot.docs.length;
     });
 
   }
@@ -384,10 +384,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
           .get();
 
       setState(() {
-        Bullcount = bullcount.docs.length;
-        Heifercount = heifercount.docs.length;
-        Calf_Malecount = calf_Malecount.docs.length;
-        Calf_Femalecount = calf_Femalecount.docs.length;
+        Bullcount += bullcount.docs.length;
+        Heifercount += heifercount.docs.length;
+        Calf_Malecount += calf_Malecount.docs.length;
+        Calf_Femalecount += calf_Femalecount.docs.length;
       });
 
     });
@@ -445,10 +445,15 @@ class _barchartState extends State<barchart> {
     0,
     0,
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTotalamilkcount();
+  }
 
   @override
   Widget build(BuildContext context) {
-    getTotalamilkcount();
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: AspectRatio(
@@ -544,11 +549,9 @@ class _barchartState extends State<barchart> {
   }
 
   Future<void> getTotalamilkcount() async {
-    List<Milk> milks = [];
+
     DateTime now = DateTime.now();
     String currentYear = now.year.toString();
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('Farm details')
         .get();
@@ -556,6 +559,7 @@ class _barchartState extends State<barchart> {
     List<String> documentIds = snapshot.docs.map((doc) => doc.id).toList();
 
     documentIds.forEach((id) async {
+      List<Milk> milks = [];
       snapshot = await FirebaseFirestore.instance
           .collection('Farm details/'+id+'/milk output')
           .get();
@@ -572,62 +576,62 @@ class _barchartState extends State<barchart> {
         if(monthYear.substring(3)==currentYear){
           if(monthYear.substring(0,2)=="01"){
             setState(() {
-              value[0]=totalLiters;
+              value[0]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="02"){
             setState(() {
-              value[1]=totalLiters;
+              value[1]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="03"){
             setState(() {
-              value[2]=totalLiters;
+              value[2]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="04"){
             setState(() {
-              value[3]=totalLiters;
+              value[3]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="05"){
             setState(() {
-              value[4]=totalLiters;
+              value[4]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="06"){
             setState(() {
-              value[5]=totalLiters;
+              value[5]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="07"){
             setState(() {
-              value[6]=totalLiters;
+              value[6]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="08"){
             setState(() {
-              value[7]=totalLiters;
+              value[7]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="09"){
             setState(() {
-              value[8]=totalLiters;
+              value[8]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="10"){
             setState(() {
-              value[9]=totalLiters;
+              value[9]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="11"){
             setState(() {
-              value[10]=totalLiters;
+              value[10]+=totalLiters;
             });
           }
           else if(monthYear.substring(0,2)=="12"){
             setState(() {
-              value[11]=totalLiters;
+              value[11]+=totalLiters;
             });
           }
         }
