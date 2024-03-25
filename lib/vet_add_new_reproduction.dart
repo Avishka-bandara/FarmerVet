@@ -1,3 +1,4 @@
+import 'package:farmervet/vet_farm_breeding_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:farmervet/farmer_animalDetail.dart';
@@ -281,7 +282,10 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // Handle button press
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BreedingInfo()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(28, 42, 58, 1),
