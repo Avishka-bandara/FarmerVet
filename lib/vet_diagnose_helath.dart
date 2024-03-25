@@ -5,12 +5,6 @@ import 'package:farmervet/daily_milk_entry.dart';
 import 'package:farmervet/farm_milk_output.dart';
 import 'add_animal.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: Diagnose_health(),
-  ));
-}
-
 class Diagnose_health extends StatefulWidget {
   @override
   State<Diagnose_health> createState() => _diagnose_health();
