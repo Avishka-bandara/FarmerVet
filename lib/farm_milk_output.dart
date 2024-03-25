@@ -3,20 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'milkData.dart';
-import 'milkData.dart';
-import 'milkData.dart';
 
 class totalMilkOutput extends StatefulWidget {
-
   final String id;
   totalMilkOutput({required this.id});
 
   @override
-  _totalMilkOutputState createState() => _totalMilkOutputState();
+  _totalMilkOutputState createState() => _totalMilkOutputState(); //state class
 }
 
 class _totalMilkOutputState extends State<totalMilkOutput> {
-
   TextEditingController _nameController = TextEditingController();
   TextEditingController _idController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
@@ -72,7 +68,8 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                                   '2026',
                                   '2027',
                                 ] // Add your list of years here
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -110,7 +107,8 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                                   'November',
                                   'December'
                                 ] // Add your list of years here
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -128,13 +126,15 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                     SizedBox(
                       height: 18,
                     ),
-
                     FutureBuilder<QuerySnapshot>(
-                      future: FirebaseFirestore.instance
-                          .collection('Farm details/'+widget.id+'/milk output')
+                      future: FirebaseFirestore
+                          .instance // Get the milk output data
+                          .collection(
+                              'Farm details/' + widget.id + '/milk output')
                           .get(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Wrap(
                             children: [
                               Container(
@@ -165,14 +165,14 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                           });
                           MilkList milkList = MilkList(milks: milk);
                           if (milk.isEmpty) {
-                            return
-                              Wrap(
+                            return Wrap(
                               children: [
                                 Container(
                                     width: screenSize.width,
                                     height: 450,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text('No details found'),
                                       ],
@@ -185,17 +185,27 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                                 Container(
                                   decoration: BoxDecoration(
                                       color: Color.fromRGBO(75, 89, 99, 1),
-                                      borderRadius: BorderRadius.all(Radius.circular(4))),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(4))),
                                   height: 50,
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       Text(
-                                        "Total For This Month : "+milkList.getTotalLitersthismonth().toString()+" L",
+                                        "Total For This Month : " +
+                                            milkList
+                                                .getTotalLitersthismonth()
+                                                .toString() +
+                                            " L",
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       Text(
-                                        "Total : "+milkList.getTotalLiters().toString()+" L", // total milk quantity
+                                        "Total : " +
+                                            milkList
+                                                .getTotalLiters()
+                                                .toString() +
+                                            " L", // total milk quantity
                                         style: TextStyle(color: Colors.white),
                                       )
                                     ],
@@ -209,7 +219,8 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
                                   height: screenSize.height,
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Column(
                                           children: [
@@ -237,8 +248,8 @@ class _totalMilkOutputState extends State<totalMilkOutput> {
   }
 }
 
+//.........Milk output table.............
 class DataTableExample extends StatefulWidget {
-
   final List<Milk> milk;
   DataTableExample({Key? key, required this.milk}) : super(key: key);
 
@@ -247,7 +258,6 @@ class DataTableExample extends StatefulWidget {
 }
 
 class _DataTableExampleState extends State<DataTableExample> {
-
   @override
   Widget build(BuildContext context) {
     return DataTable(
@@ -286,7 +296,7 @@ class _DataTableExampleState extends State<DataTableExample> {
           ),
         ),
       ],
-      rows:widget.milk.map((data) {
+      rows: widget.milk.map((data) {
         return DataRow(
           cells: <DataCell>[
             DataCell(Text(data.date)),

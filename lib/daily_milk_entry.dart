@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class dailyMilkEntry extends StatefulWidget {
+  //changed from StatelessWidget to StatefulWidget
   @override
   _dailyMilkEntryState createState() => _dailyMilkEntryState();
 }
@@ -32,7 +33,7 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
         centerTitle: false,
         title: Text('Daily Milk Entry',
             style: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.bold, // Set the font weight
                 color: Color.fromRGBO(28, 42, 58, 1))),
       ),
       body: Padding(
@@ -71,17 +72,21 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                             );
                             if (pickedDate != null &&
                                 pickedDate != _selectedDate) {
+                              // If the user has selected a date
                               setState(() {
-                                _selectedDate = pickedDate;
+                                _selectedDate =
+                                    pickedDate; // Update _selectedDate
                               });
                             }
                           },
                           readOnly: true,
                           controller: TextEditingController(
+                              // Add the selected date to the TextField
                               text: _selectedDate == null
                                   ? ''
                                   : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'),
                           decoration: InputDecoration(
+                            // Add the decoration
                             hintText: 'Date',
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.calendar_today),
@@ -162,34 +167,34 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
                   onPressed: () {
                     addMilkdata();
                   },
-                  child: isLoading
-                      ? const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Submitting....  ',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          )),
-                    ],
-                  )
-                      : const Text(
-                    'Submit',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child:
+                      isLoading // If isLoading is true, display a CircularProgressIndicator
+                          ? const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Submitting....  ',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: 30,
+                                    width: 30,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )),
+                              ],
+                            )
+                          : const Text(
+                              'Submit',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                              ),
+                            ),
                 ),
-
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -225,7 +230,11 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
       isLoading = true;
     });
 
-    String date = _selectedDate!.day.toString()+'/'+_selectedDate!.month.toString()+'/'+_selectedDate!.year.toString();
+    String date = _selectedDate!.day.toString() +
+        '/' +
+        _selectedDate!.month.toString() +
+        '/' +
+        _selectedDate!.year.toString();
     String liters = _litercontroller.text;
     String cows = _cowscontroller.text;
 
@@ -236,23 +245,25 @@ class _dailyMilkEntryState extends State<dailyMilkEntry> {
       'date': date,
       'liters': liters,
       'cows': cows,
-      // Add more fields as needed
     }).then((value) {
       setState(() {
-        isLoading = false;
+        isLoading = false; // Set isLoading to false
       });
       showToast("Added");
-      Navigator.pushReplacement(context,
+      Navigator.pushReplacement(
+          // Navigate to the Animal screen
+          context,
           MaterialPageRoute(builder: (context) => Animal()));
     }).catchError((error) {
       setState(() {
         isLoading = false;
       });
-      print("Failed to store data: $error");
+      print("Failed to store data: $error"); // Print the error message
     });
   }
 
   void showToast(String message) {
+    // Show a toast message
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,

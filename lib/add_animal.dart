@@ -13,6 +13,7 @@ class addAnimalForm extends StatefulWidget {
   _addAnimalFormState createState() => _addAnimalFormState();
 }
 
+//........firebase variables for data transfer.....
 class _addAnimalFormState extends State<addAnimalForm> {
   String? _selectedItem;
   User? user = FirebaseAuth.instance.currentUser;
@@ -27,7 +28,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
   @override
   void initState() {
     super.initState();
-    // Initialize _selectedDate with a default value
+    //........Initialize _selectedDate with a default value..................
     _selectedDate = DateTime.now();
   }
 
@@ -36,10 +37,11 @@ class _addAnimalFormState extends State<addAnimalForm> {
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        centerTitle: true, // Change the alignment as needed
         title: Text(
-          'Add Animal',
+          'Add Animal', // Change the title as needed
           style: TextStyle(
+              // Change the style as needed
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
               color: Color.fromRGBO(28, 42, 58, 1)),
@@ -73,6 +75,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             border: OutlineInputBorder(),
                           ),
                           items: <String>[
+                            //........Drop Down Menu Items........
                             'Bull',
                             'Heifer',
                             'Calf-Male',
@@ -106,7 +109,6 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),
-                            //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
@@ -126,7 +128,6 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),
-                            // prefixIcon: Icon(Icons.tag_outlined),
                           ),
                         ),
                       ),
@@ -138,7 +139,8 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         height: 60,
                         width: 342,
                         child: TextField(
-                          controller: animalBreed,
+                          controller:
+                              animalBreed, //..........Variable that carrying the value........
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
@@ -146,7 +148,6 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),
-                            //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
@@ -160,6 +161,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                         child: TextFormField(
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
+                              //..........Date Picker........
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: DateTime(1900),
@@ -204,7 +206,6 @@ class _addAnimalFormState extends State<addAnimalForm> {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),
-                            //prefixIcon: Icon(Icons.lock_outline),
                           ),
                         ),
                       ),
@@ -226,7 +227,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                     onPressed: () {
                       register();
                     },
-                    child: isLoading
+                    child: isLoading //..........Loading Indicator........
                         ? const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -263,12 +264,15 @@ class _addAnimalFormState extends State<addAnimalForm> {
   }
 
   Future<void> register() async {
+    //..........Register Function........
     setState(() {
       isLoading = true;
     });
 
-    String? animaltype = _selectedItem;
-    String animalname = animalName.text;
+    String? animaltype =
+        _selectedItem; //..........Variable that carrying the value........
+    String animalname =
+        animalName.text; //..........Variable that carrying the value........
     String tag = animalTag.text;
     String breed = animalBreed.text;
     String dateofBirth = (_selectedDate!.day).toString() +
@@ -279,24 +283,30 @@ class _addAnimalFormState extends State<addAnimalForm> {
     String animalAge = age.text;
 
     await FirebaseFirestore.instance
-        .collection('Farm details/' + user!.uid + '/animal details')
-        .doc()
+        .collection('Farm details/' +
+            user!.uid +
+            '/animal details') //..........Firebase Collection........
+        .doc() //..........Firebase Document........
         .set({
+      //..........Firebase Data........
       'animaltype': animaltype,
       'animalname': animalname,
       'tag': tag,
       'breed': breed,
       'dateofBirth': dateofBirth,
       'animalAge': animalAge
-      // Add more fields as needed
     }).then((value) {
       setState(() {
         isLoading = false;
       });
       showToast("Registered Successfully");
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Animal()));
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  Animal())); //..........Navigate to the page........
     }).catchError((error) {
+      //..........Error Handling........
       setState(() {
         isLoading = false;
       });
@@ -305,6 +315,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
   }
 
   void showToast(String message) {
+    //..........Toast Message........
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,

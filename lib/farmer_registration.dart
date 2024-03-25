@@ -8,11 +8,11 @@ import 'firebase_auth_services.dart';
 
 class UserRegistrationForm extends StatefulWidget {
   @override
-  _UserRegistrationFormState createState() => _UserRegistrationFormState();
+  _UserRegistrationFormState createState() => _UserRegistrationFormState(); 
 }
 
-class _UserRegistrationFormState extends State<UserRegistrationForm> {
-  final FirebaseAuthService _auth = FirebaseAuthService();
+class _UserRegistrationFormState extends State<UserRegistrationForm> {  
+  final FirebaseAuthService _auth = FirebaseAuthService();  
   TextEditingController _farmnameController = TextEditingController();
   TextEditingController _farmidController = TextEditingController();
   TextEditingController _farmaddressController = TextEditingController();
@@ -24,23 +24,23 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   bool isLoading = false;
 
   @override
-  Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+  Widget build(BuildContext context) {  
+    final Size screenSize = MediaQuery.of(context).size;  
+    return WillPopScope(  
+      onWillPop: () async { 
+        Navigator.pushReplacement(  
+            context, MaterialPageRoute(builder: (context) => RegisterScreen()));  
         return true;
       },
-      child: Scaffold(
+      child: Scaffold(  
         appBar: AppBar(
-          centerTitle: true,
+          centerTitle: true,  
           title: Text(
-            "Register your farm with FarmerVet",
+            "Register your farm with FarmerVet",  
             style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(28, 42, 58, 1)),
+                color: Color.fromRGBO(28, 42, 58, 1)),  
             textAlign: TextAlign.justify,
           ),
         ),
