@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 30),
               Column(children: <Widget>[
                 Text(
                   'Hi, Welcome to FarmerVet!',
@@ -58,12 +58,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(28, 42, 58, 1)),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: SizedBox(
                     width: 342,
-                    height: 45,
+                    height: 50,
                     child: TextField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: SizedBox(
                     width: 342,
-                    height: 45,
+                    height: 50,
                     child: TextField(
                       controller: _password,
                       obscureText: true,
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 70),
+                SizedBox(height: 60),
                 SizedBox(
                   width: 342,
                   height: 48,
@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                   ),
                 ),
-                SizedBox(height: 70),
+                SizedBox(height: 40),
                 Text(
                   'Forgot Password?',
                   style: TextStyle(
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Color.fromRGBO(28, 100, 242, 1),
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -216,10 +216,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void signin(String email, String password) async {
-    try{
+    try {
       User? user = await _auth.signInWithEmailAndPassword(email, password);
       DocumentSnapshot userSnapshot =
-      await _firestore.collection('user role').doc(user!.uid).get();
+          await _firestore.collection('user role').doc(user!.uid).get();
       Map<String, dynamic> userData =
           userSnapshot.data() as Map<String, dynamic>? ?? {};
       String? role = userData['role'];
@@ -229,8 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             isLoading = false;
           });
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => FarmViewScreen()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => FarmViewScreen()));
         } else {
           setState(() {
             isLoading = false;
@@ -253,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
           showToast("Login Failed!");
         }
       }
-    }catch(error){
+    } catch (error) {
       setState(() {
         isLoading = false;
       });

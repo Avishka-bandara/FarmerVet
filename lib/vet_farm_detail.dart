@@ -31,10 +31,10 @@ class FarmDetailView extends StatelessWidget {
             SizedBox(height: 10),
             Divider(thickness: 1),
             SizedBox(height: 10),
-            Text('Registration ID : ' + farm[index].farmid,
+            Text('Registration ID : ' + farm[index].farmid, //farmid
                 style: TextStyle(fontSize: 15.0)),
             SizedBox(height: 10),
-            Text('Address : ' + farm[index].address,
+            Text('Address : ' + farm[index].address, //address
                 style: TextStyle(fontSize: 15.0)),
             SizedBox(height: 10),
             Text(
@@ -57,7 +57,11 @@ class FarmDetailView extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => vet_animal(farm: farm,index: index,)),
+                          MaterialPageRoute(
+                              builder: (context) => vet_animal(
+                                    farm: farm,
+                                    index: index,
+                                  )), //navigate to vet_animal
                         );
                       },
                       child: Container(
@@ -74,11 +78,13 @@ class FarmDetailView extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => totalMilkOutput(id: farm[index].id)),
+                              builder: (context) =>
+                                  totalMilkOutput(id: farm[index].id)),
                         );
                       },
                       child: Container(
-                        child: Image.asset('assets/milk.png'),
+                        child: Image.asset(
+                            'assets/milk.png'), //navigate to totalMilkOutput
                       ),
                     ),
                     Text("Total Milk View")
@@ -91,7 +97,8 @@ class FarmDetailView extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BreedingInfo(farm,index)),
+                              builder: (context) => BreedingInfo(
+                                  farm, index)), //navigate to BreedingInfo
                         );
                       },
                       child: Container(
