@@ -282,10 +282,10 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BreedingInfo()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => BreedingInfo()),
+                // );
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(28, 42, 58, 1),
