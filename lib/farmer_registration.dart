@@ -8,11 +8,11 @@ import 'firebase_auth_services.dart';
 
 class UserRegistrationForm extends StatefulWidget {
   @override
-  _UserRegistrationFormState createState() => _UserRegistrationFormState(); 
+  _UserRegistrationFormState createState() => _UserRegistrationFormState();
 }
 
-class _UserRegistrationFormState extends State<UserRegistrationForm> {  
-  final FirebaseAuthService _auth = FirebaseAuthService();  
+class _UserRegistrationFormState extends State<UserRegistrationForm> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
   TextEditingController _farmnameController = TextEditingController();
   TextEditingController _farmidController = TextEditingController();
   TextEditingController _farmaddressController = TextEditingController();
@@ -24,23 +24,23 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   bool isLoading = false;
 
   @override
-  Widget build(BuildContext context) {  
-    final Size screenSize = MediaQuery.of(context).size;  
-    return WillPopScope(  
-      onWillPop: () async { 
-        Navigator.pushReplacement(  
-            context, MaterialPageRoute(builder: (context) => RegisterScreen()));  
+  Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => RegisterScreen()));
         return true;
       },
-      child: Scaffold(  
+      child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,  
+          centerTitle: true,
           title: Text(
-            "Register your farm with FarmerVet",  
+            "Register your farm with FarmerVet",
             style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(28, 42, 58, 1)),  
+                color: Color.fromRGBO(28, 42, 58, 1)),
             textAlign: TextAlign.justify,
           ),
         ),
@@ -64,7 +64,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: SizedBox(
-                          height: 45,
+                          height: 50,
                           width: 342,
                           child: TextField(
                             controller: _farmnameController,
@@ -84,7 +84,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: SizedBox(
-                          height: 45,
+                          height: 50,
                           width: 342,
                           child: TextField(
                             controller: _farmidController,
@@ -105,7 +105,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: SizedBox(
-                          height: 45,
+                          height: 50,
                           width: 342,
                           child: TextField(
                             controller: _farmaddressController,
@@ -125,7 +125,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: SizedBox(
-                          height: 45,
+                          height: 50,
                           width: 342,
                           child: TextField(
                             controller: _DivisionalSecretariatController,
@@ -145,7 +145,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: SizedBox(
-                          height: 45,
+                          height: 50,
                           width: 342,
                           child: TextField(
                             controller: _gramaniladhariAreacontroller,
@@ -165,7 +165,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: SizedBox(
-                          height: 45,
+                          height: 50,
                           width: 342,
                           child: TextField(
                             controller: _emailController,
@@ -186,7 +186,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 25),
                         child: SizedBox(
-                          height: 45,
+                          height: 50,
                           width: 342,
                           child: TextField(
                             controller: _password,
@@ -207,7 +207,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                     ],
                   ),
                   SizedBox(
-                    height: 48,
+                    height: 50,
                     width: 342,
                     child: ElevatedButton(
                       onPressed: () {
@@ -274,7 +274,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           'Farm Address': farmaddress,
           'Divisional secretariat area': divisionalsec,
           'Grama niladari area': gramanila,
-          'status':"active"
+          'status': "active"
           // Add more fields as needed
         });
 
