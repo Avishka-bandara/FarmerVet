@@ -79,7 +79,8 @@ class FarmViewScreen extends StatelessWidget {
                     } else {
                       List<Farm> farm = [];
                       snapshot.data!.docs.forEach((doc) {
-                        farm.add(Farm.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+                        farm.add(Farm.fromMap(
+                            doc.data() as Map<String, dynamic>, doc.id));
                       });
                       if (farm.isEmpty) {
                         return Wrap(
@@ -236,71 +237,73 @@ class _FarmCardState extends State<FarmCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2.0,
+      elevation: 1.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: InkWell(
-        onLongPress: (){
+        onLongPress: () {
           removeView(context);
         },
         onTap: () {
-          if(widget.farm[widget.index].status=="active"){
+          if (widget.farm[widget.index].status == "active") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => FarmDetailView(widget.farm, widget.index)));
+                    builder: (context) =>
+                        FarmDetailView(widget.farm, widget.index)));
           }
         },
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Center(
-            child: Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(children: [
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
                     Text(
                       widget.farm[widget.index].name,
                       // Replace with the farm name from the database
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 150,),
+                    SizedBox(
+                      width: 150,
+                    ),
                     Text(
                       widget.farm[widget.index].status,
                       // Replace with the farm name from the database
                       style: TextStyle(
-                        color: Colors.red,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.red, fontWeight: FontWeight.bold),
                     )
-                  ],),
-                  Row(children: [
-                    Icon(Icons
-                        .location_on_outlined), // Add your desired prefix icon here
-                    SizedBox(width: 5),
-                    Text(
-                      widget.farm[widget.index].area,
-                      style: TextStyle(fontSize: 15.0),
-                    ),
-                  ]),
-                  Divider(thickness: 1.0),
-                  SizedBox(height: 5),
-                  Row(
-                    children: [
-                      /*Icon(Icons
-                        .location_on_outlined), // Add your desired prefix icon here
-                    SizedBox(
-                        width:
-                            5), */ // Adjust spacing between icon and text as needed
-                      Text(
-                        widget.farm[widget.index].email,
-                        // Replace with the farm name from the database
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  ],
+                ),
+                Row(children: [
+                  Icon(Icons
+                      .location_on_outlined), // Add your desired prefix icon here
+                  SizedBox(width: 5),
+                  Text(
+                    widget.farm[widget.index].area,
+                    style: TextStyle(fontSize: 15.0),
                   ),
-                ],
-              ),
+                ]),
+                Divider(thickness: 1.0),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    // Icon(Icons
+                    //     .location_on_outlined), // Add your desired prefix icon here
+                    // SizedBox(
+                    //     width:
+                    //         5), // Adjust spacing between icon and text as needed
+                    Text(
+                      widget.farm[widget.index].email,
+                      // Replace with the farm name from the database
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -309,17 +312,19 @@ class _FarmCardState extends State<FarmCard> {
   }
 
   void removeView(BuildContext context) {
-    if(widget.farm[widget.index].status=='active'){
+    if (widget.farm[widget.index].status == 'active') {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Farm Settings'),
-            content: Text('Do you need to mark '+widget.farm[widget.index].name+' farm as Inactive'),
+            content: Text('Do you need to mark ' +
+                widget.farm[widget.index].name +
+                ' farm as Inactive'),
             actions: <Widget>[
               ElevatedButton(
                 child: Text('yes'),
-                onPressed: ()  {
+                onPressed: () {
                   updateStatus('inactive');
                   Navigator.of(context).pop();
                 },
@@ -328,18 +333,19 @@ class _FarmCardState extends State<FarmCard> {
           );
         },
       );
-    }
-    else if(widget.farm[widget.index].status=='inactive'){
+    } else if (widget.farm[widget.index].status == 'inactive') {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Farm Settings'),
-            content: Text('Do you need to mark '+widget.farm[widget.index].name+' farm as active'),
+            content: Text('Do you need to mark ' +
+                widget.farm[widget.index].name +
+                ' farm as active'),
             actions: <Widget>[
               ElevatedButton(
                 child: Text('yes'),
-                onPressed: ()  {
+                onPressed: () {
                   updateStatus('active');
                   Navigator.of(context).pop();
                 },
@@ -349,20 +355,19 @@ class _FarmCardState extends State<FarmCard> {
         },
       );
     }
-
   }
 
   Future<void> updateStatus(String status) async {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    final DocumentReference documentReference = _firestore.collection('Farm details').doc(widget.farm[widget.index].id);
+    final DocumentReference documentReference =
+        _firestore.collection('Farm details').doc(widget.farm[widget.index].id);
 
     await documentReference.update({
       'status': status,
-    }).then((value){
+    }).then((value) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) => FarmViewScreen()),
+        MaterialPageRoute(builder: (context) => FarmViewScreen()),
       );
     });
   }
