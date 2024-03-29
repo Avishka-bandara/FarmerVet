@@ -48,6 +48,7 @@ class FarmViewScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
+
                 FutureBuilder<QuerySnapshot>(
                   future: FirebaseFirestore.instance
                       .collection('Farm details')
@@ -96,10 +97,10 @@ class FarmViewScreen extends StatelessWidget {
                           ],
                         );
                       } else {
-                        return Container(
-                          width: screenSize.width,
-                          height: screenSize.height,
-                          child: SingleChildScrollView(
+                        return SingleChildScrollView(
+                          child: Container(
+                            width: screenSize.width,
+                            height: screenSize.height,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
