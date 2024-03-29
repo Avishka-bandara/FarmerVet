@@ -12,7 +12,6 @@ import 'package:farmervet/farm_milk_output.dart';
 import 'CowList.dart'; // Import the Cow class
 import 'add_animal.dart';
 
-
 class VetAnimal extends StatefulWidget {
   // Create a StatefulWidget
   @override
@@ -139,66 +138,6 @@ class _VetAnimalState extends State<VetAnimal> {
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-      drawer: Drawer(
-        // Create a drawer
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-              // Create an expanded widget
-              child: ListView(
-                // Create a ListView
-                padding: EdgeInsets.zero, // Set the padding
-                children: <Widget>[
-                  SizedBox(
-                    height: 200,
-                  ),
-                  ListTile(
-                    title: Text('Add new animal '),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  addAnimalForm())); // Navigate to the add animal form
-                    },
-                  ),
-                  ListTile(
-                    title: Text('Farm milk output'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => totalMilkOutput(
-                                    id: user!.uid,
-                                  )));
-                    },
-                  ),
-                  ListTile(
-                    title: Text('Account'),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  VetAnimal())); // Navigate to the account page
-                    },
-                  ),
-                ],
-              ),
-            ),
-            // This ListTile is now at the bottom of the Drawer
-            ListTile(
-              title: Text('Logout'),
-              leading: Icon(Icons.logout), // Add an icon
-              onTap: () {
-                signout(context);
-              },
-            ),
-            SizedBox(height: 40)
           ],
         ),
       ),
