@@ -1,6 +1,7 @@
 import 'package:farmervet/farmList.dart';
 import 'package:farmervet/farm_milk_output.dart';
 import 'package:farmervet/vet_animal.dart';
+import 'package:farmervet/vet_animal_view.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:farmervet/vet_farm_breeding_info.dart';
 import 'package:flutter/material.dart';
@@ -55,14 +56,14 @@ class FarmDetailView extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => vet_animal(
-                                    farm: farm,
-                                    index: index,
-                                  )), //navigate to vet_animal
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => VetAnimal(
+                        //             farm: farm,
+                        //             index: index,
+                        //           )),.......................... //navigate to vet_animal_view.dart file
+                        // );
                       },
                       child: Container(
                         child: Image.asset('assets/view.png'),

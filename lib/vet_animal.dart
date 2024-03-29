@@ -59,83 +59,84 @@ class _vet_animalState extends State<vet_animal> {
             SizedBox(height: 10),
             CustomSearchBar(),
             SizedBox(height: 16),
-
-          FutureBuilder<QuerySnapshot>(
-            future: FirebaseFirestore.instance
-                .collection('Farm details/'+widget.farm[widget.index].id+'/health issue')
-                .get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Wrap(
-                  children: [
-                    Container(
-                        height: 450,
-                        width: screenSize.width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const CircularProgressIndicator(
-                                color: Colors.black),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text("Loading data"),
-                          ],
-                        )),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else {
-                List<Issue> issue = [];
-                snapshot.data!.docs.forEach((doc) {
-                  issue.add(Issue.fromMap(
-                      doc.data() as Map<String, dynamic>, doc.id));
-                });
-                if (issue.isEmpty) {
+            FutureBuilder<QuerySnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection('Farm details/' +
+                      widget.farm[widget.index].id +
+                      '/health issue')
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return Wrap(
                     children: [
                       Container(
-                          width: screenSize.width,
                           height: 450,
+                          width: screenSize.width,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('No details found'),
+                              const CircularProgressIndicator(
+                                  color: Colors.black),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text("Loading data"),
                             ],
                           )),
                     ],
                   );
-                } else {
-                  return Container(
-                    width: screenSize.width,
-                    height: screenSize.height,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: issue.length,
-                                itemBuilder: (context, index) {
-                                  return CustomCardWidget(widget.farm,widget.index,issue, index);
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
                   );
+                } else {
+                  List<Issue> issue = [];
+                  snapshot.data!.docs.forEach((doc) {
+                    issue.add(Issue.fromMap(
+                        doc.data() as Map<String, dynamic>, doc.id));
+                  });
+                  if (issue.isEmpty) {
+                    return Wrap(
+                      children: [
+                        Container(
+                            width: screenSize.width,
+                            height: 450,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('No details found'),
+                              ],
+                            )),
+                      ],
+                    );
+                  } else {
+                    return Container(
+                      width: screenSize.width,
+                      height: screenSize.height,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: issue.length,
+                                  itemBuilder: (context, index) {
+                                    return CustomCardWidget(widget.farm,
+                                        widget.index, issue, index);
+                                  },
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }
                 }
-              }
-            },
-          ),
-
+              },
+            ),
           ]),
         ),
       ),
@@ -258,13 +259,12 @@ void signout(BuildContext context) async {
 // custom card widget
 //
 class CustomCardWidget extends StatelessWidget {
-
   final List<Farm> farm;
   final int index2;
   final List<Issue> issue;
   final int index;
 
-  CustomCardWidget(this.farm,this.index2,this.issue, this.index);
+  CustomCardWidget(this.farm, this.index2, this.issue, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -292,8 +292,8 @@ class CustomCardWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   image: DecorationImage(
-                    image: AssetImage(
-                        getImageAsset(issue[index].animaltype)), // Load the image from the database
+                    image: AssetImage(getImageAsset(issue[index]
+                        .animaltype)), // Load the image from the database
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -326,7 +326,7 @@ class CustomCardWidget extends StatelessWidget {
                       width: 16,
                     ),
                     Text(
-                      issue[index].animalage+" Years",
+                      issue[index].animalage + " Years",
                       style: TextStyle(fontSize: 14), // load from the data base
                     )
                   ]),
@@ -336,7 +336,8 @@ class CustomCardWidget extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Icons.location_on_outlined),
-                      Text(farm[index2].divisionalSecretariatArea) // divisional area
+                      Text(farm[index2]
+                          .divisionalSecretariatArea) // divisional area
                     ],
                   ),
                 ],
@@ -348,7 +349,12 @@ class CustomCardWidget extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => vetAnimalIssue(farm: farm,index2: index2,issue: issue,index: index,)));
+                          builder: (context) => vetAnimalIssue(
+                                farm: farm,
+                                index2: index2,
+                                issue: issue,
+                                index: index,
+                              )));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(28, 42, 58, 1),
