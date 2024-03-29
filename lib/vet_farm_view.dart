@@ -16,6 +16,9 @@ import 'farmList.dart';
 class FarmViewScreen extends StatelessWidget {
   User? user = FirebaseAuth.instance.currentUser;
   late Size screenSize;
+  
+
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -140,6 +143,27 @@ class FarmViewScreen extends StatelessWidget {
                     height: 200,
                   ),
                   ListTile(
+                    title: Text('New Health Problems Reported'),
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) =>
+                      //           vet_animal()),
+                      // );
+                    },
+                  ),
+                  ListTile(
+                    title: Text('Requard Farm Visit'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Required_visits()),
+                      );
+                    },
+                  ),
+                  ListTile(
                     title: Text('Overview'),
                     onTap: () {
                       Navigator.push(
@@ -168,16 +192,6 @@ class FarmViewScreen extends StatelessWidget {
                   //   //   );
                   //   // },
                   // ),
-                  ListTile(
-                    title: Text('Requard Farm Visit'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Required_visits()),
-                      );
-                    },
-                  ),
                 ],
               ),
             ),
