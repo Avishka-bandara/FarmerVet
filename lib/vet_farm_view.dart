@@ -16,8 +16,6 @@ import 'farmList.dart';
 class FarmViewScreen extends StatelessWidget {
   User? user = FirebaseAuth.instance.currentUser;
   late Size screenSize;
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +148,7 @@ class FarmViewScreen extends StatelessWidget {
                       //   MaterialPageRoute(
                       //       builder: (context) =>
                       //           vet_animal()),
-                      // );
+                      // );...............................Navigate to vet_animal.dart
                     },
                   ),
                   ListTile(
