@@ -13,9 +13,16 @@ import 'CowList.dart';
 import 'farmList.dart';
 import 'farmList.dart';
 
-class FarmViewScreen extends StatelessWidget {
+class FarmViewScreen extends StatefulWidget {
+  @override
+  State<FarmViewScreen> createState() => _FarmViewScreenState();
+}
+
+class _FarmViewScreenState extends State<FarmViewScreen> {
   User? user = FirebaseAuth.instance.currentUser;
+
   late Size screenSize;
+  List<Farm>?farm;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +56,7 @@ class FarmViewScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
+
                 FutureBuilder<QuerySnapshot>(
                   future: FirebaseFirestore.instance
                       .collection('Farm details')
@@ -78,12 +86,12 @@ class FarmViewScreen extends StatelessWidget {
                         child: Text('Error: ${snapshot.error}'),
                       );
                     } else {
-                      List<Farm> farm = [];
+                      farm = [];
                       snapshot.data!.docs.forEach((doc) {
-                        farm.add(Farm.fromMap(
+                        farm!.add(Farm.fromMap(
                             doc.data() as Map<String, dynamic>, doc.id));
                       });
-                      if (farm.isEmpty) {
+                      if (farm!.isEmpty) {
                         return Wrap(
                           children: [
                             Container(
@@ -98,10 +106,10 @@ class FarmViewScreen extends StatelessWidget {
                           ],
                         );
                       } else {
-                        return Container(
-                          width: screenSize.width,
-                          height: screenSize.height,
-                          child: SingleChildScrollView(
+                        return SingleChildScrollView(
+                          child: Container(
+                            width: screenSize.width,
+                            height: screenSize.height,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -109,9 +117,9 @@ class FarmViewScreen extends StatelessWidget {
                                   children: [
                                     ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: farm.length,
+                                      itemCount: farm!.length,
                                       itemBuilder: (context, index) {
-                                        return FarmCard(farm, index);
+                                        return FarmCard(farm!, index);
                                       },
                                     ),
                                   ],
@@ -129,6 +137,7 @@ class FarmViewScreen extends StatelessWidget {
           ),
         ],
       ),
+
       drawer: Drawer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,12 +152,13 @@ class FarmViewScreen extends StatelessWidget {
                   ListTile(
                     title: Text('New Health Problems Reported'),
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) =>
-                      //           vet_animal()),
-                      // );...............................Navigate to vet_animal.dart
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                vet_animal(farm!)),
+                      );
+                      //Navigate to vet_animal.dart
                     },
                   ),
                   ListTile(

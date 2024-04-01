@@ -1,4 +1,3 @@
-import 'package:farmervet/farmList.dart';
 import 'package:farmervet/vet_farm_breeding_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -283,10 +282,10 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                /*Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BreedingInfo()),
-                );*/
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => BreedingInfo()),
+                // );
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(28, 42, 58, 1),
@@ -352,6 +351,7 @@ class CustomCardWidget extends StatelessWidget {
                   )
                 ],
               ),
+              // Add some space between the rows
             ],
           ),
         ),
@@ -367,9 +367,9 @@ class CustomInputField extends StatelessWidget {
 
   const CustomInputField({
     Key? key,
-    required this.hintText, // Hint text for the input field
-    required this.controller, // Controller for the input field
-  }) : super(key: key); // Call the superclass constructor
+    required this.hintText,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -400,7 +400,6 @@ class CustomDropdownField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      // Dropdown button form field
       value: value,
       hint: Text(hintText),
       onChanged: onChanged,

@@ -11,8 +11,14 @@ import 'package:farmervet/farm_milk_output.dart';
 
 import 'CowList.dart'; // Import the Cow class
 import 'add_animal.dart';
+import 'farmList.dart';
 
 class VetAnimal extends StatefulWidget {
+
+  final List<Farm> farm;
+  final int index;
+
+  VetAnimal({required this.farm, required this.index});
   // Create a StatefulWidget
   @override
   State<VetAnimal> createState() => _VetAnimalState(); // Create the state
@@ -54,7 +60,7 @@ class _VetAnimalState extends State<VetAnimal> {
                   future: FirebaseFirestore
                       .instance // Get the Firestore instance
                       .collection(
-                          'Farm details/${user!.uid}/animal details') // Get the animal details from the database
+                          'Farm details/${widget.farm[widget.index].id}/animal details') // Get the animal details from the database
                       .get(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -259,65 +265,57 @@ class CustomCardWidget extends StatelessWidget {
     return Card(
         elevation: 3.0,
         margin: EdgeInsets.only(top: 10.0),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AnimalDetail(cows, index)));
-          },
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Row(
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      image: AssetImage(getImageAsset(cows[index].type)),
-                      // Load the image from the database
-                      fit: BoxFit.cover,
-                    ),
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Row(
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                    image: AssetImage(getImageAsset(cows[index].type)),
+                    // Load the image from the database
+                    fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(width: 10),
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Text(
+                      cows[index].name,
+                      // Replace with the actual name from the database
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                    Divider(
+                      thickness: 1.0,
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                      Text(
-                        cows[index].name,
-                        // Replace with the actual name from the database
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                      Divider(
-                        thickness: 1.0,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              cows[index].type,
-                              style: TextStyle(fontSize: 15.0),
+                          Text(
+                            cows[index].type,
+                            style: TextStyle(fontSize: 15.0),
+                          ),
+                          SizedBox(width: 100),
+                          Text(
+                            cows[index].age + " Months",
+                            // Replace with the actual age from the database
+                            style: TextStyle(
+                              fontSize: 15.0,
                             ),
-                            SizedBox(width: 100),
-                            Text(
-                              cows[index].age + " Months",
-                              // Replace with the actual age from the database
-                              style: TextStyle(
-                                fontSize: 15.0,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ]),
-                      SizedBox(height: 5),
-                    ])),
-              ],
-            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ]),
+                    SizedBox(height: 5),
+                  ])),
+            ],
           ),
         ));
   }
