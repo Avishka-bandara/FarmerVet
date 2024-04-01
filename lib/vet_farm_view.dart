@@ -142,7 +142,7 @@ class _FarmViewScreenState extends State<FarmViewScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Expanded(
+            SingleChildScrollView(
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
