@@ -1,15 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:farmervet/add_animal.dart';
 import 'package:farmervet/user_login.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:farmervet/farmer_animalDetail.dart';
-import 'package:farmervet/daily_milk_entry.dart';
-import 'package:farmervet/farm_milk_output.dart';
-
 import 'animalIssue.dart';
 import 'farmList.dart';
 
