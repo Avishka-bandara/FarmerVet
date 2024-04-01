@@ -178,8 +178,7 @@ class _vetAnimalIssueState extends State<vetAnimalIssue> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => vet_animal(
-                                farm: widget.farm, index: widget.index2))); // Handle second button press
+                            builder: (context) => vet_animal(widget.farm))); // Handle second button press
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(300, 50),

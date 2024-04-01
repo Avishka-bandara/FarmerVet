@@ -15,9 +15,7 @@ import 'farmList.dart';
 
 class vet_animal extends StatefulWidget {
   final List<Farm> farm;
-  final int index;
-
-  vet_animal({required this.farm, required this.index});
+  vet_animal(this.farm);
 
   @override
   State<vet_animal> createState() => _vet_animalState();
@@ -59,12 +57,8 @@ class _vet_animalState extends State<vet_animal> {
             SizedBox(height: 10),
             CustomSearchBar(),
             SizedBox(height: 16),
-            FutureBuilder<QuerySnapshot>(
-              future: FirebaseFirestore.instance
-                  .collection('Farm details/' +
-                      widget.farm[widget.index].id +
-                      '/health issue')
-                  .get(),
+            FutureBuilder<Map<String, dynamic>>(
+              future: getFarmAnimalIssues(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Wrap(
@@ -90,11 +84,11 @@ class _vet_animalState extends State<vet_animal> {
                     child: Text('Error: ${snapshot.error}'),
                   );
                 } else {
-                  List<Issue> issue = [];
-                  snapshot.data!.docs.forEach((doc) {
-                    issue.add(Issue.fromMap(
-                        doc.data() as Map<String, dynamic>, doc.id));
-                  });
+                  List<Issue> issue = snapshot.data!['issues'];
+                  List<int>getFarm=snapshot.data!['availableFarms'];
+
+                  //showToast(issue.length.toString());
+                  //showToast(getFarm.length.toString());
                   if (issue.isEmpty) {
                     return Wrap(
                       children: [
@@ -124,7 +118,7 @@ class _vet_animalState extends State<vet_animal> {
                                   itemCount: issue.length,
                                   itemBuilder: (context, index) {
                                     return CustomCardWidget(widget.farm,
-                                        widget.index, issue, index);
+                                        getFarm[index], issue, index);
                                   },
                                 ),
                               ],
@@ -141,6 +135,25 @@ class _vet_animalState extends State<vet_animal> {
         ),
       ),
     );
+  }
+
+  Future<Map<String, dynamic>> getFarmAnimalIssues() async {
+    List<Issue> issues = [];
+    List<int>getFarm=[];
+    int x=0;
+    for (Farm farm in widget.farm) {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('Farm details/${farm.id}/health issue')
+          .get();
+      querySnapshot.docs.forEach((doc) {
+        issues.add(Issue.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+      });
+      if(!querySnapshot.docs.isEmpty){
+        getFarm.add(x);
+      }
+      x++;
+    }
+    return {'availableFarms': getFarm, 'issues': issues};
   }
 
   void showToast(String message) {
@@ -346,7 +359,7 @@ class CustomCardWidget extends StatelessWidget {
             SizedBox(height: 10),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => vetAnimalIssue(

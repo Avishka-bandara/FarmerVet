@@ -56,14 +56,11 @@ class FarmDetailView extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => VetAnimal(
-                        //             farm: farm,
-                        //             index: index,
-                        //           )),.......................... //navigate to vet_animal_view.dart file
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VetAnimal(farm: farm,index: index,)), //navigate to vet_animal_view.dart file
+                        );
                       },
                       child: Container(
                         child: Image.asset('assets/view.png'),
