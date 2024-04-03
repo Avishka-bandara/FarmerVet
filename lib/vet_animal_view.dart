@@ -1,20 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmervet/user_login.dart';
-import 'package:farmervet/vet_animal.dart';
+import 'package:farmervet/vet_farm_animaldetail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:farmervet/farmer_animalDetail.dart';
-import 'package:farmervet/daily_milk_entry.dart';
-import 'package:farmervet/farm_milk_output.dart';
 
 import 'CowList.dart'; // Import the Cow class
 import 'add_animal.dart';
 import 'farmList.dart';
 
 class VetAnimal extends StatefulWidget {
-
   final List<Farm> farm;
   final int index;
 
@@ -263,8 +258,16 @@ class CustomCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 3.0,
-        margin: EdgeInsets.only(top: 10.0),
+      elevation: 3.0,
+      margin: EdgeInsets.only(top: 10.0),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Vet_Animal_Detail(cows, index)));
+          // Replace with the correct arguments for the FarmDetailView constructor
+        },
         child: Padding(
           padding: EdgeInsets.all(10.0),
           child: Row(
@@ -283,41 +286,39 @@ class CustomCardWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 10),
-              Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    Text(
-                      cows[index].name,
-                      // Replace with the actual name from the database
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                    Divider(
-                      thickness: 1.0,
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            cows[index].type,
-                            style: TextStyle(fontSize: 15.0),
-                          ),
-                          SizedBox(width: 100),
-                          Text(
-                            cows[index].age + " Months",
-                            // Replace with the actual age from the database
-                            style: TextStyle(
-                              fontSize: 15.0,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ]),
-                    SizedBox(height: 5),
-                  ])),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                  cows[index].name,
+                  // Replace with the actual name from the database
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                ),
+                Divider(
+                  thickness: 1.0,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        cows[index].type,
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                      SizedBox(width: 100),
+                      Text(
+                        cows[index].age + " Months",
+                        // Replace with the actual age from the database
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ]),
+                SizedBox(height: 5),
+              ])
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   String getImageAsset(String name) {
