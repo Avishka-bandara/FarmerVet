@@ -313,6 +313,7 @@ class _ReportAnimalState extends State<ReportAnimal> {
       showToast("Saved");
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Animal()));
+
     }).catchError((error) {
       setState(() {
         isLoading = false;
