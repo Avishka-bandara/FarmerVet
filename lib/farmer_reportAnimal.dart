@@ -292,7 +292,6 @@ class _ReportAnimalState extends State<ReportAnimal> {
       print('Error uploading image: $error');
     }
 
-
     await FirebaseFirestore.instance
         .collection('Farm details/' + user!.uid + '/health issue')
         .doc()

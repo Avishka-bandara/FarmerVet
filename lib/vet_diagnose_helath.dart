@@ -15,13 +15,16 @@ class Diagnose_health extends StatefulWidget {
   final int index2;
   final List<Issue> issue;
   final int index;
-  Diagnose_health({required this.farm, required this.index,required this.issue,required this.index2});
+  Diagnose_health(
+      {required this.farm,
+      required this.index,
+      required this.issue,
+      required this.index2});
   @override
   State<Diagnose_health> createState() => _diagnose_health();
 }
 
 class _diagnose_health extends State<Diagnose_health> {
-
   late int _selectedRadio;
   bool isLoading = false;
   @override
@@ -136,8 +139,9 @@ class _diagnose_health extends State<Diagnose_health> {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
-
+            SizedBox(
+              height: 10,
+            ),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
@@ -148,30 +152,30 @@ class _diagnose_health extends State<Diagnose_health> {
               },
               child: isLoading
                   ? const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Submitting....  ',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      )),
-                ],
-              )
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Submitting....  ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            )),
+                      ],
+                    )
                   : const Text(
-                'Submit',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                ),
-              ),
+                      'Submit',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                      ),
+                    ),
             ),
           ]),
         ),
@@ -184,8 +188,11 @@ class _diagnose_health extends State<Diagnose_health> {
       isLoading = true;
     });
 
-    if(_selectedRadio==2){
-      DocumentReference documentReference = FirebaseFirestore.instance.collection('Farm details/'+widget.farm[widget.index2].id+'/health issue').doc(widget.issue[widget.index].id);
+    if (_selectedRadio == 2) {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection(
+              'Farm details/' + widget.farm[widget.index2].id + '/health issue')
+          .doc(widget.issue[widget.index].id);
       await documentReference.update({
         'visit': false,
       }).then((value) async {
@@ -193,13 +200,67 @@ class _diagnose_health extends State<Diagnose_health> {
           isLoading = false;
         });
 
-        DocumentReference documentReference = FirebaseFirestore.instance.collection('Farm visit').doc(widget.farm[widget.index2].id+widget.issue[widget.index].id);
-        await documentReference.delete().then((value){
+        DocumentReference documentReference = FirebaseFirestore.instance
+            .collection('Farm visit')
+            .doc(widget.farm[widget.index2].id + widget.issue[widget.index].id);
+        await documentReference.delete().then((value) {
           print('Document deleted successfully!');
           showToast("Saved");
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => vetAnimalIssue(index: widget.index,index2: widget.index2,farm: widget.farm,issue: widget.issue,)));
-        }).catchError((error){
+              context,
+              MaterialPageRoute(
+                  builder: (context) => vetAnimalIssue(
+                        index: widget.index,
+                        index2: widget.index2,
+                        farm: widget.farm,
+                        issue: widget.issue,
+                      )));
+        }).catchError((error) {
+          setState(() {
+            isLoading = false;
+          });
+          print("Failed to store data: $error");
+        });
+      }).catchError((error) {
+        setState(() {
+          isLoading = false;
+        });
+        print("Failed to store data: $error");
+      });
+    } else if (_selectedRadio == 1) {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection(
+              'Farm details/' + widget.farm[widget.index2].id + '/health issue')
+          .doc(widget.issue[widget.index].id);
+      await documentReference.update({
+        'visit': true,
+      }).then((value) async {
+        await FirebaseFirestore.instance
+            .collection('Farm visit')
+            .doc(widget.farm[widget.index2].id + widget.issue[widget.index].id)
+            .set({
+          'issue': widget.issue[widget.index].id,
+          'timeDate': widget.issue[widget.index].timeDate,
+          'farmName': widget.farm[widget.index2].name,
+          'location': widget.farm[widget.index2].area,
+          'email': widget.farm[widget.index2].email,
+          'cowname': widget.issue[widget.index].animalname,
+          // Add more fields as needed
+        }).then((value) {
+          setState(() {
+            isLoading = false;
+          });
+          showToast("Saved");
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => vetAnimalIssue(
+                        index: widget.index,
+                        index2: widget.index2,
+                        farm: widget.farm,
+                        issue: widget.issue,
+                      )));
+        }).catchError((error) {
           setState(() {
             isLoading = false;
           });
@@ -212,46 +273,6 @@ class _diagnose_health extends State<Diagnose_health> {
         print("Failed to store data: $error");
       });
     }
-
-    else if(_selectedRadio==1){
-      DocumentReference documentReference = FirebaseFirestore.instance.collection('Farm details/'+widget.farm[widget.index2].id+'/health issue').doc(widget.issue[widget.index].id);
-      await documentReference.update({
-        'visit': true,
-      }).then((value) async {
-        await FirebaseFirestore.instance
-            .collection('Farm visit')
-            .doc(widget.farm[widget.index2].id+widget.issue[widget.index].id)
-            .set({
-          'issue' : widget.issue[widget.index].id,
-          'timeDate': widget.issue[widget.index].timeDate,
-          'farmName':widget.farm[widget.index2].name,
-          'location':widget.farm[widget.index2].area,
-          'email' :widget.farm[widget.index2].email,
-          'cowname': widget.issue[widget.index].animalname,
-          // Add more fields as needed
-        }).then((value) {
-          setState(() {
-            isLoading = false;
-          });
-          showToast("Saved");
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => vetAnimalIssue(index: widget.index,index2: widget.index2,farm: widget.farm,issue: widget.issue,)));
-        }).catchError((error) {
-          setState(() {
-            isLoading = false;
-          });
-          print("Failed to store data: $error");
-        });
-      }).catchError((error){
-        setState(() {
-          isLoading = false;
-        });
-        print("Failed to store data: $error");
-      });
-
-
-    }
-
   }
 
   void showToast(String message) {
@@ -276,6 +297,10 @@ class CustomCardWidget extends StatefulWidget {
 }
 
 class _CustomCardWidgetState extends State<CustomCardWidget> {
+  bool isSelectedlimping = false;
+  bool isSelecteddiarhea = false;
+  bool isSelectedfever = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -290,192 +315,172 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return Color.fromRGBO(28, 42, 58,
-                                      1); // Change color when pressed
-                                }
-                                return Colors.white; // Default color
-                              },
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
-                                  color: Color.fromRGBO(28, 42, 58, 1),
-                                  width: 1.0),
-                            ),
-                          ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: isSelectedlimping
+                                ? Colors.deepPurple
+                                : Colors.white),
+                        child: OutlinedButton(
                           onPressed: () {
-                            // Functionality for the first button
+                            setState(() {
+                              // _selectedIssue = 'Limping';
+                              isSelectedlimping = true;
+                              isSelecteddiarhea = false;
+                              isSelectedfever = false;
+                            });
                           },
-                          child: Text(
-                            "Limping",
-                            style:
-                            TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                          ),
+                          child: Text('Limping',
+                              style: isSelectedlimping
+                                  ? TextStyle(color: Colors.white)
+                                  : TextStyle()),
                         ),
                       ),
+
                       SizedBox(width: 10), // Add spacing between buttons
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return Color.fromRGBO(28, 42, 58,
-                                      1); // Change color when pressed
-                                }
-                                return Colors.white; // Default color
-                              },
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
-                                  color: Color.fromRGBO(28, 42, 58, 1),
-                                  width: 1.0),
-                            ),
-                          ),
+
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: isSelecteddiarhea
+                                ? Colors.deepPurple
+                                : Colors.white),
+                        child: OutlinedButton(
                           onPressed: () {
-                            // Functionality for the second button
+                            setState(() {
+                              // _selectedIssue = 'Diarrhea';
+                              isSelectedlimping = false;
+                              isSelecteddiarhea = true;
+                              isSelectedfever = false;
+                            });
                           },
-                          child: Text(
-                            "Diarrhoea",
-                            style:
-                            TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                          ),
+                          child: Text('Diarrhea',
+                              style: isSelecteddiarhea
+                                  ? TextStyle(color: Colors.white)
+                                  : TextStyle()),
                         ),
                       ),
+
                       SizedBox(width: 10), // Add spacing between buttons
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return Color.fromRGBO(28, 42, 58,
-                                      1); // Change color when pressed
-                                }
-                                return Colors.white; // Default color
-                              },
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
-                                  color: Color.fromRGBO(28, 42, 58, 1),
-                                  width: 1.0),
-                            ),
-                          ),
+
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: isSelectedfever
+                                ? Colors.deepPurple
+                                : Colors.white),
+                        child: OutlinedButton(
                           onPressed: () {
-                            // Functionality for the third button
+                            setState(() {
+                              // _selectedIssue = 'Fever';
+                              isSelectedlimping = false;
+                              isSelecteddiarhea = false;
+                              isSelectedfever = true;
+                            });
                           },
-                          child: Text(
-                            "Fever",
-                            style:
-                            TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                          ),
+                          child: Text('Fever',
+                              style: isSelectedfever
+                                  ? TextStyle(color: Colors.white)
+                                  : TextStyle()),
                         ),
                       ),
                     ],
                   ),
+
                   SizedBox(height: 10),
-                  Row(
+                  /*Row(
                     children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return Color.fromRGBO(28, 42, 58,
-                                      1); // Change color when pressed
-                                }
-                                return Colors.white; // Default color
-                              },
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
-                                  color: Color.fromRGBO(28, 42, 58, 1),
-                                  width: 1.0),
-                            ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return Color.fromRGBO(
+                                    28, 42, 58, 1); // Change color when pressed
+                              }
+                              return Colors.white; // Default color
+                            },
                           ),
-                          onPressed: () {
-                            // Functionality for the first button
-                          },
-                          child: Text(
-                            "Symptom",
-                            style:
-                            TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
+                          side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(
+                                color: Color.fromRGBO(28, 42, 58, 1),
+                                width: 1.0),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 10), // Add spacing between buttons
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return Color.fromRGBO(28, 42, 58,
-                                      1); // Change color when pressed
-                                }
-                                return Colors.white; // Default color
-                              },
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
-                                  color: Color.fromRGBO(28, 42, 58, 1),
-                                  width: 1.0),
-                            ),
-                          ),
-                          onPressed: () {
-                            // Functionality for the second button
-                          },
-                          child: Text(
-                            "Symptom",
-                            style:
-                            TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                          ),
+                        onPressed: () {
+                          // Functionality for the first button
+                        },
+                        child: Text(
+                          "Symptom",
+                          style:
+                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
                         ),
                       ),
+
                       SizedBox(width: 10), // Add spacing between buttons
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return Color.fromRGBO(28, 42, 58,
-                                      1); // Change color when pressed
-                                }
-                                return Colors.white; // Default color
-                              },
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
-                                  color: Color.fromRGBO(28, 42, 58, 1),
-                                  width: 1.0),
-                            ),
+
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return Color.fromRGBO(
+                                    28, 42, 58, 1); // Change color when pressed
+                              }
+                              return Colors.white; // Default color
+                            },
                           ),
-                          onPressed: () {
-                            // Functionality for the third button
-                          },
-                          child: Text(
-                            "Symptom",
-                            style:
-                            TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
+                          side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(
+                                color: Color.fromRGBO(28, 42, 58, 1),
+                                width: 1.0),
                           ),
+                        ),
+                        onPressed: () {
+                          // Functionality for the second button
+                        },
+                        child: Text(
+                          "Symptom",
+                          style:
+                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
+                        ),
+                      ),
+
+                      SizedBox(width: 10), // Add spacing between buttons
+
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return Color.fromRGBO(
+                                    28, 42, 58, 1); // Change color when pressed
+                              }
+                              return Colors.white; // Default color
+                            },
+                          ),
+                          side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(
+                                color: Color.fromRGBO(28, 42, 58, 1),
+                                width: 1.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Functionality for the third button
+                        },
+                        child: Text(
+                          "Symptom",
+                          style:
+                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
                         ),
                       ),
                     ],
-                  ), // Add some space between the rows
+                  ), */ // Add some space between the rows
                 ],
               ),
             ),
