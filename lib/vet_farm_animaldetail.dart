@@ -12,7 +12,6 @@ import 'animalIssue.dart';
 class Vet_Animal_Detail extends StatefulWidget {
   final List<Cow> cows;
   final int indexcows;
-  
 
   Vet_Animal_Detail(this.cows, this.indexcows);
 
@@ -38,7 +37,8 @@ class _Vet_Animal_DetailState extends State<Vet_Animal_Detail> {
         padding: EdgeInsets.all(8.0), // Add padding to the whole screen
         child: ListView(
           children: [
-            CustomCardWidget(widget.cows, widget.indexcows), // Display the animal details
+            CustomCardWidget(
+                widget.cows, widget.indexcows), // Display the animal details
             SizedBox(height: 10),
             const Text(
               'Record the vaccination given to the animal',
@@ -174,37 +174,35 @@ class _Vet_Animal_DetailState extends State<Vet_Animal_Detail> {
           ],
         ),
       ),
-
-      // bottomNavigationBar: BottomAppBar(
-      //   // Add a bottom navigation bar
-      //   child: Container(
-      //     height: 50,
-      //     padding: EdgeInsets.symmetric(horizontal: 16.0),
-      //     child: ElevatedButton(
-      //       onPressed: () {
-      //
-      //         // Navigator.push(
-      //         //   context,
-      //         //   MaterialPageRoute(
-      //         //     builder: (context) => Diagnose_health(
-      //         //                   farm: widget.farm,
-      //         //                   index2: widget.index2,  .................... Navigate to the diagnose health screen
-      //         //                   index: widget.index,
-      //         //                   issue: widget.issue,
-      //         //                 ),
-      //         //   ),
-      //         // );
-      //       },
-      //       style: ElevatedButton.styleFrom(
-      //         backgroundColor: Colors.black,
-      //       ),
-      //       child: Text(
-      //         'Add New Issue',
-      //         style: TextStyle(fontSize: 16.0, color: Colors.white),
-      //       ),
-      //     ),
-      //   ),
-      // ),
+      bottomNavigationBar: BottomAppBar(
+        // Add a bottom navigation bar
+        child: Container(
+          height: 50,
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => Diagnose_health(
+              //                   farm: widget.farm,
+              //                   index2: widget.index2,  .................... Navigate to the diagnose health screen
+              //                   index: widget.index,
+              //                   issue: widget.issue,
+              //                 ),
+              //   ),
+              // );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black,
+            ),
+            child: Text(
+              'Add New Issue',
+              style: TextStyle(fontSize: 16.0, color: Colors.white),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
