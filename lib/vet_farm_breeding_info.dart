@@ -315,7 +315,7 @@ class CustomCardWidget extends StatelessWidget {
 
   String getImageAsset(String name) {
     switch (name) {
-      case "Bull":
+      case "Cow":
         return 'assets/bull.jpg';
       case "Heifer":
         return 'assets/heifer.jpg';

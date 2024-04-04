@@ -211,7 +211,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   style: TextStyle(
                                       color: Color.fromRGBO(29, 36, 217, 1),
                                       fontWeight: FontWeight.bold)),
-                              Text('Bull',
+                              Text('Cow',
                                   style: TextStyle(
                                       color: Color.fromRGBO(29, 36, 217, 1),
                                       fontWeight: FontWeight.bold))
@@ -365,7 +365,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     documentIds.forEach((id) async {
       QuerySnapshot bullcount = await firestore
           .collection('Farm details/'+id+'/animal details')
-          .where('animaltype', isEqualTo: 'Bull')
+          .where('animaltype', isEqualTo: 'Cow')
           .get();
 
       QuerySnapshot heifercount = await firestore

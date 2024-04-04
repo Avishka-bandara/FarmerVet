@@ -221,13 +221,13 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                     },
                     activeColor: Color.fromRGBO(28, 42, 58, 1),
                   ),
-                  Text("Bull"),
+                  Text("Cow"),
                 ],
               ),
             SizedBox(height: 20),
             if (selectedValue_1 == 'Set as inseminated')
               Text(
-                'Bull/AI Code',
+                'Cow/AI Code',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

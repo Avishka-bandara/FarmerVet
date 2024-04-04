@@ -76,7 +76,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                           ),
                           items: <String>[
                             //........Drop Down Menu Items........
-                            'Bull',
+                            'Cow',
                             'Heifer',
                             'Calf-Male',
                             'Calf-Female',
