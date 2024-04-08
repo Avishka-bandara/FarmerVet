@@ -8,13 +8,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'CowList.dart';
 import 'animalIssue.dart';
+import 'farmList.dart';
 
 class Vet_Animal_Detail extends StatefulWidget {
   final List<Cow> cows;
   final int indexcows;
+  final List<Farm> farms;
+  final int index;
   
 
-  Vet_Animal_Detail(this.cows, this.indexcows);
+  Vet_Animal_Detail(this.cows, this.indexcows,this.farms,this.index);
 
   @override
   State<Vet_Animal_Detail> createState() => _Vet_Animal_DetailState();
@@ -77,7 +80,7 @@ class _Vet_Animal_DetailState extends State<Vet_Animal_Detail> {
               future: FirebaseFirestore
                   .instance // Get the health issues from the database
                   .collection('Farm details/' +
-                      user!.uid +
+                      widget.index.toString() +
                       '/health issue') // Get the health issues from the database
                   .get(),
               builder: (context, snapshot) {

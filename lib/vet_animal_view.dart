@@ -123,8 +123,7 @@ class _VetAnimalState extends State<VetAnimal> {
                                       itemCount: cows.length,
                                       itemBuilder: (context, index) {
                                         // Display the details in a list
-                                        return CustomCardWidget(cows,
-                                            index); // Display the details in a card
+                                        return CustomCardWidget(cows,index,widget.index,widget.farm); // Display the details in a card
                                       },
                                     ),
                                   ],
@@ -252,8 +251,10 @@ void signout(BuildContext context) async {
 class CustomCardWidget extends StatelessWidget {
   final List<Cow> cows;
   final int index;
+  final List<Farm> farm;
+  final int index2;
 
-  CustomCardWidget(this.cows, this.index);
+  CustomCardWidget(this.cows, this.index,this.index2,this.farm);
 
   @override
   Widget build(BuildContext context) {
@@ -265,7 +266,7 @@ class CustomCardWidget extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Vet_Animal_Detail(cows, index)));
+                  builder: (context) => Vet_Animal_Detail(cows, index,farm,index2)));
           // Replace with the correct arguments for the FarmDetailView constructor
         },
         child: Padding(

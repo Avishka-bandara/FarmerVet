@@ -114,7 +114,6 @@ class AnimalDetail extends StatelessWidget {
                   } else {
                     return Container(
                       width: screenSize.width,
-                      height: screenSize.height,
                       child: SingleChildScrollView( // Display the health issues
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -145,6 +144,87 @@ class AnimalDetail extends StatelessWidget {
             const SizedBox(
                 height: 50), // Adjust the height as needed for spacing
             const Divider(thickness: 1.0),
+
+            const Text('History',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+
+            FutureBuilder<QuerySnapshot>( // Display the health issues
+              future: FirebaseFirestore.instance  // Get the health issues from the database
+                  .collection('Farm details/'+ user!.uid +'/history health issue')  // Get the health issues from the database
+                  .get(),
+              builder: (context, snapshot) {  // Build the widget
+                if (snapshot.connectionState == ConnectionState.waiting) {  // Display a loading indicator while the data is being fetched
+                  return Wrap(
+                    children: [
+                      Container(
+                          height: 450,
+                          width: screenSize.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const CircularProgressIndicator(
+                                  color: Colors.black),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text("Loading data"),
+                            ],
+                          )),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  List<Issue> pastissue = []; // Create a list to store the health issues
+                  snapshot.data!.docs.forEach((doc) { // Loop through the health issues
+                    pastissue.add(Issue.fromMap(  // Add the health issues to the list
+                        doc.data() as Map<String, dynamic>, doc.id)); // Add the health issues to the list
+                  });
+                  if (pastissue.isEmpty) {
+                    return Wrap(  // Display a message if no health issues are found
+                      children: [
+                        Container(
+                            width: screenSize.width,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('No details found'),
+                              ],
+                            )),
+                      ],
+                    );
+                  } else {
+                    return Container(
+                      width: screenSize.width,
+                      child: SingleChildScrollView( // Display the health issues
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                ListView.builder( // Display the health issues
+                                  shrinkWrap: true,
+                                  itemCount: pastissue.length,
+                                  itemBuilder: (context, index) {// Build the widget
+                                    if (pastissue[index].animalid ==  // Check if the health issue is for the current animal
+                                        cows[indexcows].id) { // Check if the health issue is for the current animal
+                                      return OnpastIssue(pastissue, index); // Display the health issue
+                                    }
+                                  },
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -488,16 +568,28 @@ class _OnIssueState extends State<OnIssue> {
             ElevatedButton(
               child: Text('yes'),
               onPressed: () {
-                deleteDocumentissue(widget.issue[widget.index].id,
-                    onDeleted: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Animal()));
-                }); // Close the dialog
+                cloneDocument(widget.issue[widget.index].id);
               },
             ),
           ],
         );
       },
+    );
+  }
+
+  Future<void> cloneDocument(String documentId) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    // Reference to the source and destination documents
+    DocumentReference sourceDocRef = FirebaseFirestore.instance.collection('Farm details/' + user!.uid + '/health issue').doc(documentId);
+    DocumentReference destinationDocRef = FirebaseFirestore.instance.collection('Farm details/' + user!.uid + '/history health issue').doc(documentId);
+
+    DocumentSnapshot sourceSnapshot = await sourceDocRef.get();
+    await destinationDocRef.set(sourceSnapshot.data() ?? {}).then((value) =>
+      deleteDocumentissue(widget.issue[widget.index].id,
+          onDeleted: () {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => Animal()));
+      }),// Close the dialog
     );
   }
 
@@ -516,5 +608,67 @@ class _OnIssueState extends State<OnIssue> {
     } catch (e) {
       print('Error deleting document: $e');
     }
+  }
+}
+
+class OnpastIssue extends StatefulWidget {
+  final List<Issue> issue;
+  final int index;
+
+  OnpastIssue(this.issue, this.index);
+
+  @override
+  State<OnpastIssue> createState() => _OnpastIssueState();
+}
+
+class _OnpastIssueState extends State<OnpastIssue> {
+  @override
+  Widget build(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Health Issue : ' +
+                          widget.issue[widget.index].animalissue,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    widget.issue[widget.index].visit == false
+                        ? ElevatedButton(
+                      onPressed: () {
+                        // Logic for the button
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(254, 176, 82, 1),
+                      ),
+                      child: Text(
+                        'Minor Issue',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                        : SizedBox(),
+                  ],
+                ),
+                Text('Date : ' + widget.issue[widget.index].timeDate),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        )
+      ],
+    );
   }
 }
