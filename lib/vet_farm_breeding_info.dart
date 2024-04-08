@@ -110,7 +110,7 @@ class _BreedingInfoState extends State<BreedingInfo> {
                                   itemCount: cows.length,
                                   itemBuilder: (context, index) {
                                     if(cows[index].type=="Heifer"){
-                                      return CustomCardWidget(cows, index);
+                                      return CustomCardWidget(cows, index,widget.farm,widget.index);
                                     }
                                     else{
                                       return Wrap(
@@ -191,8 +191,10 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 class CustomCardWidget extends StatelessWidget {
   final List<Cow> cows;
   final int index;
+  final List<Farm> farms;
+  final int index2;
 
-  CustomCardWidget(this.cows, this.index);
+  CustomCardWidget(this.cows, this.index,this.farms, this.index2);
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +276,7 @@ class CustomCardWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ReproductionEntry()),
+                              builder: (context) => ReproductionEntry(cows,index,farms,index2)),
                         );
                       },
                       child: Text(
@@ -295,7 +297,7 @@ class CustomCardWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => vet_reproduction()),
+                              builder: (context) => vet_reproduction(cows: cows,index: index,farm: farms,index2: index2)),
                         );
                       },
                       child: Text(
@@ -316,11 +318,13 @@ class CustomCardWidget extends StatelessWidget {
   String getImageAsset(String name) {
     switch (name) {
       case "Cow":
-        return 'assets/bull.jpg';
+        return 'assets/cow.jpg';
       case "Heifer":
         return 'assets/heifer.jpg';
       case "Calf-Male":
         return 'assets/mcalf.jpg';
+      case "Bull":
+        return 'assets/bull.jpg';
       default:
         return 'assets/fcalf.jpg';
     }

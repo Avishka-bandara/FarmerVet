@@ -27,6 +27,10 @@ class Diagnose_health extends StatefulWidget {
 class _diagnose_health extends State<Diagnose_health> {
   late int _selectedRadio;
   bool isLoading = false;
+  bool isSelectedlimping = false;
+  bool isSelecteddiarhea = false;
+  bool isSelectedfever = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -55,7 +59,192 @@ class _diagnose_health extends State<Diagnose_health> {
             SizedBox(height: 20),
             Divider(),
             SizedBox(height: 10),
-            CustomCardWidget(),
+            Column(
+              children: [
+                Card(
+                  elevation: 3.0,
+                  margin: EdgeInsets.only(top: 10.0),
+                  child: InkWell(
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: isSelectedlimping
+                                        ? Colors.deepPurple
+                                        : Colors.white),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      // _selectedIssue = 'Limping';
+                                      isSelectedlimping = true;
+                                      isSelecteddiarhea = false;
+                                      isSelectedfever = false;
+                                    });
+                                  },
+                                  child: Text('Limping',
+                                      style: isSelectedlimping
+                                          ? TextStyle(color: Colors.white)
+                                          : TextStyle()),
+                                ),
+                              ),
+
+                              SizedBox(width: 10), // Add spacing between buttons
+
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: isSelecteddiarhea
+                                        ? Colors.deepPurple
+                                        : Colors.white),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      // _selectedIssue = 'Diarrhea';
+                                      isSelectedlimping = false;
+                                      isSelecteddiarhea = true;
+                                      isSelectedfever = false;
+                                    });
+                                  },
+                                  child: Text('Diarrhea',
+                                      style: isSelecteddiarhea
+                                          ? TextStyle(color: Colors.white)
+                                          : TextStyle()),
+                                ),
+                              ),
+
+                              SizedBox(width: 10), // Add spacing between buttons
+
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: isSelectedfever
+                                        ? Colors.deepPurple
+                                        : Colors.white),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      // _selectedIssue = 'Fever';
+                                      isSelectedlimping = false;
+                                      isSelecteddiarhea = false;
+                                      isSelectedfever = true;
+                                    });
+                                  },
+                                  child: Text('Fever',
+                                      style: isSelectedfever
+                                          ? TextStyle(color: Colors.white)
+                                          : TextStyle()),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: 10),
+                          /*Row(
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return Color.fromRGBO(
+                                    28, 42, 58, 1); // Change color when pressed
+                              }
+                              return Colors.white; // Default color
+                            },
+                          ),
+                          side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(
+                                color: Color.fromRGBO(28, 42, 58, 1),
+                                width: 1.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Functionality for the first button
+                        },
+                        child: Text(
+                          "Symptom",
+                          style:
+                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
+                        ),
+                      ),
+
+                      SizedBox(width: 10), // Add spacing between buttons
+
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return Color.fromRGBO(
+                                    28, 42, 58, 1); // Change color when pressed
+                              }
+                              return Colors.white; // Default color
+                            },
+                          ),
+                          side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(
+                                color: Color.fromRGBO(28, 42, 58, 1),
+                                width: 1.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Functionality for the second button
+                        },
+                        child: Text(
+                          "Symptom",
+                          style:
+                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
+                        ),
+                      ),
+
+                      SizedBox(width: 10), // Add spacing between buttons
+
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return Color.fromRGBO(
+                                    28, 42, 58, 1); // Change color when pressed
+                              }
+                              return Colors.white; // Default color
+                            },
+                          ),
+                          side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(
+                                color: Color.fromRGBO(28, 42, 58, 1),
+                                width: 1.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Functionality for the third button
+                        },
+                        child: Text(
+                          "Symptom",
+                          style:
+                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
+                        ),
+                      ),
+                    ],
+                  ), */ // Add some space between the rows
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+              ],
+            ),
             Card(
               elevation: 5.0,
               margin: EdgeInsets.only(top: 10.0),
@@ -188,6 +377,43 @@ class _diagnose_health extends State<Diagnose_health> {
       isLoading = true;
     });
 
+    if(isSelectedlimping){
+      String? issue = 'Limping';
+      FirebaseFirestore.instance
+          .collection('Farm details/'+widget.farm[widget.index2].id+'/health issue/')
+          .doc(widget.issue[widget.index].id)
+          .update({
+        'animalissue': issue,
+        // Add other fields to update as needed
+      })
+          .then((_) => print('Document updated successfully.'))
+          .catchError((error) => print('Error updating document: $error'));
+    }
+    else if(isSelecteddiarhea){
+      String? issue = 'Diarrhea';
+      FirebaseFirestore.instance
+          .collection('Farm details/'+widget.farm[widget.index2].id+'/health issue/')
+          .doc(widget.issue[widget.index].id)
+          .update({
+        'animalissue': issue,
+        // Add other fields to update as needed
+      })
+          .then((_) => print('Document updated successfully.'))
+          .catchError((error) => print('Error updating document: $error'));
+    }
+    else if(isSelectedfever){
+      String? issue = 'Fever';
+      FirebaseFirestore.instance
+          .collection('Farm details/'+widget.farm[widget.index2].id+'/health issue/')
+          .doc(widget.issue[widget.index].id)
+          .update({
+        'animalissue': issue,
+        // Add other fields to update as needed
+      })
+          .then((_) => print('Document updated successfully.'))
+          .catchError((error) => print('Error updating document: $error'));
+    }
+
     if (_selectedRadio == 2) {
       DocumentReference documentReference = FirebaseFirestore.instance
           .collection(
@@ -288,206 +514,4 @@ class _diagnose_health extends State<Diagnose_health> {
   }
 }
 
-//
-// custom card widget
-//
-class CustomCardWidget extends StatefulWidget {
-  @override
-  _CustomCardWidgetState createState() => _CustomCardWidgetState();
-}
 
-class _CustomCardWidgetState extends State<CustomCardWidget> {
-  bool isSelectedlimping = false;
-  bool isSelecteddiarhea = false;
-  bool isSelectedfever = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          elevation: 3.0,
-          margin: EdgeInsets.only(top: 10.0),
-          child: InkWell(
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: isSelectedlimping
-                                ? Colors.deepPurple
-                                : Colors.white),
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              // _selectedIssue = 'Limping';
-                              isSelectedlimping = true;
-                              isSelecteddiarhea = false;
-                              isSelectedfever = false;
-                            });
-                          },
-                          child: Text('Limping',
-                              style: isSelectedlimping
-                                  ? TextStyle(color: Colors.white)
-                                  : TextStyle()),
-                        ),
-                      ),
-
-                      SizedBox(width: 10), // Add spacing between buttons
-
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: isSelecteddiarhea
-                                ? Colors.deepPurple
-                                : Colors.white),
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              // _selectedIssue = 'Diarrhea';
-                              isSelectedlimping = false;
-                              isSelecteddiarhea = true;
-                              isSelectedfever = false;
-                            });
-                          },
-                          child: Text('Diarrhea',
-                              style: isSelecteddiarhea
-                                  ? TextStyle(color: Colors.white)
-                                  : TextStyle()),
-                        ),
-                      ),
-
-                      SizedBox(width: 10), // Add spacing between buttons
-
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: isSelectedfever
-                                ? Colors.deepPurple
-                                : Colors.white),
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              // _selectedIssue = 'Fever';
-                              isSelectedlimping = false;
-                              isSelecteddiarhea = false;
-                              isSelectedfever = true;
-                            });
-                          },
-                          child: Text('Fever',
-                              style: isSelectedfever
-                                  ? TextStyle(color: Colors.white)
-                                  : TextStyle()),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 10),
-                  /*Row(
-                    children: [
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Color.fromRGBO(
-                                    28, 42, 58, 1); // Change color when pressed
-                              }
-                              return Colors.white; // Default color
-                            },
-                          ),
-                          side: MaterialStateProperty.all<BorderSide>(
-                            BorderSide(
-                                color: Color.fromRGBO(28, 42, 58, 1),
-                                width: 1.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Functionality for the first button
-                        },
-                        child: Text(
-                          "Symptom",
-                          style:
-                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                        ),
-                      ),
-
-                      SizedBox(width: 10), // Add spacing between buttons
-
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Color.fromRGBO(
-                                    28, 42, 58, 1); // Change color when pressed
-                              }
-                              return Colors.white; // Default color
-                            },
-                          ),
-                          side: MaterialStateProperty.all<BorderSide>(
-                            BorderSide(
-                                color: Color.fromRGBO(28, 42, 58, 1),
-                                width: 1.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Functionality for the second button
-                        },
-                        child: Text(
-                          "Symptom",
-                          style:
-                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                        ),
-                      ),
-
-                      SizedBox(width: 10), // Add spacing between buttons
-
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Color.fromRGBO(
-                                    28, 42, 58, 1); // Change color when pressed
-                              }
-                              return Colors.white; // Default color
-                            },
-                          ),
-                          side: MaterialStateProperty.all<BorderSide>(
-                            BorderSide(
-                                color: Color.fromRGBO(28, 42, 58, 1),
-                                width: 1.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Functionality for the third button
-                        },
-                        child: Text(
-                          "Symptom",
-                          style:
-                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                        ),
-                      ),
-                    ],
-                  ), */ // Add some space between the rows
-                ],
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 20),
-      ],
-    );
-  }
-}

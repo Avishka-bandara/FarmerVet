@@ -1,9 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'CowList.dart';
+import 'farmList.dart';
 
 
 
-class vet_reproduction extends StatelessWidget {
-  const vet_reproduction({super.key});
+class vet_reproduction extends StatefulWidget {
+
+  final List<Cow> cows;
+  final int index;
+  final List<Farm> farm;
+  final int index2;
+
+  const vet_reproduction({super.key,required this.cows, required this.index,required this.farm, required this.index2});
+
+  @override
+  State<vet_reproduction> createState() => _vet_reproductionState();
+}
+
+class _vet_reproductionState extends State<vet_reproduction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,31 +39,41 @@ class vet_reproduction extends StatelessWidget {
             title: Text('Session 1',
                 style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
 
-            // The content that expands or collapses
             children: <Widget>[
-              ListTile(
-                title: Text('Inserminated Date',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                onTap: () {
-                  // Handle subitem 1 tap
-                },
-              ),
-              ListTile(
-                title: Text('Pregnant Diagnosis',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                onTap: () {
-                  // Handle subitem 1 tap
-                },
-              ),
-              ListTile(
-                title: Text('Birth Date',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                onTap: () {
-                  // Handle subitem 2 tap
+              FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance.collection('Farm details/' +
+                    widget.farm[widget.index2].id +
+                    '/animal details/' + widget.cows[widget.index].id +
+                    '/breeding details').doc('1st Service').get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  var data = snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Text('Inseminated Date: ${data['inseminateddate']==null?'Failed':data['inseminateddate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                      ListTile(
+                        title: Text('Pregnant Diagnosis: ${data['pregnantdate']==null?'Failed':data['pregnantdate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                      ListTile(
+                        title: Text('Birth Date: ${data['Birthdate']==null?'Failed':data['Birthdate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                    ],
+                  );
                 },
               ),
             ],
           ),
+
           Divider(
             thickness: 2,
           ),
@@ -56,25 +83,36 @@ class vet_reproduction extends StatelessWidget {
 
             // The content that expands or collapses
             children: <Widget>[
-              ListTile(
-                title: Text('Inserminated Date',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                onTap: () {
-                  // Handle subitem 1 tap
-                },
-              ),
-              ListTile(
-                title: Text('Pregnant Diagnosis',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                onTap: () {
-                  // Handle subitem 1 tap
-                },
-              ),
-              ListTile(
-                title: Text('Birth Date',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                onTap: () {
-                  // Handle subitem 2 tap
+              FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance.collection('Farm details/' +
+                    widget.farm[widget.index2].id +
+                    '/animal details/' + widget.cows[widget.index].id +
+                    '/breeding details').doc('2nd Service').get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    showToast("message");
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  var data = snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Text('Inseminated Date: ${data['inseminateddate']==null?'Failed':data['inseminateddate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                      ListTile(
+                        title: Text('Pregnant Diagnosis: ${data['pregnantdate']==null?'Failed':data['pregnantdate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                      ListTile(
+                        title: Text('Birth Date: ${data['Birthdate']==null?'Failed':data['Birthdate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                    ],
+                  );
                 },
               ),
             ],
@@ -88,22 +126,35 @@ class vet_reproduction extends StatelessWidget {
 
             // The content that expands or collapses
             children: <Widget>[
-              ListTile(
-                title: Text('Inserminated Date',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-              ),
-              ListTile(
-                title: Text('Pregnant Diagnosis',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                onTap: () {
-                  // Handle subitem 1 tap
-                },
-              ),
-              ListTile(
-                title: Text('Birth Date',
-                    style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
-                onTap: () {
-                  // Handle subitem 2 tap
+              FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance.collection('Farm details/' +
+                    widget.farm[widget.index2].id +
+                    '/animal details/' + widget.cows[widget.index].id +
+                    '/breeding details').doc('3rd Service').get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  var data = snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Text('Inseminated Date: ${data['inseminateddate']==null?'Failed':data['inseminateddate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                      ListTile(
+                        title: Text('Pregnant Diagnosis: ${data['pregnantdate']==null?'Failed':data['pregnantdate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                      ListTile(
+                        title: Text('Birth Date: ${data['Birthdate']==null?'Failed':data['Birthdate']}',
+                            style: TextStyle(color: Color.fromRGBO(28, 42, 58, 1))),
+                      ),
+                    ],
+                  );
                 },
               ),
             ],
@@ -111,6 +162,18 @@ class vet_reproduction extends StatelessWidget {
           // Add more ExpansionTile widgets as needed
         ],
       ),
+    );
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 }

@@ -325,11 +325,13 @@ class CustomCardWidget extends StatelessWidget {
     // Create a function to get the image asset
     switch (name) {
       case "Cow":
-        return 'assets/bull.jpg';
+        return 'assets/cow.jpg';
       case "Heifer":
         return 'assets/heifer.jpg';
       case "Calf-Male":
         return 'assets/mcalf.jpg';
+      case "Bull":
+        return 'assets/bull.jpg';
       default:
         return 'assets/fcalf.jpg';
     }
