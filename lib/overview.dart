@@ -211,7 +211,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   style: TextStyle(
                                       color: Color.fromRGBO(29, 36, 217, 1),
                                       fontWeight: FontWeight.bold)),
-                              Text('Cow',
+                              Text('Bull',
                                   style: TextStyle(
                                       color: Color.fromRGBO(29, 36, 217, 1),
                                       fontWeight: FontWeight.bold))
@@ -224,31 +224,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       fontSize: 16.0,
                                       color: Color.fromRGBO(180, 187, 17, 1),
                                       fontWeight: FontWeight.bold)),
-                              Text('Calf-male',
+                              Text('Calf',
                                   style: TextStyle(
                                       fontSize: 16.0,
                                       color: Color.fromRGBO(180, 187, 17, 1),
                                       fontWeight: FontWeight.bold))
                             ],
                           ),
-                          Column(
-                            children: [
-                              Text(
-                                '$Calf_Femalecount', // Example value for deseased animals
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Color.fromRGBO(50, 119, 32, 1),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Calf-female', // Example value for deseased animals
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Color.fromRGBO(50, 119, 32, 1),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
+
                           Column(
                             children: [
                               Text(
@@ -259,7 +242,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                'Heifer', // Example value for deseased animals
+                                'Cow', // Example value for deseased animals
                                 style: TextStyle(
                                     fontSize: 16.0,
                                     color: Color.fromRGBO(50, 119, 32, 1),
@@ -363,9 +346,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
     List<String> documentIds = snapshot.docs.map((doc) => doc.id).toList();
 
     documentIds.forEach((id) async {
-      QuerySnapshot bullcount = await firestore
+      QuerySnapshot cowcount = await firestore
           .collection('Farm details/'+id+'/animal details')
           .where('animaltype', isEqualTo: 'Cow')
+          .get();
+
+      QuerySnapshot bullcount = await firestore
+          .collection('Farm details/'+id+'/animal details')
+          .where('animaltype', isEqualTo: 'Bull')
           .get();
 
       QuerySnapshot heifercount = await firestore
@@ -385,9 +373,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
       setState(() {
         Bullcount += bullcount.docs.length;
-        Heifercount += heifercount.docs.length;
-        Calf_Malecount += calf_Malecount.docs.length;
-        Calf_Femalecount += calf_Femalecount.docs.length;
+        Heifercount += heifercount.docs.length + cowcount.docs.length;
+        Calf_Malecount += calf_Malecount.docs.length+calf_Femalecount.docs.length;
       });
 
     });
