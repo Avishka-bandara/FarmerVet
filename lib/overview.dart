@@ -744,7 +744,7 @@ class _circle_indiState extends State<circle_indi> {
                       lineWidth: 4.0,
                       percent: (calving/pregnant)/100,
                       center: new Text(
-                          ((calving/pregnant)/100).toString()+" %", //...............Calving percentage getting data from reproduction table...............
+                          ((calving/pregnant)/100).toStringAsFixed(2)+" %", //...............Calving percentage getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
