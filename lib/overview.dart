@@ -638,6 +638,8 @@ class _barchartState extends State<barchart> {
       fontSize: 16.0,
     );
   }
+
+
 }
 
 //
@@ -650,6 +652,21 @@ class circle_indi extends StatefulWidget {
 }
 
 class _circle_indiState extends State<circle_indi> {
+  late int aiMethodsCount;
+  late int pdsbyAi;
+  late int male;
+  late int female;
+  late String fmratio;
+  late int calving;
+  late int pregnant;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchFirestoreData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -673,9 +690,9 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: 0.8,
+                      percent: aiMethodsCount.toDouble()/100,
                       center: new Text(
-                          "25", //...............Number of AI s getting data from reproduction table...............
+                          aiMethodsCount.toString(), //...............Number of AI s getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -699,9 +716,9 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: 0.5,
+                      percent: pdsbyAi/100,
                       center: new Text(
-                          "10", //...............Number of PDs by AI s getting data from reproduction table...............
+                          pdsbyAi.toString(), //...............Number of PDs by AI s getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -725,9 +742,9 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: 0.5,
+                      percent: (calving/pregnant)/100,
                       center: new Text(
-                          "40%", //...............Calving percentage getting data from reproduction table...............
+                          ((calving/pregnant)/100).toString()+" %", //...............Calving percentage getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -751,9 +768,9 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: 0.5,
+                      percent: ((male/(female+male))*100)/10000,
                       center: new Text(
-                          "40%", //...............M:F ratio getting data from reproduction table (there is no data in the table)...............
+                          fmratio, //...............M:F ratio getting data from reproduction table (there is no data in the table)...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -772,5 +789,105 @@ class _circle_indiState extends State<circle_indi> {
     );
   }
 
+  Future<void> fetchFirestoreData() async {
+    aiMethodsCount=0;
+    pdsbyAi=0;
+    male=0;
+    female=0;
+    fmratio='';
+    calving=0;
+    pregnant=0;
 
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('Farm details')
+        .get();
+
+    List<String> documentIds = snapshot.docs.map((doc) => doc.id).toList();
+
+    documentIds.forEach((id) async {
+       snapshot = await FirebaseFirestore.instance
+          .collection('Farm details/'+id+'/animal details')
+          .get();
+
+      List<String> cowsdocumentIds = snapshot.docs.map((doc) => doc.id).toList();
+
+       cowsdocumentIds.forEach((cowid) async {
+         
+         snapshot = await FirebaseFirestore.instance
+             .collection('Farm details/' + id +
+             '/animal details/' +cowid+
+             '/breeding details')
+             .get();
+         List<DocumentSnapshot> documents = snapshot.docs;
+         setState(() {
+           aiMethodsCount += _calculateAIMethodsCount(documents);
+           pdsbyAi+=_pdsbyai(documents);
+           male+=_male(documents);
+           female+=_female(documents);
+           fmratio = (male).toString()+' : '+(female).toString();
+           calving += _calving(documents);
+           pregnant+=_pregnant(documents);
+         });
+       });
+    });
+    }
+
+  int _calculateAIMethodsCount(List<DocumentSnapshot> documents) {
+    return documents.where((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return data.containsKey('method') && data['method'] == 'AI';
+    }).length;
+  }
+
+  int _pdsbyai(List<DocumentSnapshot> documents) {
+    return documents.where((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return data.containsKey('method') && data['method'] == 'AI' &&
+          data.containsKey('pregnantdate');
+    }).length;
+  }
+
+  int _male(List<DocumentSnapshot> documents) {
+    return documents.where((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return data.containsKey('gender') && data['gender'] == 'Male' &&
+          data.containsKey('stage') && data['stage'] == 'Gave birth';
+    }).length;
+  }
+
+  int _female(List<DocumentSnapshot> documents) {
+    return documents.where((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return data.containsKey('gender') && data['gender'] == 'Female' &&
+          data.containsKey('stage') && data['stage'] == 'Gave birth';
+    }).length;
+  }
+
+  int _calving(List<DocumentSnapshot> documents) {
+    return documents.where((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return
+          data.containsKey('stage') && data['stage'] == 'Gave birth';
+    }).length;
+  }
+
+  int _pregnant(List<DocumentSnapshot> documents) {
+    return documents.where((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return
+        data.containsKey('pregnantdate');
+    }).length;
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 }

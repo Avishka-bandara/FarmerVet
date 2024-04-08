@@ -413,12 +413,36 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
             MaterialPageRoute(
                 builder: (context) =>
                     BreedingInfo(widget.farm, widget.index2))); //..........Navigate to the page........
-      }).catchError((error) {
-        //..........Error Handling........
-        setState(() {
-          isLoading = false;
+      }).catchError((error) async {
+        await FirebaseFirestore.instance
+            .collection('Farm details/'+
+            widget.farm[widget.index2].id+
+            '/animal details/'+widget.cows[widget.index].id+'/breeding details') //..........Firebase Collection........
+            .doc(selectedValue) //..........Firebase Document........
+            .set({
+          //..........Firebase Data........
+          'stage':selectedValue_1,
+          'inseminateddate': date,
+          'method': method,
+          'cowAicode': cowAicode,
+          'aiTechCode': aiTechCode,
+        }).then((value) {
+          setState(() {
+            isLoading = false;
+          });
+          showToast("Added Successfully");
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BreedingInfo(widget.farm, widget.index2))); //..........Navigate to the page........
+        }).catchError((error) {
+          //..........Error Handling........
+          setState(() {
+            isLoading = false;
+          });
+          print("Failed to store data: $error");
         });
-        print("Failed to store data: $error");
       });
     }catch(error){
       setState(() {
@@ -454,12 +478,35 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 builder: (context) =>
                     BreedingInfo(widget.farm, widget
                         .index2))); //..........Navigate to the page........
-      }).catchError((error) {
-        //..........Error Handling........
-        setState(() {
-          isLoading = false;
+      }).catchError((error) async {
+        await FirebaseFirestore.instance
+            .collection('Farm details/' +
+            widget.farm[widget.index2].id +
+            '/animal details/' + widget.cows[widget.index].id +
+            '/breeding details') //..........Firebase Collection........
+            .doc(selectedValue) //..........Firebase Document........
+            .set({
+          //..........Firebase Data........
+          'pregnantdate': date,
+          'stage':selectedValue_1,
+        }).then((value) {
+          setState(() {
+            isLoading = false;
+          });
+          showToast("Added Successfully");
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BreedingInfo(widget.farm, widget
+                          .index2))); //..........Navigate to the page........
+        }).catchError((error) {
+          //..........Error Handling........
+          setState(() {
+            isLoading = false;
+          });
+          print("Failed to store data: $error");
         });
-        print("Failed to store data: $error");
       });
     } catch (error) {
       setState(() {
@@ -495,18 +542,40 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 builder: (context) =>
                     BreedingInfo(widget.farm, widget
                         .index2))); //..........Navigate to the page........
-      }).catchError((error) {
-        //..........Error Handling........
-        setState(() {
-          isLoading = false;
+      }).catchError((error) async {
+        await FirebaseFirestore.instance
+            .collection('Farm details/' +
+            widget.farm[widget.index2].id +
+            '/animal details/' + widget.cows[widget.index].id +
+            '/breeding details') //..........Firebase Collection........
+            .doc(selectedValue) //..........Firebase Document........
+            .set({
+          //..........Firebase Data........
+          'Pregnancyfaileddate': date,
+          'stage':selectedValue_1,
+        }).then((value) {
+          setState(() {
+            isLoading = false;
+          });
+          showToast("Added Successfully");
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BreedingInfo(widget.farm, widget
+                          .index2))); //..........Navigate to the page........
+        }).catchError((error) {
+          setState(() {
+            isLoading = false;
+          });
         });
-        print("Failed to store data: $error");
       });
     } catch (error) {
       setState(() {
         isLoading = false;
       });
       print(error.toString());
+      showToast(error.hashCode.toString());
     }
   }
 
@@ -538,18 +607,43 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 builder: (context) =>
                     BreedingInfo(widget.farm, widget
                         .index2))); //..........Navigate to the page........
-      }).catchError((error) {
-        //..........Error Handling........
-        setState(() {
-          isLoading = false;
+      }).catchError((error) async {
+        await FirebaseFirestore.instance
+            .collection('Farm details/' +
+            widget.farm[widget.index2].id +
+            '/animal details/' + widget.cows[widget.index].id +
+            '/breeding details') //..........Firebase Collection........
+            .doc(selectedValue) //..........Firebase Document........
+            .set({
+          //..........Firebase Data........
+          'Birthdate': date,
+          'name' :name,
+          'gender':gender,
+          'stage':selectedValue_1,
+        }).then((value) {
+          setState(() {
+            isLoading = false;
+          });
+          showToast("Added Successfully");
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BreedingInfo(widget.farm, widget
+                          .index2))); //..........Navigate to the page........
+        }).catchError((error) {
+          //..........Error Handling........
+          setState(() {
+            isLoading = false;
+          });
+          print("Failed to store data: $error");
         });
-        print("Failed to store data: $error");
       });
     } catch (error) {
       setState(() {
         isLoading = false;
       });
-      print(error.toString());
+      showToast(error.hashCode.toString());
     }
   }
 
