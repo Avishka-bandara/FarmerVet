@@ -8,13 +8,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'CowList.dart';
 import 'animalIssue.dart';
+import 'farmList.dart';
 
 class Vet_Animal_Detail extends StatefulWidget {
   final List<Cow> cows;
   final int indexcows;
+  final List<Farm> farms;
+  final int index;
   
 
-  Vet_Animal_Detail(this.cows, this.indexcows);
+  Vet_Animal_Detail(this.cows, this.indexcows,this.farms,this.index);
 
   @override
   State<Vet_Animal_Detail> createState() => _Vet_Animal_DetailState();
@@ -45,25 +48,25 @@ class _Vet_Animal_DetailState extends State<Vet_Animal_Detail> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-            // Align(
-            //   alignment: Alignment.centerLeft, // Align the button to the left
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       // Logic for adding vaccination details
-            //     },
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: Color.fromRGBO(28, 42, 58, 1),
-            //       fixedSize: const Size(200, 36),
-            //     ),
-            //     child: const Text(
-            //       'Add Vaccination Details',
-            //       style: TextStyle(
-            //         fontSize: 14.0,
-            //         color: Colors.white,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Align(
+              alignment: Alignment.centerLeft, // Align the button to the left
+              child: ElevatedButton(
+                onPressed: () {
+                  // Logic for adding vaccination details
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromRGBO(28, 42, 58, 1),
+                  fixedSize: const Size(200, 36),
+                ),
+                child: const Text(
+                  'Add Vaccination Details',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
 
             const SizedBox(height: 10),
             const Divider(thickness: 1.0),
@@ -77,7 +80,7 @@ class _Vet_Animal_DetailState extends State<Vet_Animal_Detail> {
               future: FirebaseFirestore
                   .instance // Get the health issues from the database
                   .collection('Farm details/' +
-                      user!.uid +
+                      widget.index.toString() +
                       '/health issue') // Get the health issues from the database
                   .get(),
               builder: (context, snapshot) {
@@ -175,36 +178,30 @@ class _Vet_Animal_DetailState extends State<Vet_Animal_Detail> {
         ),
       ),
 
-      // bottomNavigationBar: BottomAppBar(
-      //   // Add a bottom navigation bar
-      //   child: Container(
-      //     height: 50,
-      //     padding: EdgeInsets.symmetric(horizontal: 16.0),
-      //     child: ElevatedButton(
-      //       onPressed: () {
-      //
-      //         // Navigator.push(
-      //         //   context,
-      //         //   MaterialPageRoute(
-      //         //     builder: (context) => Diagnose_health(
-      //         //                   farm: widget.farm,
-      //         //                   index2: widget.index2,  .................... Navigate to the diagnose health screen
-      //         //                   index: widget.index,
-      //         //                   issue: widget.issue,
-      //         //                 ),
-      //         //   ),
-      //         // );
-      //       },
-      //       style: ElevatedButton.styleFrom(
-      //         backgroundColor: Colors.black,
-      //       ),
-      //       child: Text(
-      //         'Add New Issue',
-      //         style: TextStyle(fontSize: 16.0, color: Colors.white),
-      //       ),
-      //     ),
-      //   ),
-      // ),
+      bottomNavigationBar: BottomAppBar(
+        // Add a bottom navigation bar
+        child: Container(
+          height: 50,
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => Diagnose_health(farm: widget.farm,index2: widget.index2, index: widget.index, issue: widget.issue,),
+              //   ),
+              // );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black,
+            ),
+            child: Text(
+              'Add New Issue',
+              style: TextStyle(fontSize: 16.0, color: Colors.white),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -263,76 +260,76 @@ class CustomCardWidget extends StatelessWidget {
                             fontSize: 18.0, fontWeight: FontWeight.bold),
                       ),
 
-                      // ElevatedButton(
-                      //   // Add a button to remove the animal
-                      //   onPressed: () {
-                      //     showDialog(
-                      //       context: context,
-                      //       builder: (BuildContext context) {
-                      //         // Display a dialog box to confirm the removal of the animal
-                      //         return AlertDialog(
-                      //           title: Text("Reason for remove"),
-                      //           content: Column(
-                      //             mainAxisSize: MainAxisSize.min,
-                      //             children: <Widget>[
-                      //               RadioListTile(
-                      //                 title: Text("Stolen"),
-                      //                 value: 1,
-                      //                 groupValue: selectedRadio,
-                      //                 onChanged: (value) {
-                      //                   Navigator.of(context).pop();
-                      //                   removeAnimal(context, "Stolen");
-                      //                   // You can handle the selected radio value here
-                      //                   selectedRadio = value as int;
-                      //                 },
-                      //               ),
-                      //               RadioListTile(
-                      //                 title: Text("Deceased "),
-                      //                 value: 2,
-                      //                 groupValue: selectedRadio,
-                      //                 onChanged: (value) {
-                      //                   Navigator.of(context).pop();
-                      //                   removeAnimal(context, "Deceased");
-                      //                   // You can handle the selected radio value here
-                      //                   selectedRadio = value as int;
-                      //                 },
-                      //               ),
-                      //               RadioListTile(
-                      //                 title: Text("Unproductive "),
-                      //                 value: 3,
-                      //                 groupValue: selectedRadio,
-                      //                 onChanged: (value) {
-                      //                   Navigator.of(context).pop();
-                      //                   removeAnimal(context, "Unproductive");
-                      //                   // You can handle the selected radio value here
-                      //                   selectedRadio = value as int;
-                      //                 },
-                      //               ),
-                      //             ],
-                      //           ),
-                      //           actions: <Widget>[
-                      //             TextButton(
-                      //               onPressed: () {
-                      //                 Navigator.of(context).pop();
-                      //               },
-                      //               child: Text("Cancel"),
-                      //             ),
-                      //           ],
-                      //         );
-                      //       },
-                      //     );
-                      //   },
-                      //   style: ElevatedButton.styleFrom(
-                      //     backgroundColor: Color.fromRGBO(234, 67, 53, 1),
-                      //   ),
-                      //   child: const Text(
-                      //     'Remove Animal',
-                      //     style: TextStyle(
-                      //       fontSize: 12,
-                      //       color: Color.fromRGBO(255, 255, 255, 1),
-                      //     ),
-                      //   ),
-                      // ),
+                      ElevatedButton(
+                        // Add a button to remove the animal
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              // Display a dialog box to confirm the removal of the animal
+                              return AlertDialog(
+                                title: Text("Reason for remove"),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    RadioListTile(
+                                      title: Text("Stolen"),
+                                      value: 1,
+                                      groupValue: selectedRadio,
+                                      onChanged: (value) {
+                                        Navigator.of(context).pop();
+                                        removeAnimal(context, "Stolen");
+                                        // You can handle the selected radio value here
+                                        selectedRadio = value as int;
+                                      },
+                                    ),
+                                    RadioListTile(
+                                      title: Text("Deceased "),
+                                      value: 2,
+                                      groupValue: selectedRadio,
+                                      onChanged: (value) {
+                                        Navigator.of(context).pop();
+                                        removeAnimal(context, "Deceased");
+                                        // You can handle the selected radio value here
+                                        selectedRadio = value as int;
+                                      },
+                                    ),
+                                    RadioListTile(
+                                      title: Text("Unproductive "),
+                                      value: 3,
+                                      groupValue: selectedRadio,
+                                      onChanged: (value) {
+                                        Navigator.of(context).pop();
+                                        removeAnimal(context, "Unproductive");
+                                        // You can handle the selected radio value here
+                                        selectedRadio = value as int;
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Cancel"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromRGBO(234, 67, 53, 1),
+                        ),
+                        child: const Text(
+                          'Remove Animal',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   Divider(thickness: 1.0),
