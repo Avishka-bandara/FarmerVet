@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/vet_animal.dart';
 import 'package:farmervet/vet_animalissue.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,11 +16,13 @@ class Diagnose_health extends StatefulWidget {
   final int index2;
   final List<Issue> issue;
   final int index;
-  Diagnose_health(
-      {required this.farm,
-      required this.index,
-      required this.issue,
-      required this.index2});
+
+  Diagnose_health({
+    required this.farm,
+    required this.index,
+    required this.issue,
+    required this.index2,
+  });
   @override
   State<Diagnose_health> createState() => _diagnose_health();
 }
@@ -95,7 +98,8 @@ class _diagnose_health extends State<Diagnose_health> {
                                 ),
                               ),
 
-                              SizedBox(width: 10), // Add spacing between buttons
+                              SizedBox(
+                                  width: 10), // Add spacing between buttons
 
                               Container(
                                 decoration: BoxDecoration(
@@ -119,7 +123,8 @@ class _diagnose_health extends State<Diagnose_health> {
                                 ),
                               ),
 
-                              SizedBox(width: 10), // Add spacing between buttons
+                              SizedBox(
+                                  width: 10), // Add spacing between buttons
 
                               Container(
                                 decoration: BoxDecoration(
@@ -337,7 +342,7 @@ class _diagnose_health extends State<Diagnose_health> {
                     Color.fromRGBO(28, 42, 58, 1)),
               ),
               onPressed: () {
-                register();
+                vet_animal(); // Replace 'argument' with the actual argument value.
               },
               child: isLoading
                   ? const Row(
@@ -377,39 +382,43 @@ class _diagnose_health extends State<Diagnose_health> {
       isLoading = true;
     });
 
-    if(isSelectedlimping){
+    if (isSelectedlimping) {
       String? issue = 'Limping';
       FirebaseFirestore.instance
-          .collection('Farm details/'+widget.farm[widget.index2].id+'/health issue/')
+          .collection('Farm details/' +
+              widget.farm[widget.index2].id +
+              '/health issue/')
           .doc(widget.issue[widget.index].id)
           .update({
-        'animalissue': issue,
-        // Add other fields to update as needed
-      })
+            'animalissue': issue,
+            // Add other fields to update as needed
+          })
           .then((_) => print('Document updated successfully.'))
           .catchError((error) => print('Error updating document: $error'));
-    }
-    else if(isSelecteddiarhea){
+    } else if (isSelecteddiarhea) {
       String? issue = 'Diarrhea';
       FirebaseFirestore.instance
-          .collection('Farm details/'+widget.farm[widget.index2].id+'/health issue/')
+          .collection('Farm details/' +
+              widget.farm[widget.index2].id +
+              '/health issue/')
           .doc(widget.issue[widget.index].id)
           .update({
-        'animalissue': issue,
-        // Add other fields to update as needed
-      })
+            'animalissue': issue,
+            // Add other fields to update as needed
+          })
           .then((_) => print('Document updated successfully.'))
           .catchError((error) => print('Error updating document: $error'));
-    }
-    else if(isSelectedfever){
+    } else if (isSelectedfever) {
       String? issue = 'Fever';
       FirebaseFirestore.instance
-          .collection('Farm details/'+widget.farm[widget.index2].id+'/health issue/')
+          .collection('Farm details/' +
+              widget.farm[widget.index2].id +
+              '/health issue/')
           .doc(widget.issue[widget.index].id)
           .update({
-        'animalissue': issue,
-        // Add other fields to update as needed
-      })
+            'animalissue': issue,
+            // Add other fields to update as needed
+          })
           .then((_) => print('Document updated successfully.'))
           .catchError((error) => print('Error updating document: $error'));
     }
@@ -513,5 +522,3 @@ class _diagnose_health extends State<Diagnose_health> {
     );
   }
 }
-
-
