@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmervet/farmList.dart';
 import 'package:farmervet/farmer_animal.dart';
 import 'package:farmervet/vet_diagnose_helath.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,7 @@ class Vet_Animal_Detail extends StatefulWidget {
   final int indexcows;
   
 
-  Vet_Animal_Detail(this.cows, this.indexcows);
+  Vet_Animal_Detail(this.cows, this.indexcows, List<Farm> farm, int index2);
 
   @override
   State<Vet_Animal_Detail> createState() => _Vet_Animal_DetailState();

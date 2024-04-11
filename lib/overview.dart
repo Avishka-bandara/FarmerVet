@@ -13,16 +13,15 @@ class OverviewScreen extends StatefulWidget {
 }
 
 class _OverviewScreenState extends State<OverviewScreen> {
-
-  int activeCount=0;
-  int inactiveCount=0;
+  int activeCount = 0;
+  int inactiveCount = 0;
   int _stolen = 0;
   int _deceased = 0;
   int _unproductive = 0;
-  int Bullcount=0;
-  int Heifercount=0;
-  int Calf_Malecount=0;
-  int Calf_Femalecount=0;
+  int Bullcount = 0;
+  int Heifercount = 0;
+  int Calf_Malecount = 0;
+  int Calf_Femalecount = 0;
 
   @override
   void initState() {
@@ -31,7 +30,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
     getremovereason();
     getTotalanimalcount();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +229,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       fontWeight: FontWeight.bold))
                             ],
                           ),
-
                           Column(
                             children: [
                               Text(
@@ -296,7 +293,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
         .where('reason', isEqualTo: 'Stolen')
         .get();
 
-
     // Query to get documents with field "status" equal to "inactive"
     QuerySnapshot deceased = await firestore
         .collection('remove animal')
@@ -308,11 +304,11 @@ class _OverviewScreenState extends State<OverviewScreen> {
         .where('reason', isEqualTo: 'Unproductive')
         .get();
 
-     setState(() {
-       _stolen += stolen.docs.length;
-       _deceased += deceased.docs.length;
-       _unproductive += unproductive.docs.length;
-     });
+    setState(() {
+      _stolen += stolen.docs.length;
+      _deceased += deceased.docs.length;
+      _unproductive += unproductive.docs.length;
+    });
   }
 
   Future<void> getactiveinactive() async {
@@ -334,51 +330,48 @@ class _OverviewScreenState extends State<OverviewScreen> {
       activeCount += activeSnapshot.docs.length;
       inactiveCount += inactiveSnapshot.docs.length;
     });
-
   }
 
   Future<void> getTotalanimalcount() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('Farm details')
-        .get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('Farm details').get();
 
     List<String> documentIds = snapshot.docs.map((doc) => doc.id).toList();
 
     documentIds.forEach((id) async {
       QuerySnapshot cowcount = await firestore
-          .collection('Farm details/'+id+'/animal details')
+          .collection('Farm details/' + id + '/animal details')
           .where('animaltype', isEqualTo: 'Cow')
           .get();
 
       QuerySnapshot bullcount = await firestore
-          .collection('Farm details/'+id+'/animal details')
+          .collection('Farm details/' + id + '/animal details')
           .where('animaltype', isEqualTo: 'Bull')
           .get();
 
       QuerySnapshot heifercount = await firestore
-          .collection('Farm details/'+id+'/animal details')
+          .collection('Farm details/' + id + '/animal details')
           .where('animaltype', isEqualTo: 'Heifer')
           .get();
 
       QuerySnapshot calf_Malecount = await firestore
-          .collection('Farm details/'+id+'/animal details')
+          .collection('Farm details/' + id + '/animal details')
           .where('animaltype', isEqualTo: 'Calf-Male')
           .get();
 
       QuerySnapshot calf_Femalecount = await firestore
-          .collection('Farm details/'+id+'/animal details')
+          .collection('Farm details/' + id + '/animal details')
           .where('animaltype', isEqualTo: 'Calf-Female')
           .get();
 
       setState(() {
         Bullcount += bullcount.docs.length;
         Heifercount += heifercount.docs.length + cowcount.docs.length;
-        Calf_Malecount += calf_Malecount.docs.length+calf_Femalecount.docs.length;
+        Calf_Malecount +=
+            calf_Malecount.docs.length + calf_Femalecount.docs.length;
       });
-
     });
-
   }
 
   void showToast(String message) {
@@ -403,7 +396,7 @@ class barchart extends StatefulWidget {
 }
 
 class _barchartState extends State<barchart> {
-  List<double> data = List.filled(12, 0);// Initial data for Y-axis
+  List<double> data = List.filled(12, 0); // Initial data for Y-axis
   List<String> years = [
     'Jan ',
     'Feb ',
@@ -442,7 +435,7 @@ class _barchartState extends State<barchart> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(0.0),
       child: AspectRatio(
         aspectRatio: 1.0,
         child: BarChart(
@@ -536,23 +529,21 @@ class _barchartState extends State<barchart> {
   }
 
   Future<void> getTotalamilkcount() async {
-
     DateTime now = DateTime.now();
     String currentYear = now.year.toString();
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('Farm details')
-        .get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('Farm details').get();
 
     List<String> documentIds = snapshot.docs.map((doc) => doc.id).toList();
 
     documentIds.forEach((id) async {
       List<Milk> milks = [];
       snapshot = await FirebaseFirestore.instance
-          .collection('Farm details/'+id+'/milk output')
+          .collection('Farm details/' + id + '/milk output')
           .get();
 
       snapshot.docs.forEach((doc) {
-        milks.add(Milk.fromMap(doc.data()as Map<String, dynamic>, doc.id));
+        milks.add(Milk.fromMap(doc.data() as Map<String, dynamic>, doc.id));
       });
 
       MilkListtotal milkList = MilkListtotal(milks: milks);
@@ -560,71 +551,59 @@ class _barchartState extends State<barchart> {
       Map<String, double> totalLitersByMonth = milkList.getTotalLitersByMonth();
 
       totalLitersByMonth.forEach((monthYear, totalLiters) {
-        if(monthYear.substring(3)==currentYear){
-          if(monthYear.substring(0,2)=="01"){
+        if (monthYear.substring(3) == currentYear) {
+          if (monthYear.substring(0, 2) == "01") {
             setState(() {
-              value[0]+=totalLiters;
+              value[0] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="02"){
+          } else if (monthYear.substring(0, 2) == "02") {
             setState(() {
-              value[1]+=totalLiters;
+              value[1] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="03"){
+          } else if (monthYear.substring(0, 2) == "03") {
             setState(() {
-              value[2]+=totalLiters;
+              value[2] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="04"){
+          } else if (monthYear.substring(0, 2) == "04") {
             setState(() {
-              value[3]+=totalLiters;
+              value[3] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="05"){
+          } else if (monthYear.substring(0, 2) == "05") {
             setState(() {
-              value[4]+=totalLiters;
+              value[4] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="06"){
+          } else if (monthYear.substring(0, 2) == "06") {
             setState(() {
-              value[5]+=totalLiters;
+              value[5] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="07"){
+          } else if (monthYear.substring(0, 2) == "07") {
             setState(() {
-              value[6]+=totalLiters;
+              value[6] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="08"){
+          } else if (monthYear.substring(0, 2) == "08") {
             setState(() {
-              value[7]+=totalLiters;
+              value[7] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="09"){
+          } else if (monthYear.substring(0, 2) == "09") {
             setState(() {
-              value[8]+=totalLiters;
+              value[8] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="10"){
+          } else if (monthYear.substring(0, 2) == "10") {
             setState(() {
-              value[9]+=totalLiters;
+              value[9] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="11"){
+          } else if (monthYear.substring(0, 2) == "11") {
             setState(() {
-              value[10]+=totalLiters;
+              value[10] += totalLiters;
             });
-          }
-          else if(monthYear.substring(0,2)=="12"){
+          } else if (monthYear.substring(0, 2) == "12") {
             setState(() {
-              value[11]+=totalLiters;
+              value[11] += totalLiters;
             });
           }
         }
       });
-    }
-    );
+    });
   }
 
   void showToast(String message) {
@@ -638,8 +617,6 @@ class _barchartState extends State<barchart> {
       fontSize: 16.0,
     );
   }
-
-
 }
 
 //
@@ -690,9 +667,10 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: aiMethodsCount.toDouble()/100,
+                      percent: aiMethodsCount.toDouble() / 100,
                       center: new Text(
-                          aiMethodsCount.toString(), //...............Number of AI s getting data from reproduction table...............
+                          aiMethodsCount
+                              .toString(), //...............Number of AI s getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -716,9 +694,10 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: pdsbyAi/100,
+                      percent: pdsbyAi / 100,
                       center: new Text(
-                          pdsbyAi.toString(), //...............Number of PDs by AI s getting data from reproduction table...............
+                          pdsbyAi
+                              .toString(), //...............Number of PDs by AI s getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -742,9 +721,10 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: (calving/pregnant)/100,
+                      percent: (calving / pregnant) / 100,
                       center: new Text(
-                          ((calving/pregnant)/100).toStringAsFixed(2)+" %", //...............Calving percentage getting data from reproduction table...............
+                          ((calving / pregnant) / 100).toStringAsFixed(2) +
+                              " %", //...............Calving percentage getting data from reproduction table...............
                           style: TextStyle(
                               fontSize: 10,
                               color: Color.fromRGBO(36, 52, 101, 1))),
@@ -768,7 +748,7 @@ class _circle_indiState extends State<circle_indi> {
                     child: CircularPercentIndicator(
                       radius: 27.0,
                       lineWidth: 4.0,
-                      percent: ((male/(female+male))*100)/10000,
+                      percent: ((male / (female + male)) * 100) / 10000,
                       center: new Text(
                           fmratio, //...............M:F ratio getting data from reproduction table (there is no data in the table)...............
                           style: TextStyle(
@@ -790,47 +770,48 @@ class _circle_indiState extends State<circle_indi> {
   }
 
   Future<void> fetchFirestoreData() async {
-    aiMethodsCount=0;
-    pdsbyAi=0;
-    male=0;
-    female=0;
-    fmratio='';
-    calving=0;
-    pregnant=0;
+    aiMethodsCount = 0;
+    pdsbyAi = 0;
+    male = 0;
+    female = 0;
+    fmratio = '';
+    calving = 0;
+    pregnant = 0;
 
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('Farm details')
-        .get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('Farm details').get();
 
     List<String> documentIds = snapshot.docs.map((doc) => doc.id).toList();
 
     documentIds.forEach((id) async {
-       snapshot = await FirebaseFirestore.instance
-          .collection('Farm details/'+id+'/animal details')
+      snapshot = await FirebaseFirestore.instance
+          .collection('Farm details/' + id + '/animal details')
           .get();
 
-      List<String> cowsdocumentIds = snapshot.docs.map((doc) => doc.id).toList();
+      List<String> cowsdocumentIds =
+          snapshot.docs.map((doc) => doc.id).toList();
 
-       cowsdocumentIds.forEach((cowid) async {
-         
-         snapshot = await FirebaseFirestore.instance
-             .collection('Farm details/' + id +
-             '/animal details/' +cowid+
-             '/breeding details')
-             .get();
-         List<DocumentSnapshot> documents = snapshot.docs;
-         setState(() {
-           aiMethodsCount += _calculateAIMethodsCount(documents);
-           pdsbyAi+=_pdsbyai(documents);
-           male+=_male(documents);
-           female+=_female(documents);
-           fmratio = (male).toString()+' : '+(female).toString();
-           calving += _calving(documents);
-           pregnant+=_pregnant(documents);
-         });
-       });
+      cowsdocumentIds.forEach((cowid) async {
+        snapshot = await FirebaseFirestore.instance
+            .collection('Farm details/' +
+                id +
+                '/animal details/' +
+                cowid +
+                '/breeding details')
+            .get();
+        List<DocumentSnapshot> documents = snapshot.docs;
+        setState(() {
+          aiMethodsCount += _calculateAIMethodsCount(documents);
+          pdsbyAi += _pdsbyai(documents);
+          male += _male(documents);
+          female += _female(documents);
+          fmratio = (male).toString() + ' : ' + (female).toString();
+          calving += _calving(documents);
+          pregnant += _pregnant(documents);
+        });
+      });
     });
-    }
+  }
 
   int _calculateAIMethodsCount(List<DocumentSnapshot> documents) {
     return documents.where((doc) {
@@ -842,7 +823,8 @@ class _circle_indiState extends State<circle_indi> {
   int _pdsbyai(List<DocumentSnapshot> documents) {
     return documents.where((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      return data.containsKey('method') && data['method'] == 'AI' &&
+      return data.containsKey('method') &&
+          data['method'] == 'AI' &&
           data.containsKey('pregnantdate');
     }).length;
   }
@@ -850,32 +832,34 @@ class _circle_indiState extends State<circle_indi> {
   int _male(List<DocumentSnapshot> documents) {
     return documents.where((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      return data.containsKey('gender') && data['gender'] == 'Male' &&
-          data.containsKey('stage') && data['stage'] == 'Gave birth';
+      return data.containsKey('gender') &&
+          data['gender'] == 'Male' &&
+          data.containsKey('stage') &&
+          data['stage'] == 'Gave birth';
     }).length;
   }
 
   int _female(List<DocumentSnapshot> documents) {
     return documents.where((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      return data.containsKey('gender') && data['gender'] == 'Female' &&
-          data.containsKey('stage') && data['stage'] == 'Gave birth';
+      return data.containsKey('gender') &&
+          data['gender'] == 'Female' &&
+          data.containsKey('stage') &&
+          data['stage'] == 'Gave birth';
     }).length;
   }
 
   int _calving(List<DocumentSnapshot> documents) {
     return documents.where((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      return
-          data.containsKey('stage') && data['stage'] == 'Gave birth';
+      return data.containsKey('stage') && data['stage'] == 'Gave birth';
     }).length;
   }
 
   int _pregnant(List<DocumentSnapshot> documents) {
     return documents.where((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      return
-        data.containsKey('pregnantdate');
+      return data.containsKey('pregnantdate');
     }).length;
   }
 
