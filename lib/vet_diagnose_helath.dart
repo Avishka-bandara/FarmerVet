@@ -33,6 +33,9 @@ class _diagnose_health extends State<Diagnose_health> {
   bool isSelectedlimping = false;
   bool isSelecteddiarhea = false;
   bool isSelectedfever = false;
+  bool isSelectedsimptom1 = false;
+  bool isSelectedsimptom2 = false;
+  bool isSelectedsimptom3 = false;
 
   @override
   void initState() {
@@ -65,7 +68,7 @@ class _diagnose_health extends State<Diagnose_health> {
             Column(
               children: [
                 Card(
-                  elevation: 3.0,
+                  //elevation: 3.0,
                   margin: EdgeInsets.only(top: 10.0),
                   child: InkWell(
                     child: Padding(
@@ -149,99 +152,92 @@ class _diagnose_health extends State<Diagnose_health> {
                               ),
                             ],
                           ),
-
                           SizedBox(height: 10),
-                          /*Row(
-                    children: [
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Color.fromRGBO(
-                                    28, 42, 58, 1); // Change color when pressed
-                              }
-                              return Colors.white; // Default color
-                            },
-                          ),
-                          side: MaterialStateProperty.all<BorderSide>(
-                            BorderSide(
-                                color: Color.fromRGBO(28, 42, 58, 1),
-                                width: 1.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Functionality for the first button
-                        },
-                        child: Text(
-                          "Symptom",
-                          style:
-                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                        ),
-                      ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: isSelectedsimptom1
+                                        ? Colors.deepPurple
+                                        : Colors.white),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      // _selectedIssue = 'Limping';
+                                      isSelectedlimping = false;
+                                      isSelecteddiarhea = false;
+                                      isSelectedfever = false;
+                                      isSelectedsimptom1 = true;
+                                      isSelectedsimptom2 = false;
+                                      isSelectedsimptom3 = false;
+                                    });
+                                  },
+                                  child: Text('simptom1',
+                                      style: isSelectedsimptom1
+                                          ? TextStyle(color: Colors.white)
+                                          : TextStyle()),
+                                ),
+                              ),
 
-                      SizedBox(width: 10), // Add spacing between buttons
+                              SizedBox(
+                                  width: 10), // Add spacing between buttons
 
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Color.fromRGBO(
-                                    28, 42, 58, 1); // Change color when pressed
-                              }
-                              return Colors.white; // Default color
-                            },
-                          ),
-                          side: MaterialStateProperty.all<BorderSide>(
-                            BorderSide(
-                                color: Color.fromRGBO(28, 42, 58, 1),
-                                width: 1.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Functionality for the second button
-                        },
-                        child: Text(
-                          "Symptom",
-                          style:
-                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                        ),
-                      ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: isSelectedsimptom2
+                                        ? Colors.deepPurple
+                                        : Colors.white),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      // _selectedIssue = 'Diarrhea';
+                                      isSelectedlimping = false;
+                                      isSelecteddiarhea = false;
+                                      isSelectedfever = false;
+                                      isSelectedsimptom1 = false;
+                                      isSelectedsimptom2 = true;
+                                      isSelectedsimptom3 = false;
+                                    });
+                                  },
+                                  child: Text('Simptom 2',
+                                      style: isSelectedsimptom2
+                                          ? TextStyle(color: Colors.white)
+                                          : TextStyle()),
+                                ),
+                              ),
 
-                      SizedBox(width: 10), // Add spacing between buttons
+                              SizedBox(
+                                  width: 10), // Add spacing between buttons
 
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Color.fromRGBO(
-                                    28, 42, 58, 1); // Change color when pressed
-                              }
-                              return Colors.white; // Default color
-                            },
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: isSelectedsimptom3
+                                        ? Colors.deepPurple
+                                        : Colors.white),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      // _selectedIssue = 'Fever';
+                                      isSelectedlimping = false;
+                                      isSelecteddiarhea = false;
+                                      isSelectedfever = false;
+                                      isSelectedsimptom1 = false;
+                                      isSelectedsimptom2 = false;
+                                      isSelectedsimptom3 = true;
+                                    });
+                                  },
+                                  child: Text('Simptom 3',
+                                      style: isSelectedsimptom3
+                                          ? TextStyle(color: Colors.white)
+                                          : TextStyle()),
+                                ),
+                              ),
+                            ],
                           ),
-                          side: MaterialStateProperty.all<BorderSide>(
-                            BorderSide(
-                                color: Color.fromRGBO(28, 42, 58, 1),
-                                width: 1.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Functionality for the third button
-                        },
-                        child: Text(
-                          "Symptom",
-                          style:
-                              TextStyle(color: Color.fromRGBO(28, 42, 58, 1)),
-                        ),
-                      ),
-                    ],
-                  ), */ // Add some space between the rows
                         ],
                       ),
                     ),
@@ -342,7 +338,7 @@ class _diagnose_health extends State<Diagnose_health> {
                     Color.fromRGBO(28, 42, 58, 1)),
               ),
               onPressed: () {
-                vet_animal(); // Replace 'argument' with the actual argument value.
+                register(); // Replace 'argument' with the actual argument value.
               },
               child: isLoading
                   ? const Row(
@@ -441,15 +437,8 @@ class _diagnose_health extends State<Diagnose_health> {
         await documentReference.delete().then((value) {
           print('Document deleted successfully!');
           showToast("Saved");
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => vetAnimalIssue(
-                        index: widget.index,
-                        index2: widget.index2,
-                        farm: widget.farm,
-                        issue: widget.issue,
-                      )));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => vet_animal(widget.farm)));
         }).catchError((error) {
           setState(() {
             isLoading = false;

@@ -218,17 +218,17 @@ class _AnimalState extends State<Animal> {
                                   addAnimalForm())); // Navigate to the add animal form
                     },
                   ),
-                  ListTile(
-                    title: Text('Farm milk output'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => totalMilkOutput(
-                                    id: user!.uid,
-                                  )));
-                    },
-                  ),
+                  // ListTile(
+                  //   title: Text('Farm milk output'),
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => totalMilkOutput(
+                  //                   id: user!.uid,
+                  //                 )));
+                  //   },
+                  // ),
                   ListTile(
                     title: Text('Account'),
                     onTap: () {
@@ -417,14 +417,22 @@ class CustomCardWidget extends StatelessWidget {
                               cows[index].type,
                               style: TextStyle(fontSize: 15.0),
                             ),
-                            SizedBox(width: 100),
+                            //SizedBox(width: 100),
+                            Text(
+                              cows[index].breedType,
+                              // Replace with the actual age from the database
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
                             Text(
                               cows[index].age + " Months",
                               // Replace with the actual age from the database
                               style: TextStyle(
                                 fontSize: 15.0,
                               ),
-                              textAlign: TextAlign.right,
+                              //textAlign: TextAlign.right,
                             ),
                           ]),
                       SizedBox(height: 5),
@@ -439,7 +447,7 @@ class CustomCardWidget extends StatelessWidget {
     // Create a function to get the image asset
     switch (name) {
       case "Cow":
-        return 'assets/cow.jpg';
+        return 'assets/Cow.jpeg';
       case "Heifer":
         return 'assets/heifer.jpg';
       case "Calf-Male":

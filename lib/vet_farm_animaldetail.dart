@@ -13,7 +13,6 @@ import 'animalIssue.dart';
 class Vet_Animal_Detail extends StatefulWidget {
   final List<Cow> cows;
   final int indexcows;
-  
 
   Vet_Animal_Detail(this.cows, this.indexcows, List<Farm> farm, int index2);
 
@@ -39,7 +38,8 @@ class _Vet_Animal_DetailState extends State<Vet_Animal_Detail> {
         padding: EdgeInsets.all(8.0), // Add padding to the whole screen
         child: ListView(
           children: [
-            CustomCardWidget(widget.cows, widget.indexcows), // Display the animal details
+            CustomCardWidget(
+                widget.cows, widget.indexcows), // Display the animal details
             SizedBox(height: 10),
             const Text(
               'Record the vaccination given to the animal',
@@ -361,7 +361,7 @@ class CustomCardWidget extends StatelessWidget {
   String getImageAsset(String name) {
     switch (name) {
       case "Cow":
-        return 'assets/bull.jpg';
+        return 'assets/Cow.jpeg';
       case "Heifer":
         return 'assets/heifer.jpg';
       case "Calf-Male":
