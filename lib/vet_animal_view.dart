@@ -266,63 +266,51 @@ class CustomCardWidget extends StatelessWidget {
     return Card(
       elevation: 3.0,
       margin: EdgeInsets.only(top: 10.0),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      Vet_Animal_Detail(cows, index, farm, index2)));
-          // Replace with the correct arguments for the FarmDetailView constructor
-        },
-        child: Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Row(
-            //crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  image: DecorationImage(
-                    image: AssetImage(getImageAsset(cows[index].type)),
-                    // Load the image from the database
-                    fit: BoxFit.cover,
-                  ),
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Row(
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: AssetImage(getImageAsset(cows[index].type)),
+                  // Load the image from the database
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(width: 10),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            ),
+            SizedBox(width: 10),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                cows[index].name,
+                // Replace with the actual name from the database
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              Divider(
+                thickness: 1.0,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
-                  cows[index].name,
-                  // Replace with the actual name from the database
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  cows[index].type,
+                  style: TextStyle(fontSize: 15.0),
                 ),
-                Divider(
-                  thickness: 1.0,
+                SizedBox(width: 100),
+                Text(
+                  cows[index].age + " Months",
+                  // Replace with the actual age from the database
+                  style: TextStyle(
+                    fontSize: 15.0,
+                  ),
+                  textAlign: TextAlign.right,
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        cows[index].type,
-                        style: TextStyle(fontSize: 15.0),
-                      ),
-                      SizedBox(width: 100),
-                      Text(
-                        cows[index].age + " Months",
-                        // Replace with the actual age from the database
-                        style: TextStyle(
-                          fontSize: 15.0,
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
-                    ]),
-                SizedBox(height: 5),
-              ])
-            ],
-          ),
+              ]),
+              SizedBox(height: 5),
+            ])
+          ],
         ),
       ),
     );
@@ -332,7 +320,7 @@ class CustomCardWidget extends StatelessWidget {
     // Create a function to get the image asset
     switch (name) {
       case "Cow":
-        return 'assets/cow.jpg';
+        return 'assets/Cow.jpeg';
       case "Heifer":
         return 'assets/heifer.jpg';
       case "Calf-Male":

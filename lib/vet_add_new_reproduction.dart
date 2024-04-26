@@ -9,16 +9,16 @@ import 'package:farmervet/farm_milk_output.dart';
 
 import 'CowList.dart';
 import 'farmList.dart';
+
 typedef void UpdateVariableCallback(DateTime? selectedDate);
 
 class ReproductionEntry extends StatefulWidget {
-
   final List<Cow> cows;
   final int index;
   final List<Farm> farm;
   final int index2;
 
-  ReproductionEntry(this.cows, this.index,this.farm, this.index2);
+  ReproductionEntry(this.cows, this.index, this.farm, this.index2);
 
   @override
   _ReproductionEntryState createState() => _ReproductionEntryState();
@@ -55,7 +55,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
         child: SafeArea(
           child: ListView(children: [
             SizedBox(height: 20),
-            CustomCardWidget(widget.cows,widget.index),
+            CustomCardWidget(widget.cows, widget.index),
             SizedBox(height: 35),
             Text(
               "Select Service",
@@ -114,11 +114,12 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            if (selectedValue_1 == 'Gave birth') DatePickerFormField(onUpdate: (newValue){
-              setState(() {
-                selectedDate=newValue;
-              });
-            }),
+            if (selectedValue_1 == 'Gave birth')
+              DatePickerFormField(onUpdate: (newValue) {
+                setState(() {
+                  selectedDate = newValue;
+                });
+              }),
             SizedBox(height: 20),
             if (selectedValue_1 == 'Gave birth')
               Text(
@@ -169,7 +170,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
                 }).toList(),
                 onChanged: (String? newValue) {
                   setState(() {
-                    calfGender=newValue;
+                    calfGender = newValue;
                   });
                 },
               ),
@@ -186,11 +187,12 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
               ),
             SizedBox(height: 10),
 
-            if (selectedValue_1 == 'Set as pregnant') DatePickerFormField(onUpdate: (newValue){
-              setState(() {
-                selectedDate=newValue;
-              });
-            }),
+            if (selectedValue_1 == 'Set as pregnant')
+              DatePickerFormField(onUpdate: (newValue) {
+                setState(() {
+                  selectedDate = newValue;
+                });
+              }),
             if (selectedValue_1 == 'Pregnancy failed') SizedBox(height: 20),
 
             // Conditionally render date input field if 'Set as inseminated' is selected
@@ -204,11 +206,12 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
               ),
             SizedBox(height: 10),
 
-            if (selectedValue_1 == 'Pregnancy failed') DatePickerFormField(onUpdate: (newValue){
-    setState(() {
-    selectedDate=newValue;
-    });
-    }),
+            if (selectedValue_1 == 'Pregnancy failed')
+              DatePickerFormField(onUpdate: (newValue) {
+                setState(() {
+                  selectedDate = newValue;
+                });
+              }),
             SizedBox(height: 10),
             if (selectedValue_1 == 'Set as inseminated')
               Text(
@@ -220,11 +223,12 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
               ),
             SizedBox(height: 10),
 
-            if (selectedValue_1 == 'Set as inseminated') DatePickerFormField(onUpdate: (newValue){
-              setState(() {
-                selectedDate=newValue;
-              });
-            }),
+            if (selectedValue_1 == 'Set as inseminated')
+              DatePickerFormField(onUpdate: (newValue) {
+                setState(() {
+                  selectedDate = newValue;
+                });
+              }),
             SizedBox(height: 30),
             if (selectedValue_1 == 'Set as inseminated')
               Text(
@@ -316,68 +320,76 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromRGBO(28, 42, 58, 1),
-                  fixedSize:
-                  const Size(300, 50), // Change the color as needed
+                  fixedSize: const Size(300, 50), // Change the color as needed
                 ),
                 onPressed: () {
-                  if(selectedValue_1 == 'Set as inseminated'){
-                    String date=selectedDate!.day.toString()+'/'+selectedDate!.month.toString()+'/'+selectedDate!.year.toString();
-                    String method="";
-                    if(selectedRadio==1){
-                       method= "AI";
+                  if (selectedValue_1 == 'Set as inseminated') {
+                    String date = selectedDate!.day.toString() +
+                        '/' +
+                        selectedDate!.month.toString() +
+                        '/' +
+                        selectedDate!.year.toString();
+                    String method = "";
+                    if (selectedRadio == 1) {
+                      method = "AI";
+                    } else if (selectedRadio == 2) {
+                      method = "Cow";
                     }
-                    else if(selectedRadio==2){
-                       method= "Cow";
-                    }
-                    String cowAicode=cowaicode.text.trim();
-                    String aiTechcode=aiTechCode.text.trim();
+                    String cowAicode = cowaicode.text.trim();
+                    String aiTechcode = aiTechCode.text.trim();
 
                     setInseminated(date, method, cowAicode, aiTechcode);
-                  }
-
-                  else if(selectedValue_1 == 'Set as pregnant'){
-                    String date=selectedDate!.day.toString()+'/'+selectedDate!.month.toString()+'/'+selectedDate!.year.toString();
+                  } else if (selectedValue_1 == 'Set as pregnant') {
+                    String date = selectedDate!.day.toString() +
+                        '/' +
+                        selectedDate!.month.toString() +
+                        '/' +
+                        selectedDate!.year.toString();
 
                     setpregnant(date);
-                  }
-
-                  else if(selectedValue_1 == 'Gave birth'){
-                    String date=selectedDate!.day.toString()+'/'+selectedDate!.month.toString()+'/'+selectedDate!.year.toString();
-                    gavebirth(date,calfName.text.trim(),calfGender!);
-                  }
-
-                  else if(selectedValue_1=='Pregnancy failed'){
-                    String date=selectedDate!.day.toString()+'/'+selectedDate!.month.toString()+'/'+selectedDate!.year.toString();
+                  } else if (selectedValue_1 == 'Gave birth') {
+                    String date = selectedDate!.day.toString() +
+                        '/' +
+                        selectedDate!.month.toString() +
+                        '/' +
+                        selectedDate!.year.toString();
+                    gavebirth(date, calfName.text.trim(), calfGender!);
+                  } else if (selectedValue_1 == 'Pregnancy failed') {
+                    String date = selectedDate!.day.toString() +
+                        '/' +
+                        selectedDate!.month.toString() +
+                        '/' +
+                        selectedDate!.year.toString();
 
                     pregnancyFailde(date);
                   }
                 },
                 child: isLoading //..........Loading Indicator........
                     ? const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Submitting....  ',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        )),
-                  ],
-                )
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Submitting....  ',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              )),
+                        ],
+                      )
                     : const Text(
-                  'Submit',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.white,
-                  ),
-                ),
+                        'Submit',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
+                      ),
               ),
             ),
           ]),
@@ -386,19 +398,22 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
     );
   }
 
-  Future<void> setInseminated(String date,String method,String cowAicode,String aiTechCode) async {
-    try{
+  Future<void> setInseminated(
+      String date, String method, String cowAicode, String aiTechCode) async {
+    try {
       setState(() {
         isLoading = true;
       });
       await FirebaseFirestore.instance
-          .collection('Farm details/'+
-          widget.farm[widget.index2].id+
-          '/animal details/'+widget.cows[widget.index].id+'/breeding details') //..........Firebase Collection........
+          .collection('Farm details/' +
+              widget.farm[widget.index2].id +
+              '/animal details/' +
+              widget.cows[widget.index].id +
+              '/breeding details') //..........Firebase Collection........
           .doc(selectedValue) //..........Firebase Document........
           .update({
         //..........Firebase Data........
-        'stage':selectedValue_1,
+        'stage': selectedValue_1,
         'inseminateddate': date,
         'method': method,
         'cowAicode': cowAicode,
@@ -411,17 +426,19 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    BreedingInfo(widget.farm, widget.index2))); //..........Navigate to the page........
+                builder: (context) => BreedingInfo(widget.farm,
+                    widget.index2))); //..........Navigate to the page........
       }).catchError((error) async {
         await FirebaseFirestore.instance
-            .collection('Farm details/'+
-            widget.farm[widget.index2].id+
-            '/animal details/'+widget.cows[widget.index].id+'/breeding details') //..........Firebase Collection........
+            .collection('Farm details/' +
+                widget.farm[widget.index2].id +
+                '/animal details/' +
+                widget.cows[widget.index].id +
+                '/breeding details') //..........Firebase Collection........
             .doc(selectedValue) //..........Firebase Document........
             .set({
           //..........Firebase Data........
-          'stage':selectedValue_1,
+          'stage': selectedValue_1,
           'inseminateddate': date,
           'method': method,
           'cowAicode': cowAicode,
@@ -434,8 +451,8 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      BreedingInfo(widget.farm, widget.index2))); //..........Navigate to the page........
+                  builder: (context) => BreedingInfo(widget.farm,
+                      widget.index2))); //..........Navigate to the page........
         }).catchError((error) {
           //..........Error Handling........
           setState(() {
@@ -444,7 +461,7 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
           print("Failed to store data: $error");
         });
       });
-    }catch(error){
+    } catch (error) {
       setState(() {
         isLoading = false;
       });
@@ -459,14 +476,15 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
       });
       await FirebaseFirestore.instance
           .collection('Farm details/' +
-          widget.farm[widget.index2].id +
-          '/animal details/' + widget.cows[widget.index].id +
-          '/breeding details') //..........Firebase Collection........
+              widget.farm[widget.index2].id +
+              '/animal details/' +
+              widget.cows[widget.index].id +
+              '/breeding details') //..........Firebase Collection........
           .doc(selectedValue) //..........Firebase Document........
           .update({
         //..........Firebase Data........
         'pregnantdate': date,
-        'stage':selectedValue_1,
+        'stage': selectedValue_1,
       }).then((value) {
         setState(() {
           isLoading = false;
@@ -475,20 +493,20 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    BreedingInfo(widget.farm, widget
-                        .index2))); //..........Navigate to the page........
+                builder: (context) => BreedingInfo(widget.farm,
+                    widget.index2))); //..........Navigate to the page........
       }).catchError((error) async {
         await FirebaseFirestore.instance
             .collection('Farm details/' +
-            widget.farm[widget.index2].id +
-            '/animal details/' + widget.cows[widget.index].id +
-            '/breeding details') //..........Firebase Collection........
+                widget.farm[widget.index2].id +
+                '/animal details/' +
+                widget.cows[widget.index].id +
+                '/breeding details') //..........Firebase Collection........
             .doc(selectedValue) //..........Firebase Document........
             .set({
           //..........Firebase Data........
           'pregnantdate': date,
-          'stage':selectedValue_1,
+          'stage': selectedValue_1,
         }).then((value) {
           setState(() {
             isLoading = false;
@@ -497,9 +515,8 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      BreedingInfo(widget.farm, widget
-                          .index2))); //..........Navigate to the page........
+                  builder: (context) => BreedingInfo(widget.farm,
+                      widget.index2))); //..........Navigate to the page........
         }).catchError((error) {
           //..........Error Handling........
           setState(() {
@@ -523,14 +540,15 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
       });
       await FirebaseFirestore.instance
           .collection('Farm details/' +
-          widget.farm[widget.index2].id +
-          '/animal details/' + widget.cows[widget.index].id +
-          '/breeding details') //..........Firebase Collection........
+              widget.farm[widget.index2].id +
+              '/animal details/' +
+              widget.cows[widget.index].id +
+              '/breeding details') //..........Firebase Collection........
           .doc(selectedValue) //..........Firebase Document........
           .update({
         //..........Firebase Data........
         'Pregnancyfaileddate': date,
-        'stage':selectedValue_1,
+        'stage': selectedValue_1,
       }).then((value) {
         setState(() {
           isLoading = false;
@@ -539,20 +557,20 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    BreedingInfo(widget.farm, widget
-                        .index2))); //..........Navigate to the page........
+                builder: (context) => BreedingInfo(widget.farm,
+                    widget.index2))); //..........Navigate to the page........
       }).catchError((error) async {
         await FirebaseFirestore.instance
             .collection('Farm details/' +
-            widget.farm[widget.index2].id +
-            '/animal details/' + widget.cows[widget.index].id +
-            '/breeding details') //..........Firebase Collection........
+                widget.farm[widget.index2].id +
+                '/animal details/' +
+                widget.cows[widget.index].id +
+                '/breeding details') //..........Firebase Collection........
             .doc(selectedValue) //..........Firebase Document........
             .set({
           //..........Firebase Data........
           'Pregnancyfaileddate': date,
-          'stage':selectedValue_1,
+          'stage': selectedValue_1,
         }).then((value) {
           setState(() {
             isLoading = false;
@@ -561,9 +579,8 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      BreedingInfo(widget.farm, widget
-                          .index2))); //..........Navigate to the page........
+                  builder: (context) => BreedingInfo(widget.farm,
+                      widget.index2))); //..........Navigate to the page........
         }).catchError((error) {
           setState(() {
             isLoading = false;
@@ -579,23 +596,24 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
     }
   }
 
-  Future<void> gavebirth(String date,String name,String gender) async {
+  Future<void> gavebirth(String date, String name, String gender) async {
     try {
       setState(() {
         isLoading = true;
       });
       await FirebaseFirestore.instance
           .collection('Farm details/' +
-          widget.farm[widget.index2].id +
-          '/animal details/' + widget.cows[widget.index].id +
-          '/breeding details') //..........Firebase Collection........
+              widget.farm[widget.index2].id +
+              '/animal details/' +
+              widget.cows[widget.index].id +
+              '/breeding details') //..........Firebase Collection........
           .doc(selectedValue) //..........Firebase Document........
           .update({
         //..........Firebase Data........
         'Birthdate': date,
-        'name' :name,
-        'gender':gender,
-        'stage':selectedValue_1,
+        'name': name,
+        'gender': gender,
+        'stage': selectedValue_1,
       }).then((value) {
         setState(() {
           isLoading = false;
@@ -604,22 +622,22 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    BreedingInfo(widget.farm, widget
-                        .index2))); //..........Navigate to the page........
+                builder: (context) => BreedingInfo(widget.farm,
+                    widget.index2))); //..........Navigate to the page........
       }).catchError((error) async {
         await FirebaseFirestore.instance
             .collection('Farm details/' +
-            widget.farm[widget.index2].id +
-            '/animal details/' + widget.cows[widget.index].id +
-            '/breeding details') //..........Firebase Collection........
+                widget.farm[widget.index2].id +
+                '/animal details/' +
+                widget.cows[widget.index].id +
+                '/breeding details') //..........Firebase Collection........
             .doc(selectedValue) //..........Firebase Document........
             .set({
           //..........Firebase Data........
           'Birthdate': date,
-          'name' :name,
-          'gender':gender,
-          'stage':selectedValue_1,
+          'name': name,
+          'gender': gender,
+          'stage': selectedValue_1,
         }).then((value) {
           setState(() {
             isLoading = false;
@@ -628,9 +646,8 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      BreedingInfo(widget.farm, widget
-                          .index2))); //..........Navigate to the page........
+                  builder: (context) => BreedingInfo(widget.farm,
+                      widget.index2))); //..........Navigate to the page........
         }).catchError((error) {
           //..........Error Handling........
           setState(() {
@@ -659,13 +676,11 @@ class _ReproductionEntryState extends State<ReproductionEntry> {
       fontSize: 16.0,
     );
   }
-
 }
 
 // custom card widget
 //
 class CustomCardWidget extends StatelessWidget {
-
   final List<Cow> cows;
   final int index;
 
@@ -692,7 +707,7 @@ class CustomCardWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-                          image: AssetImage('assets/heifer.jpg'),
+                          image: AssetImage(getImageAsset(cows[index].type)),
                           // Load image from the database
                           fit: BoxFit.fill,
                           alignment: Alignment
@@ -711,9 +726,12 @@ class CustomCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // Align children to the end (right side)
                     children: [
-                      Text("Tag Number: "+cows[index].tag, textAlign: TextAlign.right),
-                      Text("Age: "+cows[index].age, textAlign: TextAlign.right),
-                      Text("Breed Type: "+cows[index].breedType, textAlign: TextAlign.right),
+                      Text("Tag Number: " + cows[index].tag,
+                          textAlign: TextAlign.right),
+                      Text("Age: " + cows[index].age,
+                          textAlign: TextAlign.right),
+                      Text("Breed Type: " + cows[index].breedType,
+                          textAlign: TextAlign.right),
                       //these information should be retrieved from the database
                     ],
                   )
@@ -725,6 +743,21 @@ class CustomCardWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getImageAsset(String name) {
+    switch (name) {
+      case "Cow":
+        return 'assets/Cow.jpeg';
+      case "Heifer":
+        return 'assets/heifer.jpg';
+      case "Calf-Male":
+        return 'assets/mcalf.jpg';
+      case "Bull":
+        return 'assets/bull.jpg';
+      default:
+        return 'assets/fcalf.jpg';
+    }
   }
 }
 
@@ -784,16 +817,13 @@ class CustomDropdownField extends StatelessWidget {
 class DatePickerFormField extends StatefulWidget {
   final UpdateVariableCallback onUpdate;
 
-  DatePickerFormField({
-    required this.onUpdate
-});
+  DatePickerFormField({required this.onUpdate});
 
   @override
   _DatePickerFormFieldState createState() => _DatePickerFormFieldState();
 }
 
 class _DatePickerFormFieldState extends State<DatePickerFormField> {
-
   DateTime? _selectedDate;
 
   Future<void> _selectDate(BuildContext context) async {

@@ -8,7 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'CowList.dart';
 import 'animalIssue.dart';
 
-
 class AnimalDetail extends StatelessWidget {
   final List<Cow> cows;
   final int indexcows;
@@ -30,7 +29,7 @@ class AnimalDetail extends StatelessWidget {
         padding: EdgeInsets.all(8.0), // Add padding to the whole screen
         child: ListView(
           children: [
-            CustomCardWidget(cows, indexcows),  // Display the animal details
+            CustomCardWidget(cows, indexcows), // Display the animal details
             SizedBox(height: 10),
             const Text(
               'Record the vaccination given to the animal',
@@ -38,7 +37,7 @@ class AnimalDetail extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Align(
-              alignment: Alignment.centerLeft,  // Align the button to the left
+              alignment: Alignment.centerLeft, // Align the button to the left
               child: ElevatedButton(
                 onPressed: () {
                   // Logic for adding vaccination details
@@ -63,12 +62,18 @@ class AnimalDetail extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
 
-            FutureBuilder<QuerySnapshot>( // Display the health issues
-              future: FirebaseFirestore.instance  // Get the health issues from the database
-                  .collection('Farm details/' + user!.uid + '/health issue')  // Get the health issues from the database
+            FutureBuilder<QuerySnapshot>(
+              // Display the health issues
+              future: FirebaseFirestore
+                  .instance // Get the health issues from the database
+                  .collection('Farm details/' +
+                      user!.uid +
+                      '/health issue') // Get the health issues from the database
                   .get(),
-              builder: (context, snapshot) {  // Build the widget
-                if (snapshot.connectionState == ConnectionState.waiting) {  // Display a loading indicator while the data is being fetched
+              builder: (context, snapshot) {
+                // Build the widget
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // Display a loading indicator while the data is being fetched
                   return Wrap(
                     children: [
                       Container(
@@ -92,13 +97,18 @@ class AnimalDetail extends StatelessWidget {
                     child: Text('Error: ${snapshot.error}'),
                   );
                 } else {
-                  List<Issue> issue = []; // Create a list to store the health issues
-                  snapshot.data!.docs.forEach((doc) { // Loop through the health issues
-                    issue.add(Issue.fromMap(  // Add the health issues to the list
-                        doc.data() as Map<String, dynamic>, doc.id)); // Add the health issues to the list
+                  List<Issue> issue =
+                      []; // Create a list to store the health issues
+                  snapshot.data!.docs.forEach((doc) {
+                    // Loop through the health issues
+                    issue.add(Issue.fromMap(
+                        // Add the health issues to the list
+                        doc.data() as Map<String, dynamic>,
+                        doc.id)); // Add the health issues to the list
                   });
                   if (issue.isEmpty) {
-                    return Wrap(  // Display a message if no health issues are found
+                    return Wrap(
+                      // Display a message if no health issues are found
                       children: [
                         Container(
                             width: screenSize.width,
@@ -114,19 +124,25 @@ class AnimalDetail extends StatelessWidget {
                   } else {
                     return Container(
                       width: screenSize.width,
-                      child: SingleChildScrollView( // Display the health issues
+                      child: SingleChildScrollView(
+                        // Display the health issues
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Column(
                               children: [
-                                ListView.builder( // Display the health issues
+                                ListView.builder(
+                                  // Display the health issues
                                   shrinkWrap: true,
                                   itemCount: issue.length,
-                                  itemBuilder: (context, index) { // Build the widget
-                                    if (issue[index].animalid ==  // Check if the health issue is for the current animal
-                                        cows[indexcows].id) { // Check if the health issue is for the current animal
-                                      return OnIssue(issue, index); // Display the health issue
+                                  itemBuilder: (context, index) {
+                                    // Build the widget
+                                    if (issue[index]
+                                            .animalid == // Check if the health issue is for the current animal
+                                        cows[indexcows].id) {
+                                      // Check if the health issue is for the current animal
+                                      return OnIssue(issue,
+                                          index); // Display the health issue
                                     }
                                   },
                                 ),
@@ -149,12 +165,18 @@ class AnimalDetail extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
 
-            FutureBuilder<QuerySnapshot>( // Display the health issues
-              future: FirebaseFirestore.instance  // Get the health issues from the database
-                  .collection('Farm details/'+ user!.uid +'/history health issue')  // Get the health issues from the database
+            FutureBuilder<QuerySnapshot>(
+              // Display the health issues
+              future: FirebaseFirestore
+                  .instance // Get the health issues from the database
+                  .collection('Farm details/' +
+                      user!.uid +
+                      '/history health issue') // Get the health issues from the database
                   .get(),
-              builder: (context, snapshot) {  // Build the widget
-                if (snapshot.connectionState == ConnectionState.waiting) {  // Display a loading indicator while the data is being fetched
+              builder: (context, snapshot) {
+                // Build the widget
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // Display a loading indicator while the data is being fetched
                   return Wrap(
                     children: [
                       Container(
@@ -178,13 +200,18 @@ class AnimalDetail extends StatelessWidget {
                     child: Text('Error: ${snapshot.error}'),
                   );
                 } else {
-                  List<Issue> pastissue = []; // Create a list to store the health issues
-                  snapshot.data!.docs.forEach((doc) { // Loop through the health issues
-                    pastissue.add(Issue.fromMap(  // Add the health issues to the list
-                        doc.data() as Map<String, dynamic>, doc.id)); // Add the health issues to the list
+                  List<Issue> pastissue =
+                      []; // Create a list to store the health issues
+                  snapshot.data!.docs.forEach((doc) {
+                    // Loop through the health issues
+                    pastissue.add(Issue.fromMap(
+                        // Add the health issues to the list
+                        doc.data() as Map<String, dynamic>,
+                        doc.id)); // Add the health issues to the list
                   });
                   if (pastissue.isEmpty) {
-                    return Wrap(  // Display a message if no health issues are found
+                    return Wrap(
+                      // Display a message if no health issues are found
                       children: [
                         Container(
                             width: screenSize.width,
@@ -199,19 +226,25 @@ class AnimalDetail extends StatelessWidget {
                   } else {
                     return Container(
                       width: screenSize.width,
-                      child: SingleChildScrollView( // Display the health issues
+                      child: SingleChildScrollView(
+                        // Display the health issues
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Column(
                               children: [
-                                ListView.builder( // Display the health issues
+                                ListView.builder(
+                                  // Display the health issues
                                   shrinkWrap: true,
                                   itemCount: pastissue.length,
-                                  itemBuilder: (context, index) {// Build the widget
-                                    if (pastissue[index].animalid ==  // Check if the health issue is for the current animal
-                                        cows[indexcows].id) { // Check if the health issue is for the current animal
-                                      return OnpastIssue(pastissue, index); // Display the health issue
+                                  itemBuilder: (context, index) {
+                                    // Build the widget
+                                    if (pastissue[index]
+                                            .animalid == // Check if the health issue is for the current animal
+                                        cows[indexcows].id) {
+                                      // Check if the health issue is for the current animal
+                                      return OnpastIssue(pastissue,
+                                          index); // Display the health issue
                                     }
                                   },
                                 ),
@@ -228,7 +261,8 @@ class AnimalDetail extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(  // Add a bottom navigation bar
+      bottomNavigationBar: BottomAppBar(
+        // Add a bottom navigation bar
         child: Container(
           height: 50,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -237,7 +271,7 @@ class AnimalDetail extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ReportAnimal( 
+                      builder: (context) => ReportAnimal(
                             cows: cows,
                             index: indexcows,
                           )));
@@ -255,10 +289,10 @@ class AnimalDetail extends StatelessWidget {
     );
   }
 
-  void showToast(String message) {  
-    Fluttertoast.showToast( 
+  void showToast(String message) {
+    Fluttertoast.showToast(
       msg: message,
-      toastLength: Toast.LENGTH_SHORT,  
+      toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.black,
@@ -268,7 +302,8 @@ class AnimalDetail extends StatelessWidget {
   }
 }
 
-class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
+class CustomCardWidget extends StatelessWidget {
+  // Create a custom card widget
   final List<Cow> cows;
   final int index;
 
@@ -308,11 +343,13 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
                         style: TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.bold),
                       ),
-                      ElevatedButton( // Add a button to remove the animal
+                      ElevatedButton(
+                        // Add a button to remove the animal
                         onPressed: () {
                           showDialog(
                             context: context,
-                            builder: (BuildContext context) { // Display a dialog box to confirm the removal of the animal
+                            builder: (BuildContext context) {
+                              // Display a dialog box to confirm the removal of the animal
                               return AlertDialog(
                                 title: Text("Reason for remove"),
                                 content: Column(
@@ -324,7 +361,7 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
                                       groupValue: selectedRadio,
                                       onChanged: (value) {
                                         Navigator.of(context).pop();
-                                        removeAnimal(context,"Stolen");
+                                        removeAnimal(context, "Stolen");
                                         // You can handle the selected radio value here
                                         selectedRadio = value as int;
                                       },
@@ -335,7 +372,7 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
                                       groupValue: selectedRadio,
                                       onChanged: (value) {
                                         Navigator.of(context).pop();
-                                        removeAnimal(context,"Deceased");
+                                        removeAnimal(context, "Deceased");
                                         // You can handle the selected radio value here
                                         selectedRadio = value as int;
                                       },
@@ -346,7 +383,7 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
                                       groupValue: selectedRadio,
                                       onChanged: (value) {
                                         Navigator.of(context).pop();
-                                        removeAnimal(context,"Unproductive");
+                                        removeAnimal(context, "Unproductive");
                                         // You can handle the selected radio value here
                                         selectedRadio = value as int;
                                       },
@@ -365,7 +402,7 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
                             },
                           );
                         },
-                        style: ElevatedButton.styleFrom(  
+                        style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromRGBO(234, 67, 53, 1),
                         ),
                         child: const Text(
@@ -381,7 +418,8 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
                   Divider(thickness: 1.0),
                   Text(cows[index].tag, style: TextStyle(fontSize: 15.0)),
                   Text(
-                    cows[index].age + " Months",  // Display the age of the animal
+                    cows[index].age +
+                        " Months", // Display the age of the animal
                     style: TextStyle(fontSize: 15.0),
                     textAlign: TextAlign.right,
                   ),
@@ -402,7 +440,7 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
   String getImageAsset(String name) {
     switch (name) {
       case "Cow":
-        return 'assets/cow.jpg';
+        return 'assets/Cow.jpeg';
       case "Heifer":
         return 'assets/heifer.jpg';
       case "Calf-Male":
@@ -414,7 +452,7 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
     }
   }
 
-  void removeAnimal(BuildContext context,String reason) async {
+  void removeAnimal(BuildContext context, String reason) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -425,7 +463,6 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
             ElevatedButton(
               child: Text('OK'),
               onPressed: () async {
-
                 await FirebaseFirestore.instance
                     .collection('remove animal')
                     .doc()
@@ -441,7 +478,7 @@ class CustomCardWidget extends StatelessWidget {  // Create a custom card widget
                   print("Failed to store data: $error");
                 });
 
- // Close the dialog
+                // Close the dialog
               },
             ),
           ],
@@ -580,17 +617,21 @@ class _OnIssueState extends State<OnIssue> {
   Future<void> cloneDocument(String documentId) async {
     User? user = FirebaseAuth.instance.currentUser;
     // Reference to the source and destination documents
-    DocumentReference sourceDocRef = FirebaseFirestore.instance.collection('Farm details/' + user!.uid + '/health issue').doc(documentId);
-    DocumentReference destinationDocRef = FirebaseFirestore.instance.collection('Farm details/' + user!.uid + '/history health issue').doc(documentId);
+    DocumentReference sourceDocRef = FirebaseFirestore.instance
+        .collection('Farm details/' + user!.uid + '/health issue')
+        .doc(documentId);
+    DocumentReference destinationDocRef = FirebaseFirestore.instance
+        .collection('Farm details/' + user!.uid + '/history health issue')
+        .doc(documentId);
 
     DocumentSnapshot sourceSnapshot = await sourceDocRef.get();
-    await destinationDocRef.set(sourceSnapshot.data() ?? {}).then((value) =>
-      deleteDocumentissue(widget.issue[widget.index].id,
-          onDeleted: () {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => Animal()));
-      }),// Close the dialog
-    );
+    await destinationDocRef.set(sourceSnapshot.data() ?? {}).then(
+          (value) =>
+              deleteDocumentissue(widget.issue[widget.index].id, onDeleted: () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Animal()));
+          }), // Close the dialog
+        );
   }
 
   Future<void> deleteDocumentissue(String documentId,
@@ -641,26 +682,26 @@ class _OnpastIssueState extends State<OnpastIssue> {
                           widget.issue[widget.index].animalissue,
                       style: TextStyle(fontSize: 16),
                     ),
-                    widget.issue[widget.index].visit == false
-                        ? ElevatedButton(
-                      onPressed: () {
-                        // Logic for the button
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(254, 176, 82, 1),
-                      ),
-                      child: Text(
-                        'Minor Issue',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    )
-                        : SizedBox(),
+                    // widget.issue[widget.index].visit == false
+                    //     ? ElevatedButton(
+                    //         onPressed: () {
+                    //           // Logic for the button
+                    //         },
+                    //         style: ElevatedButton.styleFrom(
+                    //           backgroundColor: Color.fromRGBO(254, 176, 82, 1),
+                    //         ),
+                    //         child: Text(
+                    //           'Minor Issue',
+                    //           style: TextStyle(
+                    //             fontSize: 12.0,
+                    //             color: Colors.white,
+                    //           ),
+                    //         ),
+                    //       )
+                    //     : SizedBox(),
                   ],
                 ),
-                Text('Date : ' + widget.issue[widget.index].timeDate),
+                Text('Date : ' + widget.issue[widget.index].timeDate ),
               ],
             ),
           ),

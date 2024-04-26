@@ -28,7 +28,8 @@ class _vet_animalState extends State<vet_animal> {
     screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Animal', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('New Health Reported',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Container(
@@ -36,10 +37,8 @@ class _vet_animalState extends State<vet_animal> {
         child: SafeArea(
           child: ListView(children: [
             ListTile(
-              title: Text('New Health Reported',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              subtitle:
-                  Text('Check the animal health issues posted by the farmer'),
+              title: Text('Check the animal health issues posted by the farmer',
+                  style: TextStyle(fontSize: 14)),
             ),
             Row(children: [
               SizedBox(
@@ -79,7 +78,7 @@ class _vet_animalState extends State<vet_animal> {
                   );
                 } else {
                   List<Issue> issue = snapshot.data!['issues'];
-                  List<int>getFarm=snapshot.data!['availableFarms'];
+                  List<int> getFarm = snapshot.data!['availableFarms'];
 
                   //showToast(issue.length.toString());
                   //showToast(getFarm.length.toString());
@@ -133,8 +132,8 @@ class _vet_animalState extends State<vet_animal> {
 
   Future<Map<String, dynamic>> getFarmAnimalIssues() async {
     List<Issue> issues = [];
-    List<int>getFarm=[];
-    int x=0;
+    List<int> getFarm = [];
+    int x = 0;
     for (Farm farm in widget.farm) {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('Farm details/${farm.id}/health issue')
@@ -142,7 +141,7 @@ class _vet_animalState extends State<vet_animal> {
       querySnapshot.docs.forEach((doc) {
         issues.add(Issue.fromMap(doc.data() as Map<String, dynamic>, doc.id));
       });
-      if(!querySnapshot.docs.isEmpty){
+      if (!querySnapshot.docs.isEmpty) {
         getFarm.add(x);
       }
       x++;
@@ -379,7 +378,7 @@ class CustomCardWidget extends StatelessWidget {
   String getImageAsset(String name) {
     switch (name) {
       case "Cow":
-        return 'assets/cow.jpg';
+        return 'assets/Cow.jpeg';
       case "Heifer":
         return 'assets/heifer.jpg';
       case "Calf-Male":
