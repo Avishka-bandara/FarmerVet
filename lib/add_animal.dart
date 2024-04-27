@@ -203,7 +203,7 @@ class _addAnimalFormState extends State<addAnimalForm> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color.fromRGBO(209, 213, 219, 1),
-                            hintText: 'Age',
+                            hintText: 'Age In Months',
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),

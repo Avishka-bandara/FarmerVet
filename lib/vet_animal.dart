@@ -82,7 +82,28 @@ class _vet_animalState extends State<vet_animal> {
 
                   //showToast(issue.length.toString());
                   //showToast(getFarm.length.toString());
-                  if (issue.isEmpty) {
+                  if (issue.isNotEmpty) {
+                    return Container(
+                      width: screenSize.width,
+                      height: screenSize.height,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: issue.length,
+                              itemBuilder: (context, index) {
+                                return CustomCardWidget(
+                                    widget.farm, getFarm[index], issue, index);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
                     return Wrap(
                       children: [
                         Container(
@@ -95,30 +116,6 @@ class _vet_animalState extends State<vet_animal> {
                               ],
                             )),
                       ],
-                    );
-                  } else {
-                    return Container(
-                      width: screenSize.width,
-                      height: screenSize.height,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Column(
-                              children: [
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: issue.length,
-                                  itemBuilder: (context, index) {
-                                    return CustomCardWidget(widget.farm,
-                                        getFarm[index], issue, index);
-                                  },
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
                     );
                   }
                 }

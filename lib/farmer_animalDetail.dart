@@ -416,17 +416,21 @@ class CustomCardWidget extends StatelessWidget {
                     ],
                   ),
                   Divider(thickness: 1.0),
-                  Text(cows[index].tag, style: TextStyle(fontSize: 15.0)),
+                  Text("Tag No  :  " + cows[index].tag,
+                      style: TextStyle(fontSize: 15.0)),
                   Text(
-                    cows[index].age +
+                    "Age        : " +
+                        cows[index].age +
                         " Months", // Display the age of the animal
                     style: TextStyle(fontSize: 15.0),
                     textAlign: TextAlign.right,
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'Health Issue',
+                    "Breed     : " +
+                        cows[index].breedType, // Display the age of the animal
                     style: TextStyle(fontSize: 15.0),
+                    textAlign: TextAlign.right,
                   ),
                 ],
               ),
@@ -701,7 +705,7 @@ class _OnpastIssueState extends State<OnpastIssue> {
                     //     : SizedBox(),
                   ],
                 ),
-                Text('Date : ' + widget.issue[widget.index].timeDate ),
+                Text('Date : ' + widget.issue[widget.index].timeDate),
               ],
             ),
           ),

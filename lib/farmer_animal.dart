@@ -115,7 +115,7 @@ class _AnimalState extends State<Animal> {
                       return Wrap(
                         children: [
                           Container(
-                              height: 450,
+                              //height: 450,
                               width: screenSize.width,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -168,18 +168,14 @@ class _AnimalState extends State<Animal> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Column(
-                                  children: [
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: cows.length,
-                                      itemBuilder: (context, index) {
-                                        // Display the details in a list
-                                        return CustomCardWidget(cows,
-                                            index); // Display the details in a card
-                                      },
-                                    ),
-                                  ],
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: cows.length,
+                                  itemBuilder: (context, index) {
+                                    // Display the details in a list
+                                    return CustomCardWidget(cows, index);
+                                  },
                                 )
                               ],
                             ),
@@ -370,77 +366,78 @@ class CustomCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 3.0,
-        margin: EdgeInsets.only(top: 10.0),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AnimalDetail(cows, index)));
-          },
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Row(
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      image: AssetImage(getImageAsset(cows[index].type)),
-                      // Load the image from the database
-                      fit: BoxFit.cover,
-                    ),
+      elevation: 3.0,
+      margin: EdgeInsets.only(top: 10.0),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AnimalDetail(cows, index)));
+        },
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Row(
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                    image: AssetImage(getImageAsset(cows[index].type)),
+                    // Load the image from the database
+                    fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(width: 10),
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Text(
+                      cows[index].name,
+                      // Replace with the actual name from the database
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                    Divider(
+                      thickness: 1.0,
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                      Text(
-                        cows[index].name,
-                        // Replace with the actual name from the database
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                      Divider(
-                        thickness: 1.0,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              cows[index].type,
-                              style: TextStyle(fontSize: 15.0),
+                          Text(
+                            cows[index].type,
+                            style: TextStyle(fontSize: 15.0),
+                          ),
+                          //SizedBox(width: 100),
+                          Text(
+                            cows[index].breedType,
+                            // Replace with the actual age from the database
+                            style: TextStyle(
+                              fontSize: 15.0,
                             ),
-                            //SizedBox(width: 100),
-                            Text(
-                              cows[index].breedType,
-                              // Replace with the actual age from the database
-                              style: TextStyle(
-                                fontSize: 15.0,
-                              ),
-                              textAlign: TextAlign.right,
+                            textAlign: TextAlign.right,
+                          ),
+                          Text(
+                            cows[index].age + " Months",
+                            // Replace with the actual age from the database
+                            style: TextStyle(
+                              fontSize: 15.0,
                             ),
-                            Text(
-                              cows[index].age + " Months",
-                              // Replace with the actual age from the database
-                              style: TextStyle(
-                                fontSize: 15.0,
-                              ),
-                              //textAlign: TextAlign.right,
-                            ),
-                          ]),
-                      SizedBox(height: 5),
-                    ])),
-              ],
-            ),
+                            //textAlign: TextAlign.right,
+                          ),
+                        ]),
+                    //SizedBox(height: 5),
+                  ])),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   String getImageAsset(String name) {
