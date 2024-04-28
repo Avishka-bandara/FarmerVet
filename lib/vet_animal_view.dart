@@ -116,22 +116,19 @@ class _VetAnimalState extends State<VetAnimal> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Column(
-                                  children: [
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: cows.length,
-                                      itemBuilder: (context, index) {
-                                        // Display the details in a list
-                                        return CustomCardWidget(
-                                            cows,
-                                            index,
-                                            widget.index,
-                                            widget
-                                                .farm); // Display the details in a card
-                                      },
-                                    ),
-                                  ],
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: cows.length,
+                                  itemBuilder: (context, index) {
+                                    // Display the details in a list
+                                    return CustomCardWidget(
+                                        cows,
+                                        index,
+                                        widget.index,
+                                        widget
+                                            .farm); // Display the details in a card
+                                  },
                                 )
                               ],
                             ),
@@ -293,7 +290,7 @@ class CustomCardWidget extends StatelessWidget {
               Divider(
                 thickness: 1.0,
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(children: [
                 Text(
                   cows[index].type,
                   style: TextStyle(fontSize: 15.0),
@@ -305,7 +302,6 @@ class CustomCardWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 15.0,
                   ),
-                  textAlign: TextAlign.right,
                 ),
               ]),
               SizedBox(height: 5),

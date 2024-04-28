@@ -23,6 +23,7 @@ class _vet_animalState extends State<vet_animal> {
     super.initState();
     // Initialize controller values for testing
   }
+
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
     return Scaffold(
@@ -49,7 +50,6 @@ class _vet_animalState extends State<vet_animal> {
           SizedBox(height: 10),
           CustomSearchBar(),
           SizedBox(height: 16),
-
           FutureBuilder<Map<String, dynamic>>(
             future: getFarmAnimalIssues(),
             builder: (context, snapshot) {
@@ -78,7 +78,7 @@ class _vet_animalState extends State<vet_animal> {
                 );
               } else {
                 List<Issue> issue = snapshot.data!['issues'];
-                List<Farm>getFarm=snapshot.data!['availableFarms'];
+                List<Farm> getFarm = snapshot.data!['availableFarms'];
 
                 //showToast(issue.length.toString());
                 //showToast(getFarm.length.toString());
@@ -104,17 +104,14 @@ class _vet_animalState extends State<vet_animal> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Column(
-                            children: [
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: issue.length,
-                                itemBuilder: (context, index) {
-                                  return CustomCardWidget(getFarm,
-                                      index, issue, index);
-                                },
-                              ),
-                            ],
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: issue.length,
+                            itemBuilder: (context, index) {
+                              return CustomCardWidget(
+                                  getFarm, index, issue, index);
+                            },
                           )
                         ],
                       ),
@@ -131,9 +128,9 @@ class _vet_animalState extends State<vet_animal> {
 
   Future<Map<String, dynamic>> getFarmAnimalIssues() async {
     List<Issue> issues = [];
-    List<Farm>getFarm=[];
+    List<Farm> getFarm = [];
     for (Farm farm in widget.farm) {
-      try{
+      try {
         QuerySnapshot querySnapshot = await FirebaseFirestore.instance
             .collection('Farm details')
             .doc(farm.id)
@@ -143,9 +140,7 @@ class _vet_animalState extends State<vet_animal> {
           issues.add(Issue.fromMap(doc.data() as Map<String, dynamic>, doc.id));
           getFarm.add(farm);
         });
-
-      }
-      catch(error){
+      } catch (error) {
         print("no");
       }
     }

@@ -102,38 +102,30 @@ class _BreedingInfoState extends State<BreedingInfo> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Column(
-                              children: [
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: cows.length,
-                                  itemBuilder: (context, index) {
-                                    if (cows[index].type == "Cow") {
-                                      return CustomCardWidget(cows, index,
-                                          widget.farm, widget.index);
-                                    } else if (cows[index].type == "Heifer") {
-                                      return CustomCardWidget(cows, index,
-                                          widget.farm, widget.index);
-                                    } else {
-                                      return Wrap(
-                                        children: [
-                                          Container(
-                                              width: screenSize.width,
-                                              height: 450,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text('No details found'),
-                                                ],
-                                              )),
-                                        ],
-                                      );
-                                    }
-                                  },
-                                ),
-                              ],
-                            )
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: cows.length,
+                              itemBuilder: (context, index) {
+                                if (cows[index].type == "Cow") {
+                                  return CustomCardWidget(
+                                      cows, index, widget.farm, widget.index);
+                                } else if (cows[index].type == "Heifer") {
+                                  return CustomCardWidget(
+                                      cows, index, widget.farm, widget.index);
+                                } else {
+                                  return Container(
+                                    width: screenSize.width,
+                                    // height: 450,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [],
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),
