@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -381,33 +382,37 @@ class _ReportAnimalState extends State<ReportAnimal> {
       showToast(error.toString());
       print('Error uploading image: $error');
     }
+    try {
+      await FirebaseFirestore.instance
+          .collection('Farm details/' + user!.uid + '/reported health issue')
+          .doc()
+          .set({
+        'animal id': widget.cows[widget.index].id,
+        'animalissue': issue,
+        'timeDate': _currentDateTime,
+        'cowname': widget.cows[widget.index].name,
+        'cowtype': widget.cows[widget.index].type,
+        'cowage': widget.cows[widget.index].age,
+        'imageurl': imageUrl,
+        'visit': true,
+        // Add more fields as needed
+      }).then((value) {
+        setState(() {
+          isLoading = false;
+        });
+        showToast("Saved");
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Animal()));
+      }).catchError((error) {
+        setState(() {
+          isLoading = false;
+        });
 
-    await FirebaseFirestore.instance
-        .collection('Farm details/' + user!.uid + '/reported health issue')
-        .doc()
-        .set({
-      'animal id': widget.cows[widget.index].id,
-      'animalissue': issue,
-      'timeDate': _currentDateTime,
-      'cowname': widget.cows[widget.index].name,
-      'cowtype': widget.cows[widget.index].type,
-      'cowage': widget.cows[widget.index].age,
-      'imageurl': imageUrl,
-      'visit': true,
-      // Add more fields as needed
-    }).then((value) {
-      setState(() {
-        isLoading = false;
+        print("Failed to store data: $error");
       });
-      showToast("Saved");
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Animal()));
-    }).catchError((error) {
-      setState(() {
-        isLoading = false;
-      });
-      print("Failed to store data: $error");
-    });
+    } catch (error) {
+      print(error.toString());
+    }
   }
 
   void showToast(String message) {

@@ -61,7 +61,7 @@ class AnimalDetail extends StatelessWidget {
             const Text('Ongoing Issues',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-
+            
             FutureBuilder<QuerySnapshot>(
               // Display the health issues
               future: FirebaseFirestore
@@ -156,7 +156,6 @@ class AnimalDetail extends StatelessWidget {
                 }
               },
             ),
-
             const SizedBox(
                 height: 50), // Adjust the height as needed for spacing
             const Divider(thickness: 1.0),

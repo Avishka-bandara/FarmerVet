@@ -383,146 +383,154 @@ class _diagnose_health extends State<Diagnose_health> {
     });
 
     DocumentReference sourceDocRef = FirebaseFirestore.instance
-        .collection('Farm details/' + widget.farm[widget.index2].id + '/reported health issue')
+        .collection('Farm details/' +
+            widget.farm[widget.index2].id +
+            '/reported health issue')
         .doc(widget.issue[widget.index].id);
     DocumentReference destinationDocRef = FirebaseFirestore.instance
-        .collection('Farm details/' + widget.farm[widget.index2].id + '/health issue')
+        .collection(
+            'Farm details/' + widget.farm[widget.index2].id + '/health issue')
         .doc(widget.issue[widget.index].id);
 
     DocumentSnapshot sourceSnapshot = await sourceDocRef.get();
-    await destinationDocRef.set(sourceSnapshot.data() ?? {}).then(
-          (value) async {
-            print("cloned");
-            if (isSelectedlimping) {
-              String? issue = 'Limping';
-              FirebaseFirestore.instance
-                  .collection('Farm details/' +
-                  widget.farm[widget.index2].id +
-                  '/health issue/')
-                  .doc(widget.issue[widget.index].id)
-                  .update({
-                'animalissue': issue,
-                // Add other fields to update as needed
-              })
-                  .then((_) => deleteDocumentissue())
-                  .catchError((error) => print('Error updating document: $error'));
-            } else if (isSelecteddiarhea) {
-              String? issue = 'Diarrhea';
-              FirebaseFirestore.instance
-                  .collection('Farm details/' +
-                  widget.farm[widget.index2].id +
-                  '/health issue/')
-                  .doc(widget.issue[widget.index].id)
-                  .update({
-                'animalissue': issue,
-                // Add other fields to update as needed
-              })
-                  .then((_) => deleteDocumentissue())
-                  .catchError((error) => print('Error updating document: $error'));
-            } else if (isSelectedfever) {
-              String? issue = 'Fever';
-              FirebaseFirestore.instance
-                  .collection('Farm details/' +
-                  widget.farm[widget.index2].id +
-                  '/health issue/')
-                  .doc(widget.issue[widget.index].id)
-                  .update({
-                'animalissue': issue,
-                // Add other fields to update as needed
-              })
-                  .then((_) => deleteDocumentissue())
-                  .catchError((error) => print('Error updating document: $error'));
-            }
+    await destinationDocRef
+        .set(sourceSnapshot.data() ?? {})
+        .then((value) async {
+      print("cloned");
+      if (isSelectedlimping) {
+        String? issue = 'Limping';
+        FirebaseFirestore.instance
+            .collection('Farm details/' +
+                widget.farm[widget.index2].id +
+                '/health issue/')
+            .doc(widget.issue[widget.index].id)
+            .update({
+              'animalissue': issue,
+              // Add other fields to update as needed
+            })
+            .then((_) => deleteDocumentissue())
+            .catchError((error) => print('Error updating document: $error'));
+      } else if (isSelecteddiarhea) {
+        String? issue = 'Diarrhea';
+        FirebaseFirestore.instance
+            .collection('Farm details/' +
+                widget.farm[widget.index2].id +
+                '/health issue/')
+            .doc(widget.issue[widget.index].id)
+            .update({
+              'animalissue': issue,
+              // Add other fields to update as needed
+            })
+            .then((_) => deleteDocumentissue())
+            .catchError((error) => print('Error updating document: $error'));
+      } else if (isSelectedfever) {
+        String? issue = 'Fever';
+        FirebaseFirestore.instance
+            .collection('Farm details/' +
+                widget.farm[widget.index2].id +
+                '/health issue/')
+            .doc(widget.issue[widget.index].id)
+            .update({
+              'animalissue': issue,
+              // Add other fields to update as needed
+            })
+            .then((_) => deleteDocumentissue())
+            .catchError((error) => print('Error updating document: $error'));
+      }
 
-            if (_selectedRadio == 2) {
-              DocumentReference documentReference = FirebaseFirestore.instance
-                  .collection(
-                  'Farm details/' + widget.farm[widget.index2].id + '/health issue')
-                  .doc(widget.issue[widget.index].id);
-              await documentReference.update({
-                'visit': false,
-              }).then((value) async {
-                setState(() {
-                  isLoading = false;
-                });
+      if (_selectedRadio == 2) {
+        DocumentReference documentReference = FirebaseFirestore.instance
+            .collection('Farm details/' +
+                widget.farm[widget.index2].id +
+                '/health issue')
+            .doc(widget.issue[widget.index].id);
+        await documentReference.update({
+          'visit': false,
+        }).then((value) async {
+          setState(() {
+            isLoading = false;
+          });
 
-                DocumentReference documentReference = FirebaseFirestore.instance
-                    .collection('Farm visit')
-                    .doc(widget.farm[widget.index2].id + widget.issue[widget.index].id);
-                await documentReference.delete().then((value) {
-                  print('Document deleted successfully!');
-                  showToast("Saved");
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => vet_animal(widget.farm)));
-                }).catchError((error) {
-                  setState(() {
-                    isLoading = false;
-                  });
-                  print("Failed to store data: $error");
-                });
-              }).catchError((error) {
-                setState(() {
-                  isLoading = false;
-                });
-                print("Failed to store data: $error");
-              });
-            } else if (_selectedRadio == 1) {
-              DocumentReference documentReference = FirebaseFirestore.instance
-                  .collection(
-                  'Farm details/' + widget.farm[widget.index2].id + '/health issue')
-                  .doc(widget.issue[widget.index].id);
-              await documentReference.update({
-                'visit': true,
-              }).then((value) async {
-                await FirebaseFirestore.instance
-                    .collection('Farm visit')
-                    .doc(widget.farm[widget.index2].id + widget.issue[widget.index].id)
-                    .set({
-                  'issue': widget.issue[widget.index].id,
-                  'timeDate': widget.issue[widget.index].timeDate,
-                  'farmName': widget.farm[widget.index2].name,
-                  'location': widget.farm[widget.index2].area,
-                  'email': widget.farm[widget.index2].email,
-                  'cowname': widget.issue[widget.index].animalname,
-                  // Add more fields as needed
-                }).then((value) {
-                  setState(() {
-                    isLoading = false;
-                  });
-                  showToast("Saved");
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => vetAnimalIssue(
-                            index: widget.index,
-                            index2: widget.index2,
-                            farm: widget.farm,
-                            issue: widget.issue,
-                          )));
-                }).catchError((error) {
-                  setState(() {
-                    isLoading = false;
-                  });
-                  print("Failed to store data: $error");
-                });
-              }).catchError((error) {
-                setState(() {
-                  isLoading = false;
-                });
-                print("Failed to store data: $error");
-              });
-            }
-
-          }
-    );
+          DocumentReference documentReference = FirebaseFirestore.instance
+              .collection('Farm visit')
+              .doc(widget.farm[widget.index2].id +
+                  widget.issue[widget.index].id);
+          await documentReference.delete().then((value) {
+            print('Document deleted successfully!');
+            showToast("Saved");
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => vet_animal(widget.farm)));
+          }).catchError((error) {
+            setState(() {
+              isLoading = false;
+            });
+            print("Failed to store data: $error");
+          });
+        }).catchError((error) {
+          setState(() {
+            isLoading = false;
+          });
+          print("Failed to store data: $error");
+        });
+      } else if (_selectedRadio == 1) {
+        DocumentReference documentReference = FirebaseFirestore.instance
+            .collection('Farm details/' +
+                widget.farm[widget.index2].id +
+                '/health issue')
+            .doc(widget.issue[widget.index].id);
+        await documentReference.update({
+          'visit': true,
+        }).then((value) async {
+          await FirebaseFirestore.instance
+              .collection('Farm visit')
+              .doc(
+                  widget.farm[widget.index2].id + widget.issue[widget.index].id)
+              .set({
+            'issue': widget.issue[widget.index].id,
+            'timeDate': widget.issue[widget.index].timeDate,
+            'farmName': widget.farm[widget.index2].name,
+            'location': widget.farm[widget.index2].area,
+            'email': widget.farm[widget.index2].email,
+            'cowname': widget.issue[widget.index].animalname,
+            // Add more fields as needed
+          }).then((value) {
+            setState(() {
+              isLoading = false;
+            });
+            showToast("Saved");
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => vetAnimalIssue(
+                          index: widget.index,
+                          index2: widget.index2,
+                          farm: widget.farm,
+                          issue: widget.issue,
+                        )));
+          }).catchError((error) {
+            setState(() {
+              isLoading = false;
+            });
+            print("Failed to store data: $error");
+          });
+        }).catchError((error) {
+          setState(() {
+            isLoading = false;
+          });
+          print("Failed to store data: $error");
+        });
+      }
+    });
   }
 
   Future<void> deleteDocumentissue() async {
     try {
       await FirebaseFirestore.instance
-          .collection('Farm details/' + widget.farm[widget.index2].id  + '/reported health issue')
+          .collection('Farm details/' +
+              widget.farm[widget.index2].id +
+              '/reported health issue')
           .doc(widget.issue[widget.index].id)
           .delete();
       print('Document deleted successfully.');
