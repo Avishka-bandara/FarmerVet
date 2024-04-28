@@ -342,7 +342,7 @@ class _diagnose_health extends State<Diagnose_health> {
                     Color.fromRGBO(28, 42, 58, 1)),
               ),
               onPressed: () {
-                vet_animal(); // Replace 'argument' with the actual argument value.
+                register(); // Replace 'argument' with the actual argument value.
               },
               child: isLoading
                   ? const Row(
@@ -444,12 +444,7 @@ class _diagnose_health extends State<Diagnose_health> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => vetAnimalIssue(
-                        index: widget.index,
-                        index2: widget.index2,
-                        farm: widget.farm,
-                        issue: widget.issue,
-                      )));
+                  builder: (context) => vet_animal(widget.farm)));
         }).catchError((error) {
           setState(() {
             isLoading = false;
