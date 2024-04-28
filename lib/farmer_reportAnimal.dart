@@ -383,7 +383,7 @@ class _ReportAnimalState extends State<ReportAnimal> {
     }
 
     await FirebaseFirestore.instance
-        .collection('Farm details/' + user!.uid + '/health issue')
+        .collection('Farm details/' + user!.uid + '/reported health issue')
         .doc()
         .set({
       'animal id': widget.cows[widget.index].id,

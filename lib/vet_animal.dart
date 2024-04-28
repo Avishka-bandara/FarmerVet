@@ -134,7 +134,7 @@ class _vet_animalState extends State<vet_animal> {
         QuerySnapshot querySnapshot = await FirebaseFirestore.instance
             .collection('Farm details')
             .doc(farm.id)
-            .collection('health issue')
+            .collection('reported health issue')
             .get();
         querySnapshot.docs.forEach((doc) {
           issues.add(Issue.fromMap(doc.data() as Map<String, dynamic>, doc.id));
