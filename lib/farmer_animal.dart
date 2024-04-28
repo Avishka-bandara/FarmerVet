@@ -43,14 +43,14 @@ class _AnimalState extends State<Animal> {
         child: Wrap(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ListTile(
-                  title: Text('Add Milk Data',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)), // Add the title
-                  subtitle: Text('Add the milk data of your farm here'),
-                ),
+                Text('Add Milk Data',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)), // Add the title
+                Text('Add the milk data of your farm here'),
+
                 Row(children: [
                   SizedBox(
                     width: 10,

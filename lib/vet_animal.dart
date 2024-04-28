@@ -33,95 +33,52 @@ class _vet_animalState extends State<vet_animal> {
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
-        child: ListView(children: [
-          ListTile(
-            title: Text('New Health Reported',
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('New Health Reported',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            subtitle:
-                Text('Check the animal health issues posted by the farmer'),
-          ),
-          Row(children: [
-            SizedBox(
-              width: 10,
-            ),
-          ]),
-          SizedBox(height: 10),
-          Divider(thickness: 2),
-          SizedBox(height: 10),
-          CustomSearchBar(),
-          SizedBox(height: 16),
-          FutureBuilder<Map<String, dynamic>>(
-            future: getFarmAnimalIssues(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Wrap(
-                  children: [
-                    Container(
-                        height: 450,
-                        width: screenSize.width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const CircularProgressIndicator(
-                                color: Colors.black),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text("Loading data"),
-                          ],
-                        )),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else {
-                List<Issue> issue = snapshot.data!['issues'];
-                List<Farm> getFarm = snapshot.data!['availableFarms'];
+            SizedBox(height: 10),
+            Text('Check the animal health issues posted by the farmer'),
+            SizedBox(height: 10),
+            Divider(thickness: 2),
+            SizedBox(height: 10),
+            CustomSearchBar(),
+            SizedBox(height: 16),
+            Expanded(
+              child: FutureBuilder<Map<String, dynamic>>(
+                future: getFarmAnimalIssues(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(color: Colors.black),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    List<Issue> issue = snapshot.data!['issues'];
+                    List<Farm> getFarm = snapshot.data!['availableFarms'];
 
-                //showToast(issue.length.toString());
-                //showToast(getFarm.length.toString());
-                if (issue.isEmpty) {
-                  return Wrap(
-                    children: [
-                      Container(
-                          width: screenSize.width,
-                          height: 450,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('No details found'),
-                            ],
-                          )),
-                    ],
-                  );
-                } else {
-                  return Container(
-                    width: screenSize.width,
-                    height: screenSize.height,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: issue.length,
-                            itemBuilder: (context, index) {
-                              return CustomCardWidget(
-                                  getFarm, index, issue, index);
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }
-              }
-            },
-          ),
-        ]),
+                    if (issue.isEmpty) {
+                      return Center(
+                        child: Text('No details found'),
+                      );
+                    } else {
+                      return ListView.builder(
+                        itemCount: issue.length,
+                        itemBuilder: (context, index) {
+                          return CustomCardWidget(getFarm, index, issue, index);
+                        },
+                      );
+                    }
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
