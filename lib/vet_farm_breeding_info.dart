@@ -12,7 +12,6 @@ import 'add_animal.dart';
 import 'farmList.dart';
 
 class BreedingInfo extends StatefulWidget {
-
   final List<Farm> farm;
   final int index;
 
@@ -23,7 +22,6 @@ class BreedingInfo extends StatefulWidget {
 }
 
 class _BreedingInfoState extends State<BreedingInfo> {
-
   late Size screenSize;
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,8 @@ class _BreedingInfoState extends State<BreedingInfo> {
             SizedBox(height: 10),
             FutureBuilder<QuerySnapshot>(
               future: FirebaseFirestore.instance
-                  .collection('Farm details/${widget.farm[widget.index].id}/animal details')
+                  .collection(
+                      'Farm details/${widget.farm[widget.index].id}/animal details')
                   .get(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -109,17 +108,21 @@ class _BreedingInfoState extends State<BreedingInfo> {
                                   shrinkWrap: true,
                                   itemCount: cows.length,
                                   itemBuilder: (context, index) {
-                                    if(cows[index].type=="Heifer"){
-                                      return CustomCardWidget(cows, index,widget.farm,widget.index);
-                                    }
-                                    else{
+                                    if (cows[index].type == "Cow") {
+                                      return CustomCardWidget(cows, index,
+                                          widget.farm, widget.index);
+                                    } else if (cows[index].type == "Heifer") {
+                                      return CustomCardWidget(cows, index,
+                                          widget.farm, widget.index);
+                                    } else {
                                       return Wrap(
                                         children: [
                                           Container(
                                               width: screenSize.width,
                                               height: 450,
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Text('No details found'),
                                                 ],
@@ -194,7 +197,7 @@ class CustomCardWidget extends StatelessWidget {
   final List<Farm> farms;
   final int index2;
 
-  CustomCardWidget(this.cows, this.index,this.farms, this.index2);
+  CustomCardWidget(this.cows, this.index, this.farms, this.index2);
 
   @override
   Widget build(BuildContext context) {
@@ -243,9 +246,16 @@ class CustomCardWidget extends StatelessWidget {
                               cows[index].type,
                               style: TextStyle(fontSize: 15.0),
                             ),
-                            SizedBox(width: 140),
                             Text(
-                              cows[index].age+" months",
+                              cows[index].breedType,
+                              // Replace with the actual age from the database
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                            Text(
+                              cows[index].age + " months",
                               // Replace with the actual age from the database
                               style: TextStyle(
                                 fontSize: 15.0,
@@ -276,7 +286,8 @@ class CustomCardWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ReproductionEntry(cows,index,farms,index2)),
+                              builder: (context) => ReproductionEntry(
+                                  cows, index, farms, index2)),
                         );
                       },
                       child: Text(
@@ -297,7 +308,11 @@ class CustomCardWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => vet_reproduction(cows: cows,index: index,farm: farms,index2: index2)),
+                              builder: (context) => vet_reproduction(
+                                  cows: cows,
+                                  index: index,
+                                  farm: farms,
+                                  index2: index2)),
                         );
                       },
                       child: Text(
@@ -318,7 +333,7 @@ class CustomCardWidget extends StatelessWidget {
   String getImageAsset(String name) {
     switch (name) {
       case "Cow":
-        return 'assets/cow.jpg';
+        return 'assets/Cow.jpeg';
       case "Heifer":
         return 'assets/heifer.jpg';
       case "Calf-Male":
@@ -329,5 +344,4 @@ class CustomCardWidget extends StatelessWidget {
         return 'assets/fcalf.jpg';
     }
   }
-
 }

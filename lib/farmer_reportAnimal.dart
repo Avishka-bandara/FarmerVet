@@ -31,6 +31,9 @@ class _ReportAnimalState extends State<ReportAnimal> {
   bool isSelectedlimping = false;
   bool isSelecteddiarhea = false;
   bool isSelectedfever = false;
+  bool isSelectedsimptom1 = false;
+  bool isSelectedsimptom2 = false;
+  bool isSelectedsimptom3 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +75,9 @@ class _ReportAnimalState extends State<ReportAnimal> {
                               isSelectedlimping = true;
                               isSelecteddiarhea = false;
                               isSelectedfever = false;
+                              isSelectedsimptom1 = false;
+                              isSelectedsimptom2 = false;
+                              isSelectedsimptom3 = false;
                             });
                           },
                           child: Text('Limping',
@@ -93,6 +99,9 @@ class _ReportAnimalState extends State<ReportAnimal> {
                               isSelectedlimping = false;
                               isSelecteddiarhea = true;
                               isSelectedfever = false;
+                              isSelectedsimptom1 = false;
+                              isSelectedsimptom2 = false;
+                              isSelectedsimptom3 = false;
                             });
                           },
                           child: Text('Diarrhea',
@@ -114,10 +123,91 @@ class _ReportAnimalState extends State<ReportAnimal> {
                               isSelectedlimping = false;
                               isSelecteddiarhea = false;
                               isSelectedfever = true;
+                              isSelectedsimptom1 = false;
+                              isSelectedsimptom2 = false;
+                              isSelectedsimptom3 = false;
                             });
                           },
                           child: Text('Fever',
                               style: isSelectedfever
+                                  ? TextStyle(color: Colors.white)
+                                  : TextStyle()),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: isSelectedsimptom1
+                                ? Colors.deepPurple
+                                : Colors.white),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedIssue = 'Simptom 1';
+                              isSelectedlimping = false;
+                              isSelecteddiarhea = false;
+                              isSelectedfever = false;
+                              isSelectedsimptom1 = true;
+                              isSelectedsimptom2 = false;
+                              isSelectedsimptom3 = false;
+                            });
+                          },
+                          child: Text('Simptom 1',
+                              style: isSelectedsimptom1
+                                  ? TextStyle(color: Colors.white)
+                                  : TextStyle()),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: isSelectedsimptom2
+                                ? Colors.deepPurple
+                                : Colors.white),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedIssue = 'Simptom 2';
+                              isSelectedlimping = false;
+                              isSelecteddiarhea = false;
+                              isSelectedfever = false;
+                              isSelectedsimptom1 = false;
+                              isSelectedsimptom2 = true;
+                              isSelectedsimptom3 = false;
+                            });
+                          },
+                          child: Text('Simptom 2',
+                              style: isSelectedsimptom2
+                                  ? TextStyle(color: Colors.white)
+                                  : TextStyle()),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: isSelectedsimptom3
+                                ? Colors.deepPurple
+                                : Colors.white),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedIssue = 'Simptom 3';
+                              isSelectedlimping = false;
+                              isSelecteddiarhea = false;
+                              isSelectedfever = false;
+                              isSelectedsimptom1 = false;
+                              isSelectedsimptom2 = false;
+                              isSelectedsimptom3 = true;
+                            });
+                          },
+                          child: Text('Simptom 3',
+                              style: isSelectedsimptom3
                                   ? TextStyle(color: Colors.white)
                                   : TextStyle()),
                         ),
@@ -312,7 +402,6 @@ class _ReportAnimalState extends State<ReportAnimal> {
       showToast("Saved");
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Animal()));
-
     }).catchError((error) {
       setState(() {
         isLoading = false;
