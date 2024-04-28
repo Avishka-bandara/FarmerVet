@@ -28,120 +28,121 @@ class _vet_animalState extends State<vet_animal> {
     screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Health Reported',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('Animal', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
-        child: SafeArea(
-          child: ListView(children: [
-            ListTile(
-              title: Text('Check the animal health issues posted by the farmer',
-                  style: TextStyle(fontSize: 14)),
+        child: ListView(children: [
+          ListTile(
+            title: Text('New Health Reported',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            subtitle:
+                Text('Check the animal health issues posted by the farmer'),
+          ),
+          Row(children: [
+            SizedBox(
+              width: 10,
             ),
-            Row(children: [
-              SizedBox(
-                width: 10,
-              ),
-            ]),
-            SizedBox(height: 10),
-            Divider(thickness: 2),
-            SizedBox(height: 10),
-            CustomSearchBar(),
-            SizedBox(height: 16),
-            FutureBuilder<Map<String, dynamic>>(
-              future: getFarmAnimalIssues(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+          ]),
+          SizedBox(height: 10),
+          Divider(thickness: 2),
+          SizedBox(height: 10),
+          CustomSearchBar(),
+          SizedBox(height: 16),
+          FutureBuilder<Map<String, dynamic>>(
+            future: getFarmAnimalIssues(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Wrap(
+                  children: [
+                    Container(
+                        height: 450,
+                        width: screenSize.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const CircularProgressIndicator(
+                                color: Colors.black),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text("Loading data"),
+                          ],
+                        )),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                List<Issue> issue = snapshot.data!['issues'];
+                List<Farm> getFarm = snapshot.data!['availableFarms'];
+
+                //showToast(issue.length.toString());
+                //showToast(getFarm.length.toString());
+                if (issue.isEmpty) {
                   return Wrap(
                     children: [
                       Container(
-                          height: 450,
                           width: screenSize.width,
+                          height: 450,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const CircularProgressIndicator(
-                                  color: Colors.black),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text("Loading data"),
+                              Text('No details found'),
                             ],
                           )),
                     ],
                   );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
                 } else {
-                  List<Issue> issue = snapshot.data!['issues'];
-                  List<int> getFarm = snapshot.data!['availableFarms'];
-
-                  //showToast(issue.length.toString());
-                  //showToast(getFarm.length.toString());
-                  if (issue.isNotEmpty) {
-                    return Container(
-                      width: screenSize.width,
-                      height: screenSize.height,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: issue.length,
-                              itemBuilder: (context, index) {
-                                return CustomCardWidget(
-                                    widget.farm, getFarm[index], issue, index);
-                              },
-                            ),
-                          ],
-                        ),
+                  return Container(
+                    width: screenSize.width,
+                    height: screenSize.height,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: issue.length,
+                            itemBuilder: (context, index) {
+                              return CustomCardWidget(
+                                  getFarm, index, issue, index);
+                            },
+                          )
+                        ],
                       ),
-                    );
-                  } else {
-                    return Wrap(
-                      children: [
-                        Container(
-                            width: screenSize.width,
-                            height: 450,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('No details found'),
-                              ],
-                            )),
-                      ],
-                    );
-                  }
+                    ),
+                  );
                 }
-              },
-            ),
-          ]),
-        ),
+              }
+            },
+          ),
+        ]),
       ),
     );
   }
 
   Future<Map<String, dynamic>> getFarmAnimalIssues() async {
     List<Issue> issues = [];
-    List<int> getFarm = [];
-    int x = 0;
+    List<Farm> getFarm = [];
     for (Farm farm in widget.farm) {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('Farm details/${farm.id}/health issue')
-          .get();
-      querySnapshot.docs.forEach((doc) {
-        issues.add(Issue.fromMap(doc.data() as Map<String, dynamic>, doc.id));
-      });
-      if (!querySnapshot.docs.isEmpty) {
-        getFarm.add(x);
+      try {
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection('Farm details')
+            .doc(farm.id)
+            .collection('health issue')
+            .get();
+        querySnapshot.docs.forEach((doc) {
+          issues.add(Issue.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+          getFarm.add(farm);
+        });
+      } catch (error) {
+        print("no");
       }
-      x++;
     }
     return {'availableFarms': getFarm, 'issues': issues};
   }
